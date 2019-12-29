@@ -1,0 +1,1207 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{setspace}
+\setstretch{1}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{unicode=true,
+            pdftitle={Price cointegration of food crops in major Nepalese markets},
+            pdfauthor={Samita Paudel},
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=DodgerBlue4,
+            urlcolor=Blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Price cointegration of food crops in major Nepalese markets}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Samita Paudel}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{6/28/2019}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Samita Paudel}
+\fancyhead[R]{Macroeconomics of cereal production and import ...}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{coffee4}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+\newcommand{\coffa}{\cofeAm{1}{1.0}{0}{5.5cm}{3cm}}
+\newcommand{\coffb}{\cofeBm{1}{1.2}{83}{2cm}{1cm}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{retail-price-of-rice-wheat-and-fuel-in-major-nepalese-market-hubs}{%
+\section{Retail price of rice, wheat and fuel in major nepalese market hubs}\label{retail-price-of-rice-wheat-and-fuel-in-major-nepalese-market-hubs}}
+
+Retail prices of Rice, Wheat and Fuel (diesel and petrol). The series is mostly imbalanced and irregular and contains data for following 21 districts.
+
+Achham, Banke, Bhojpur, Chitwan, Dhankuta, Dhanusha, Doti, Illam, Jhapa, Jumla, Kailali, Kaski, Kathmandu, Morang, Nuwakot, Palpa, Parsa, Ramechap, Rolpa, Rupandehi, Surkhet.
+
+\begin{tabular}{llr}
+\toprule
+cmname & date & n\\
+\midrule
+Fuel (diesel) - Retail & 2014-06-15 & 7\\
+Fuel (diesel) - Retail & 2014-07-15 & 7\\
+Fuel (diesel) - Retail & 2014-08-15 & 7\\
+Fuel (diesel) - Retail & 2014-09-15 & 7\\
+Fuel (diesel) - Retail & 2014-10-15 & 7\\
+\addlinespace
+Fuel (diesel) - Retail & 2014-11-15 & 7\\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{llr}
+\toprule
+mktname & date & n\\
+\midrule
+Achham & 2001-04-15 & 1\\
+Achham & 2001-05-15 & 1\\
+Achham & 2001-06-15 & 1\\
+Achham & 2001-07-15 & 1\\
+Achham & 2001-08-15 & 1\\
+\addlinespace
+Achham & 2001-09-15 & 1\\
+\bottomrule
+\end{tabular}
+
+\includegraphics{price_cointegration_files/figure-latex/food-fuel-retail-import-1.pdf} \includegraphics{price_cointegration_files/figure-latex/food-fuel-retail-import-2.pdf}
+
+\hypertarget{median-retail-price-of-rice-and-wheat-in-major-nepalese-market-hubs}{%
+\section{Median retail price of rice and wheat in major nepalese market hubs}\label{median-retail-price-of-rice-and-wheat-in-major-nepalese-market-hubs}}
+
+The dataset is imbalanced and irregular. It mentions prices of following major cities: Achham, Banke, Dhankuta, Dhanusha, Kailali, Kaski, Kathmandu, Morang, Parsa, Rolpa, Surkhet.
+
+\begin{itemize}
+\tightlist
+\item
+  What's the difference between regular price and median price ?
+\end{itemize}
+
+\begin{tabular}{llr}
+\toprule
+mktname & year\_mon\_detail & n\\
+\midrule
+Achham & 2014 Apr & 1\\
+Achham & 2014 Jun & 1\\
+Achham & 2014 Dec & 1\\
+Achham & 2015 Feb & 1\\
+Achham & 2015 Jun & 1\\
+\addlinespace
+Achham & 2015 Jul & 1\\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{llr}
+\toprule
+cmname & year\_mon\_detail & n\\
+\midrule
+Rice - Retail & 2014 Feb & 1\\
+Rice - Retail & 2014 Mar & 1\\
+Rice - Retail & 2014 Apr & 1\\
+Rice - Retail & 2014 May & 1\\
+Rice - Retail & 2014 Jun & 1\\
+\addlinespace
+Rice - Retail & 2014 Jul & 1\\
+\bottomrule
+\end{tabular}
+
+\hypertarget{annual-wholesale-price-of-major-food-commodities}{%
+\section{Annual wholesale price of major food commodities}\label{annual-wholesale-price-of-major-food-commodities}}
+
+Annual average wholesale price of Barley, Buckwheat, Maize, Millet, Rice/paddy and Wheat since 1991 through 2017 (27 years).
+
+\begin{tabular}{lr}
+\toprule
+Item & n\\
+\midrule
+Barley & 27\\
+Buckwheat & 27\\
+Maize & 27\\
+Millet & 27\\
+Rice, paddy & 27\\
+\addlinespace
+Wheat & 27\\
+\bottomrule
+\end{tabular}
+
+\hypertarget{import-export}{%
+\section{Import export}\label{import-export}}
+
+\includegraphics{price_cointegration_files/figure-latex/im-ex-import-1.pdf}
+
+\hypertarget{import-historical-rice-and-wheat-data}{%
+\section{Import historical rice and wheat data}\label{import-historical-rice-and-wheat-data}}
+
+Retail price of various rice commodities and wheat flour since 1976 AD.
+
+\includegraphics{price_cointegration_files/figure-latex/rice-wheat-historical-annual-series-1.pdf}
+
+\hypertarget{unit-root-testing}{%
+\section{Unit root testing}\label{unit-root-testing}}
+
+\hypertarget{adf-test-of-retail-price}{%
+\subsection{ADF test of retail price}\label{adf-test-of-retail-price}}
+
+The ADF, available in the function \texttt{adf.test()} (in the package \texttt{tseries}) implements the t-test of \(H_0: \gamma = 0\) in the regression, below.
+
+\[
+  \Delta {{Y}_{t}}={{\beta
+  }_{1}}+{{\beta }_{2}}t+\gamma {{Y}_{t-1}}+ \sum\limits_{i=1}^{m}{\delta_i \Delta
+    {{Y}_{t-i}}+{{\varepsilon }_{t}}}
+\]
+
+The null is therefore that x has a unit root. If only x has a non-unit root, then the x is stationary (rejection of null hypothesis).
+
+We are setting the alternative hypothesis as being ``stationary'' in the above test. This extends to following assumption about parameters in above model;
+
+\[
+-2 \leq \gamma \leq 0\ \text{or } (-1 < 1+\phi < 1)
+\]
+
+\texttt{k} in the function refers to the number of \(\delta\) lags, i.e., \(1, 2, 3, ...., m\) in the model equation.
+
+The number of lags \texttt{k} defaults to \texttt{trunc((length(x)-1)\^{}(1/3))}, where \texttt{x} is the series being tested. The default value of \texttt{k} corresponds to the suggested upper bound on the rate at which the number of lags, \texttt{k}, should be made to grow with the sample size for the general ARMA(p,q) setup \texttt{citation(package\ =\ "tseries")}.
+
+For a Dickey-Fueller test, so only up to AR(1) time dependency in our stationary process, we set \texttt{k\ =\ 0}. Hence we have no \(\delta\)s (lags) in our test.
+
+The DF model can be written as:
+
+\[
+Y_t = \beta_1 + \beta_2 t + \phi Y_{t-1} + \varepsilon_t
+\]
+
+It can be re-written so we can do a linear regression of \(\Delta Y_t\) against \(t\) and \(Y_{t-1}\) and test if \(\phi\) is different from 0. If only, \(\phi\) is not zero and assumption above (\(-1 < 1+\phi < 1\)) holds, the process is stationary. If \(\phi\) is straight up 0, then we have a random walk process -- all white noise.
+
+\[
+\Delta {Y}_{t}=\beta_1+\beta_2 t+\gamma {Y}_{t-1} + \varepsilon_{t}
+\]
+
+\hypertarget{adf-test-of-log-retail-price}{%
+\subsection{ADF test of log retail price}\label{adf-test-of-log-retail-price}}
+
+\hypertarget{adf-test-of-first-order-differenced-series}{%
+\subsection{ADF test of first order differenced series}\label{adf-test-of-first-order-differenced-series}}
+
+All development regionwise series are non-stationary while only certain cities show non-stationarity, meaning that they have a trend associated with time.
+
+Much description is available at: \url{https://nwfsc-timeseries.github.io/atsa-labs/} on chapter Unit root tests.
+
+Then we test the series on first order differences:
+
+The first order differences give all series stationary.
+
+\hypertarget{phillips-perron-test}{%
+\subsection{Phillips-Perron test}\label{phillips-perron-test}}
+
+Alternatively, the Phillips-Perron test with its nonparametric correction for autocorrelation (essentially employing a HAC estimate of the long-run variance in a Dickey-Fuller-type test instead of parametric decorrelation) can be used. It is available in the function \texttt{pp.test()}.
+
+\includegraphics{price_cointegration_files/figure-latex/pp-test-logretail-1.pdf} \includegraphics{price_cointegration_files/figure-latex/pp-test-logretail-2.pdf} \includegraphics{price_cointegration_files/figure-latex/pp-test-logretail-3.pdf}
+
+Hence, Phillips-Perron test on logged prices shows that series pertaining to CDR are stationary, among all other (total: 5 DR x 2 commodities = 10 series).
+
+\hypertarget{cointegration}{%
+\section{Cointegration}\label{cointegration}}
+
+\hypertarget{residual-based}{%
+\subsection{Residual based}\label{residual-based}}
+
+Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series).
+
+A two step method proposed by Engle and Granger (1987), can be used to test for cointegration.
+
+The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after Phillips and Ouliaris (1990). Specifically, \texttt{po.test()} performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance.
+
+The test computes the Phillips-Ouliaris test for the null hypothesis that series is not cointegrated \texttt{citation(package\ =\ "tseries")}.
+
+We check the rice retail price series for eastern and central development region and central and western development region first. Then we progress to other combinations.
+
+\begin{tabular}{lrr}
+\toprule
+combination & p\_value & statistic\\
+\midrule
+Eastern-Central & 0.01 & -73.48801\\
+Eastern-Western & 0.01 & -49.52518\\
+Eastern-Mid Western & 0.01 & -94.88756\\
+Eastern-Far Western & 0.01 & -54.12359\\
+Central-Western & 0.01 & -83.40858\\
+\addlinespace
+Central-Mid Western & 0.01 & -101.18767\\
+Central-Far Western & 0.01 & -61.42244\\
+Western-Mid Western & 0.01 & -117.03210\\
+Western-Far Western & 0.01 & -55.04586\\
+Mid Western-Far Western & 0.01 & -104.64737\\
+\bottomrule
+\end{tabular}
+
+\begin{tabular}{lrr}
+\toprule
+combination & p\_value & statistic\\
+\midrule
+Eastern-Central & 0.01 & -91.64491\\
+Eastern-Western & 0.01 & -118.33180\\
+Eastern-Mid Western & 0.01 & -45.85037\\
+Eastern-Far Western & 0.01 & -57.04905\\
+Central-Western & 0.01 & -103.19171\\
+\addlinespace
+Central-Mid Western & 0.01 & -65.78915\\
+Central-Far Western & 0.01 & -77.32697\\
+Western-Mid Western & 0.01 & -75.16160\\
+Western-Far Western & 0.01 & -67.79653\\
+Mid Western-Far Western & 0.01 & -94.32582\\
+\bottomrule
+\end{tabular}
+
+Note \texttt{po.test} does not handle missing values, so we fix them through imputation. It is implemented through \texttt{tidyr::fill(...,\ .direction\ =\ "down")}.
+
+The test suggests that all series (Both that of wheat and rice) are cointegrated pairwise for all regional markets.
+
+The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric.
+
+The po.test() function is testing the cointegration with Phillip's Z\_alpha test, which is the second residual-based test described in P171 of the paper. For this test, critical values in tables Ia -- Ic in P189 are used to reject the Null of No Cointegration. Because the po.test() will use the series at the first position to derive the residual used in the test, results would be determined by the series on the most left-hand side\footnote{\url{https://www.r-craft.org/r-news/phillips-ouliaris-test-for-cointegration/}}.
+
+The Phillips-Ouliaris test implemented in the \texttt{ca.po()} function from the urca package is different. In the \texttt{ca.po()} function, there are two cointegration tests implemented, namely ``Pu'' and ``Pz'' tests. Although both the \texttt{ca.po()} function and the po.test() function are supposed to do the Phillips-Ouliaris test，outcomes from both functions are completely different.
+
+Below shows results of the Pu test, which is a Variance Ratio test and the fourth residual-based test described in P171 of the paper. For this test, critical values in tables IIIa -- IIIc in P191 are used to reject the Null of No Cointegration. Similar to Phillip's Z\_alpha test, the Pu test also is not invariant to the position of each series and therefore would give different outcomes based upon the series on the most left-hand side.
+
+For the Pz test implemented in the \texttt{ca.po()} function, critical values in tables IVa -- IVc in P192 are used to reject the Null of No Cointegration. As a multivariate trace statistic, the Pz test has its appeal that the outcome won't change by the position of each series.
+
+\hypertarget{var-based-johansen-1991-1995}{%
+\subsection{VAR based (Johansen (1991, 1995))}\label{var-based-johansen-1991-1995}}
+
+The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach (Johansen, 1991). For a p\^{}th-order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components):
+
+For a more formal treatment of the topic refer to: \url{http://www.eviews.com/help/helpintro.html\#page/content\%2Fcoint-Johansen_Cointegration_Test.html\%23ww189915}; also saved as \href{./literatures/johansen_cointegration_eviews.pdf}{pdf file}
+
+\[
+\Delta y_t = \Pi y_t + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t
+\]
+
+The relevant tests are available in the function \texttt{urca::ca.jo()}. The basic version considers the eigenvalues of the matrix \(\Pi\) in the preceding equation.
+
+Here, we employ the trace statistic -- the maximum eigenvalue, or ``lambdamax'' test is available as well -- in an equation amended by a constant term (specified by ecdet = ``const''), yielding:
+
+Johansen cointegration test summary and time series plots for rice (development regionwise)
+
+\begin{verbatim}
+## $`Eastern-Central`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.203505e-01  2.695517e-02 -1.082540e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  6.04  7.52  9.24 12.97
+## r = 0  | 34.38 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                          Rice...Retail_Central.l2 Rice...Retail_Eastern.l2
+## Rice...Retail_Central.l2                1.0000000                  1.00000
+## Rice...Retail_Eastern.l2               -1.1408269                  4.25779
+## constant                                0.4367216                -19.79971
+##                            constant
+## Rice...Retail_Central.l2  1.0000000
+## Rice...Retail_Eastern.l2  0.8817861
+## constant                 -5.6363474
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                         Rice...Retail_Central.l2 Rice...Retail_Eastern.l2
+## Rice...Retail_Central.d               -0.1212637             -0.002997204
+## Rice...Retail_Eastern.d                0.1601138             -0.002909397
+##                              constant
+## Rice...Retail_Central.d -3.045234e-16
+## Rice...Retail_Eastern.d  4.970681e-16
+## 
+## 
+## $`Eastern-Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 8.996884e-02 3.601912e-02 8.326673e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  8.11  7.52  9.24 12.97
+## r = 0  | 28.94 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                          Rice...Retail_Eastern.l2 Rice...Retail_Western.l2
+## Rice...Retail_Eastern.l2                1.0000000                1.0000000
+## Rice...Retail_Western.l2               -0.8925477               -0.1122177
+## constant                               -0.3106526               -3.4503880
+##                            constant
+## Rice...Retail_Eastern.l2   1.000000
+## Rice...Retail_Western.l2   5.383259
+## constant                 -19.796658
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                         Rice...Retail_Eastern.l2 Rice...Retail_Western.l2
+## Rice...Retail_Eastern.d              -0.17226739              -0.01484022
+## Rice...Retail_Western.d               0.05828519              -0.01501003
+##                              constant
+## Rice...Retail_Eastern.d -7.759864e-17
+## Rice...Retail_Western.d  2.608334e-17
+## 
+## 
+## $`Eastern-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.861423e-01 1.638679e-02 1.572049e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  3.65  7.52  9.24 12.97
+## r = 0  | 49.17 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Eastern.l2
+## Rice...Retail_Eastern.l2                    1.0000000
+## Rice...Retail_Mid.Western.l2               -1.2197407
+## constant                                    0.9680856
+##                              Rice...Retail_Mid.Western.l2   constant
+## Rice...Retail_Eastern.l2                        1.0000000  1.0000000
+## Rice...Retail_Mid.Western.l2                    0.4034736  0.3204327
+## constant                                       -5.1970011 -3.9512381
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Eastern.l2
+## Rice...Retail_Eastern.d                  -0.09206063
+## Rice...Retail_Mid.Western.d               0.34290898
+##                             Rice...Retail_Mid.Western.l2      constant
+## Rice...Retail_Eastern.d                      -0.01250114  3.667249e-16
+## Rice...Retail_Mid.Western.d                  -0.01321483 -1.491391e-15
+## 
+## 
+## $`Eastern-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.210405e-01 1.506602e-02 2.168404e-18
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  3.35  7.52  9.24 12.97
+## r = 0  | 31.87 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Eastern.l2
+## Rice...Retail_Eastern.l2                   1.00000000
+## Rice...Retail_Far.Western.l2              -0.98443200
+## constant                                  -0.05070715
+##                              Rice...Retail_Far.Western.l2   constant
+## Rice...Retail_Eastern.l2                         1.000000   1.000000
+## Rice...Retail_Far.Western.l2                     1.384550   2.473726
+## constant                                        -8.939794 -10.462157
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Eastern.l2
+## Rice...Retail_Eastern.d                   -0.1010340
+## Rice...Retail_Far.Western.d                0.1427316
+##                             Rice...Retail_Far.Western.l2      constant
+## Rice...Retail_Eastern.d                     -0.006069012  3.328086e-17
+## Rice...Retail_Far.Western.d                 -0.002917219 -5.198884e-17
+## 
+## 
+## $`Central-Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.322116e-01 4.433459e-02 1.110223e-16
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 | 10.02  7.52  9.24 12.97
+## r = 0  | 41.36 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                          Rice...Retail_Central.l2 Rice...Retail_Western.l2
+## Rice...Retail_Central.l2                1.0000000                1.0000000
+## Rice...Retail_Western.l2               -1.0299653               -0.3697271
+## constant                                0.1247859               -2.5140773
+##                           constant
+## Rice...Retail_Central.l2   1.00000
+## Rice...Retail_Western.l2 -46.68575
+## constant                 141.23432
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                         Rice...Retail_Central.l2 Rice...Retail_Western.l2
+## Rice...Retail_Central.d               -0.1795769              -0.02380179
+## Rice...Retail_Western.d                0.1586436              -0.01571381
+##                              constant
+## Rice...Retail_Central.d -8.535306e-18
+## Rice...Retail_Western.d  4.506697e-18
+## 
+## 
+## $`Central-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.976468e-01 2.355211e-02 6.071532e-18
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.27  7.52  9.24 12.97
+## r = 0  | 53.93 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Central.l2
+## Rice...Retail_Central.l2                     1.000000
+## Rice...Retail_Mid.Western.l2                -1.379989
+## constant                                     1.492255
+##                              Rice...Retail_Mid.Western.l2   constant
+## Rice...Retail_Central.l2                         1.000000  1.0000000
+## Rice...Retail_Mid.Western.l2                     1.082574  0.1210546
+## constant                                        -7.913282 -3.3191877
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Central.l2
+## Rice...Retail_Central.d                  -0.07916974
+## Rice...Retail_Mid.Western.d               0.31197095
+##                             Rice...Retail_Mid.Western.l2      constant
+## Rice...Retail_Central.d                     -0.008582095  2.171326e-17
+## Rice...Retail_Mid.Western.d                 -0.012386374 -1.020869e-16
+## 
+## 
+## $`Central-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.197657e-01  2.617827e-02 -2.644133e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.86  7.52  9.24 12.97
+## r = 0  | 34.05 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Central.l2
+## Rice...Retail_Central.l2                    1.0000000
+## Rice...Retail_Far.Western.l2               -1.1290446
+## constant                                    0.3988883
+##                              Rice...Retail_Far.Western.l2   constant
+## Rice...Retail_Central.l2                         1.000000   1.000000
+## Rice...Retail_Far.Western.l2                     2.858242   2.344056
+## constant                                       -14.823392 -10.189731
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Central.l2
+## Rice...Retail_Central.d                  -0.09696106
+## Rice...Retail_Far.Western.d               0.12379601
+##                             Rice...Retail_Far.Western.l2     constant
+## Rice...Retail_Central.d                     -0.003654374 3.162991e-18
+## Rice...Retail_Far.Western.d                 -0.002271919 2.157826e-17
+## 
+## 
+## $`Western-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.936014e-01  3.632296e-02 -4.937971e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  8.18  7.52  9.24 12.97
+## r = 0  | 55.73 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Mid.Western.l2
+## Rice...Retail_Mid.Western.l2                     1.000000
+## Rice...Retail_Western.l2                        -0.738728
+## constant                                        -1.025366
+##                              Rice...Retail_Western.l2   constant
+## Rice...Retail_Mid.Western.l2                1.0000000   1.000000
+## Rice...Retail_Western.l2                    0.7183599   7.574841
+## constant                                   -6.9270040 -26.914516
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Mid.Western.l2
+## Rice...Retail_Mid.Western.d                  -0.46803044
+## Rice...Retail_Western.d                       0.07017695
+##                             Rice...Retail_Western.l2      constant
+## Rice...Retail_Mid.Western.d              -0.01045025  1.812215e-16
+## Rice...Retail_Western.d                  -0.00763091 -2.695625e-17
+## 
+## 
+## $`Western-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.119899e-01 3.086513e-02 6.938894e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  6.93  7.52  9.24 12.97
+## r = 0  | 33.18 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Far.Western.l2
+## Rice...Retail_Far.Western.l2                    1.0000000
+## Rice...Retail_Western.l2                       -0.9156847
+## constant                                       -0.2190299
+##                              Rice...Retail_Western.l2  constant
+## Rice...Retail_Far.Western.l2                1.0000000  1.000000
+## Rice...Retail_Western.l2                   -0.4443204  1.353575
+## constant                                   -2.1648451 -7.373843
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Far.Western.l2
+## Rice...Retail_Far.Western.d                  -0.13054344
+## Rice...Retail_Western.d                       0.09112802
+##                             Rice...Retail_Western.l2      constant
+## Rice...Retail_Far.Western.d              -0.01882558  4.365401e-16
+## Rice...Retail_Western.d                  -0.01806392 -2.414921e-16
+## 
+## 
+## $`Mid Western-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 2.180822e-01 9.821673e-03 2.081668e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  2.18  7.52  9.24 12.97
+## r = 0  | 56.55 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                              Rice...Retail_Far.Western.l2
+## Rice...Retail_Far.Western.l2                    1.0000000
+## Rice...Retail_Mid.Western.l2                   -1.2151883
+## constant                                        0.9580499
+##                              Rice...Retail_Mid.Western.l2   constant
+## Rice...Retail_Far.Western.l2                    1.0000000  1.0000000
+## Rice...Retail_Mid.Western.l2                    0.1382432  0.1733804
+## constant                                       -4.1410142 -3.4192401
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                             Rice...Retail_Far.Western.l2
+## Rice...Retail_Far.Western.d                  -0.05112735
+## Rice...Retail_Mid.Western.d                   0.43655018
+##                             Rice...Retail_Mid.Western.l2      constant
+## Rice...Retail_Far.Western.d                  -0.01114462 -8.145703e-17
+## Rice...Retail_Mid.Western.d                  -0.01367246 -1.889547e-16
+\end{verbatim}
+
+Johansen cointegration test summary and time series plots for wheat (development regionwise)
+
+\begin{verbatim}
+## $`Eastern-Central`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.705564e-01 2.648531e-02 3.502480e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.93  7.52  9.24 12.97
+## r = 0  | 47.26 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                           Wheat...Retail_Central.l2
+## Wheat...Retail_Central.l2                 1.0000000
+## Wheat...Retail_Eastern.l2                -1.0282737
+## constant                                  0.1325891
+##                           Wheat...Retail_Eastern.l2  constant
+## Wheat...Retail_Central.l2                  1.000000  1.000000
+## Wheat...Retail_Eastern.l2                 -9.498385  1.264745
+## constant                                  36.426172 -7.312702
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                          Wheat...Retail_Central.l2
+## Wheat...Retail_Central.d                -0.2594840
+## Wheat...Retail_Eastern.d                 0.1885393
+##                          Wheat...Retail_Eastern.l2      constant
+## Wheat...Retail_Central.d              0.0009428795  7.591290e-16
+## Wheat...Retail_Eastern.d              0.0011365425 -6.460264e-16
+## 
+## 
+## $`Eastern-Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.841396e-01 2.728238e-02 1.125138e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  6.11  7.52  9.24 12.97
+## r = 0  | 51.09 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                           Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.l2                 1.0000000
+## Wheat...Retail_Western.l2                -0.9767695
+## constant                                 -0.1288097
+##                           Wheat...Retail_Western.l2   constant
+## Wheat...Retail_Eastern.l2                  1.000000  1.0000000
+## Wheat...Retail_Western.l2                 -2.545572  0.9997579
+## constant                                   7.006416 -6.5238210
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                          Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.d                -0.3215481
+## Wheat...Retail_Western.d                 0.1557367
+##                          Wheat...Retail_Western.l2      constant
+## Wheat...Retail_Eastern.d               0.003271394  4.191554e-17
+## Wheat...Retail_Western.d               0.003834920 -8.277552e-17
+## 
+## 
+## $`Eastern-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.341198e-01 1.755694e-02 1.734872e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  3.91  7.52  9.24 12.97
+## r = 0  | 35.74 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.l2                      1.000000
+## Wheat...Retail_Mid.Western.l2                 -1.264585
+## constant                                       1.192193
+##                               Wheat...Retail_Mid.Western.l2   constant
+## Wheat...Retail_Eastern.l2                        1.00000000  1.0000000
+## Wheat...Retail_Mid.Western.l2                   -0.07056345  0.2483467
+## constant                                        -3.70943364 -4.0318269
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.d                   -0.02989952
+## Wheat...Retail_Mid.Western.d                0.25442548
+##                              Wheat...Retail_Mid.Western.l2      constant
+## Wheat...Retail_Eastern.d                      -0.013764049  1.543989e-16
+## Wheat...Retail_Mid.Western.d                  -0.005345015 -7.859129e-16
+## 
+## 
+## $`Eastern-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.057281e-01 2.537866e-02 1.908196e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.68  7.52  9.24 12.97
+## r = 0  | 30.38 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.l2                     1.0000000
+## Wheat...Retail_Far.Western.l2                -0.9884276
+## constant                                     -0.1216996
+##                               Wheat...Retail_Far.Western.l2   constant
+## Wheat...Retail_Eastern.l2                         1.0000000  1.0000000
+## Wheat...Retail_Far.Western.l2                    -0.3599507  0.3363679
+## constant                                         -2.6289714 -4.2384160
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Eastern.l2
+## Wheat...Retail_Eastern.d                   -0.07438632
+## Wheat...Retail_Far.Western.d                0.16582937
+##                              Wheat...Retail_Far.Western.l2      constant
+## Wheat...Retail_Eastern.d                       -0.02144617 -5.962109e-16
+## Wheat...Retail_Far.Western.d                   -0.01079057  1.025723e-15
+## 
+## 
+## $`Central-Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.718778e-01 2.547176e-02 2.687211e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.70  7.52  9.24 12.97
+## r = 0  | 47.38 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                           Wheat...Retail_Central.l2
+## Wheat...Retail_Central.l2              1.0000000000
+## Wheat...Retail_Western.l2             -1.0038148390
+## constant                              -0.0002881829
+##                           Wheat...Retail_Western.l2  constant
+## Wheat...Retail_Central.l2                  1.000000  1.000000
+## Wheat...Retail_Western.l2                 -1.958324  1.537082
+## constant                                   4.110273 -8.142406
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                          Wheat...Retail_Central.l2
+## Wheat...Retail_Central.d               -0.33882025
+## Wheat...Retail_Western.d                0.09267175
+##                          Wheat...Retail_Western.l2      constant
+## Wheat...Retail_Central.d               0.005886997 -4.958984e-16
+## Wheat...Retail_Western.d               0.008314806  1.592387e-16
+## 
+## 
+## $`Central-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.702762e-01  2.127082e-02 -1.453143e-18
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  4.75  7.52  9.24 12.97
+## r = 0  | 46.00 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Central.l2
+## Wheat...Retail_Central.l2                      1.000000
+## Wheat...Retail_Mid.Western.l2                 -1.262123
+## constant                                       1.209261
+##                               Wheat...Retail_Mid.Western.l2   constant
+## Wheat...Retail_Central.l2                         1.0000000  1.0000000
+## Wheat...Retail_Mid.Western.l2                     0.4006329  0.1501042
+## constant                                         -5.5149176 -3.6007594
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Central.l2
+## Wheat...Retail_Central.d                   -0.07572254
+## Wheat...Retail_Mid.Western.d                0.31542852
+##                              Wheat...Retail_Mid.Western.l2      constant
+## Wheat...Retail_Central.d                      -0.011510986 -8.586164e-16
+## Wheat...Retail_Mid.Western.d                  -0.008985171  3.855928e-15
+## 
+## 
+## $`Central-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.298519e-01  2.967199e-02 -2.505413e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  6.66  7.52  9.24 12.97
+## r = 0  | 37.40 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Central.l2
+## Wheat...Retail_Central.l2                    1.00000000
+## Wheat...Retail_Far.Western.l2               -1.00251686
+## constant                                    -0.04308052
+##                               Wheat...Retail_Far.Western.l2   constant
+## Wheat...Retail_Central.l2                          1.000000  1.0000000
+## Wheat...Retail_Far.Western.l2                     -0.135691  0.4226852
+## constant                                          -3.434008 -4.4146409
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Central.l2
+## Wheat...Retail_Central.d                    -0.1407813
+## Wheat...Retail_Far.Western.d                 0.1924786
+##                              Wheat...Retail_Far.Western.l2      constant
+## Wheat...Retail_Central.d                       -0.01701989  7.168241e-16
+## Wheat...Retail_Far.Western.d                   -0.01143899 -7.530265e-16
+## 
+## 
+## $`Western-Mid Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1] 1.411697e-01 1.927001e-02 1.864650e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  4.30  7.52  9.24 12.97
+## r = 0  | 37.93 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Mid.Western.l2
+## Wheat...Retail_Mid.Western.l2                     1.0000000
+## Wheat...Retail_Western.l2                        -0.7800575
+## constant                                         -1.0112864
+##                               Wheat...Retail_Western.l2  constant
+## Wheat...Retail_Mid.Western.l2                  1.000000   1.00000
+## Wheat...Retail_Western.l2                     -7.751192  11.96835
+## constant                                      27.661057 -41.41827
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Mid.Western.l2
+## Wheat...Retail_Mid.Western.d                   -0.37273946
+## Wheat...Retail_Western.d                        0.01856349
+##                              Wheat...Retail_Western.l2      constant
+## Wheat...Retail_Mid.Western.d              0.0004841299 -3.368348e-17
+## Wheat...Retail_Western.d                  0.0012560728  6.943848e-18
+## 
+## 
+## $`Western-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.192150e-01  2.753300e-02 -1.675749e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  6.17  7.52  9.24 12.97
+## r = 0  | 34.22 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Far.Western.l2
+## Wheat...Retail_Far.Western.l2                    1.00000000
+## Wheat...Retail_Western.l2                       -1.00451248
+## constant                                         0.07207232
+##                               Wheat...Retail_Western.l2  constant
+## Wheat...Retail_Far.Western.l2                  1.000000   1.00000
+## Wheat...Retail_Western.l2                      6.398283 -23.34968
+## constant                                     -29.989395  70.59994
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Far.Western.l2
+## Wheat...Retail_Far.Western.d                    -0.1642010
+## Wheat...Retail_Western.d                         0.1104213
+##                              Wheat...Retail_Western.l2      constant
+## Wheat...Retail_Far.Western.d              -0.001462168 -3.078891e-17
+## Wheat...Retail_Western.d                  -0.001178682  2.261919e-17
+## 
+## 
+## $`Mid Western-Far Western`
+## 
+## ###################### 
+## # Johansen-Procedure # 
+## ###################### 
+## 
+## Test type: trace statistic , without linear trend and constant in cointegration 
+## 
+## Eigenvalues (lambda):
+## [1]  1.846161e-01  2.421563e-02 -1.862429e-17
+## 
+## Values of teststatistic and critical values of test:
+## 
+##           test 10pct  5pct  1pct
+## r <= 1 |  5.42  7.52  9.24 12.97
+## r = 0  | 50.52 17.85 19.96 24.60
+## 
+## Eigenvectors, normalised to first column:
+## (These are the cointegration relations)
+## 
+##                               Wheat...Retail_Far.Western.l2
+## Wheat...Retail_Far.Western.l2                      1.000000
+## Wheat...Retail_Mid.Western.l2                     -1.282280
+## constant                                           1.348159
+##                               Wheat...Retail_Mid.Western.l2   constant
+## Wheat...Retail_Far.Western.l2                     1.0000000  1.0000000
+## Wheat...Retail_Mid.Western.l2                     0.2251396  0.3692799
+## constant                                         -4.5364789 -4.0902005
+## 
+## Weights W:
+## (This is the loading matrix)
+## 
+##                              Wheat...Retail_Far.Western.l2
+## Wheat...Retail_Far.Western.d                    -0.0535042
+## Wheat...Retail_Mid.Western.d                     0.3497325
+##                              Wheat...Retail_Mid.Western.l2      constant
+## Wheat...Retail_Far.Western.d                  -0.017265435  5.921439e-17
+## Wheat...Retail_Mid.Western.d                  -0.008770634 -5.197646e-16
+\end{verbatim}
+
+Wheat series and cointegration plots
+
+\begin{center}\includegraphics[width=1\linewidth]{price_cointegration_files/figure-latex/wheat-coint-plots-1} \includegraphics[width=1\linewidth]{price_cointegration_files/figure-latex/wheat-coint-plots-2} \end{center}
+
+Rice series and cointegration plots
+
+\begin{center}\includegraphics[width=1\linewidth]{price_cointegration_files/figure-latex/rice-coint-plots-1} \includegraphics[width=1\linewidth]{price_cointegration_files/figure-latex/rice-coint-plots-2} \end{center}
+
+\hypertarget{order-of-integration}{%
+\section{Order of integration}\label{order-of-integration}}
+
+In practice, ``order of integration'' provides you with the number of times you have to difference a series in order to obtain a covariance-stationary series.
+
+The use of the term ``integration'' \emph{does} have something to do with the usual meaning of the term, but in its discrete incarnation (i.e.~with ``summation''). It comes from the fact that, looking ``upstream'', a series integrated of order \(1\), \(I(1)\), can be represented as the sum of the elements of a series integrated of order \(0\):
+
+Consider the stochastic process \(\{X_t\}\), and assume that it is \(I(0)\). Define the process
+
+\[Z_t = \sum_{i=1}^tX_i\]
+
+Then
+\[\Delta Z_t = Z_t - Z_{t-1} = \sum_{i=1}^tX_i - \sum_{i=1}^{t-1}X_i = X_t\]
+
+So the process \(\{\Delta Z_t\}\) is \(I(0)\) and then the process \(\{Z_t\}\) is \(I(1)\), while also being the sum of the elements of \(\{X_t\}\).
+
+And this can continue for higher orders of integration, as you can easily check.
+
+
+\end{document}

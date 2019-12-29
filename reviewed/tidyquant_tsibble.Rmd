@@ -1,0 +1,383 @@
+---
+title: "Tidyquant and tsibble"
+author: "Deependra Dhakal"
+date: "9/7/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(tidyverse)
+require(tsibble)
+library(lubridate)
+
+require(tidyquant)
+library(timetk)
+library(zoo)
+library(urca)
+require(xts)
+
+# library(ggfortify)
+# library(egg)
+# library(qqplotr)
+# library(tsdl) # a github package of time series datasets
+# library(tseries)
+# require(nycflights13)
+# require(rsample)
+# library(astsa)
+theme_set(theme_light())
+```
+
+# Timeseries analysis architecture
+
+## State of affairs
+
+Current system vs Next alternative
+XTS: Native time-index support, Specialized (& fast time-based manipulation), Homogeneous data (built and matrices), Packages for financial analyis (quantmod, performance analytics)
+
+## Tidyquant
+
+```{r}
+# A dataset containing the daily historical stock prices for the "FANG" tech stocks, "FB", "AMZN", "NFLX", and "GOOG", spanning from the beginning of 2013 through the end of 2016.
+tidyquant::FANG %>% 
+  tidyquant::tq_transmute(select = adjusted, mutate_fun = dailyReturn) %>% # mutate doesn't work here
+  ggplot(aes(x = date, y = daily.returns)) +
+  geom_line() +
+  theme_tq()
+
+# # mutate rolling regressions with rollapply
+# 1. Get returns
+# 2. Create a custom function
+# 3. Apply the custom function accross a rolling window using `tq_mutate(mutate_fun = rollapply)`
+
+# 1
+fang_returns <- FANG %>%
+  group_by(symbol) %>%
+  # tq_transmute(select = adjusted, mutate_fun = to.monthly, indexAt = "lastof") %>% 
+  tq_transmute(adjusted, periodReturn, period = "weekly", col_rename = "fang.returns")
+
+fang_returns <- fang_returns %>% 
+  spread(key = symbol, value = fang.returns)
+
+# 2
+regr_fun <- function(data) {
+    coef(lm(FB ~ AMZN + GOOG + NFLX, data = timetk::tk_tbl(data, silent = TRUE)))
+}
+
+# 3
+fang_returns %>%
+    tq_mutate(mutate_fun = rollapply,
+              width      = 12,
+              FUN        = regr_fun,
+              by.column  = FALSE, 
+              col_rename = c("coef_intercept", "coef_amzn", "coef_goog", "coef_nflx")
+              ) # note there are 12 NAs before values appear
+
+# here the rollapply comes from zoo package
+# since select = NULL, all columns of the data fang_returns are fed to the data argument of rollapply function.
+# since we already mutated our data to reflect weekly periodicity, we specify with
+# width = 12, that a 12 week window is being used.
+# FUN argument is our custom regression function, `regr_fun`. 
+# It’s extremely important to specify by.column = FALSE, which tells rollapply to perform the computation using the data as a whole rather than apply the function to each column independently. 
+```
+
+Tidyquant tries to interact with several different types of data but it's a bit slower and inadequate on its own.
+
+Uses:
+
+1. Quickly pull financial data as tibble.
+
+`tq_get("AAPL")` retrieves data from `marketvolume.com`. Here, for example "AAPL" (Apple stock prices) data.
+
+2. Apply any xts, quantmod, TTR and PerformanceAnalytics function.
+
+3. Pipe the result straight into other tidyverse packages.
+
+- Core functions
+
+1. Get a stock index, `tq_index()` or a stock exchange `tq_exchange()`
+2. Get quantitative data, `tq_get()`
+3. `tq_mutate()`, `tq_transmute()`
+4. Performance analysis: `tq_performance()`, and portfolio aggregation, `tq_portfolio()`
+
+Interesting tips/tricks:
+
+1. Tidyquant `tq_mutate()` comes with helper functions called `replace_duplicate_colnames()`, `detect_duplicates()`, `replace_bad_names()` and some other interesting functions.
+2. To check a list of compatible mutate functions by package:
+  - zoo contributes: rollapply functions,
+  - xts contributes: period apply and to-period functions,
+  - quantmod contributes: percentage change (Delt) and Lag functions, period return functions and series functions,
+  - TTR contributes: welles wilder's directional movement index, bollinger bands, rate of change/momentum, ma type moving averages, macd oscillator, relative strength index, runfun and stochastic oscillator/stochastic momentum index, and
+  - performanceAnalytics contributes: all functions deal with returns
+
+```{r}
+tq_mutate_fun_options() %>% str()
+```
+
+Much more detailed exposition about tidyquant and allied function is available in https://business-science.github.io/tidyquant/articles/TQ02-quant-integrations-in-tidyquant.html post. The post also includes visualization methods. Throughout the post `FANG` dataset is used.
+
+## Tsibble
+
+A tsibble consists of a time index, key and other measured variables in a data-centric format which is built on top of the tibble.
+
+A combination of key(s) and time index will identify unique rows.
+
+```{r}
+# we have fang dataset in tidyquant package
+fang_time <- tidyquant::FANG %>% 
+  group_by(symbol) %>% 
+  as_tsibble(
+    key = symbol,
+    index = date
+  )
+
+# since we have grouped the data, each group entry could be sliced.
+fang_time %>% slice(1:2)
+
+# index_by is similar to group_by, but its a time based grouping and adds to it's grouping new variables
+fang_time %>% 
+  index_by(weekly = floor_date(date, "1 week")) 
+
+# this indexed timeseries can now be used together with summarize function in a regular way
+fang_time %>% 
+  index_by(weekly = floor_date(date, "1 week")) %>% 
+  summarise(mean_high=mean(high), 
+            mean_low=mean(low))
+# here the other group is the weekly steps in data chunks besides symbol
+
+```
+
+### Familiy of window functions
+
+slide(), single element sliding
+tile(), block shift
+stretch(), cumulative increament
+
+Moving back to the `fang_time` dataset, we can apply rolling averages with different window sizes.
+
+```{r}
+fang_time %>% 
+  mutate(short_mean = slide_dbl(adjusted, ~ mean(.x, na.rm = TRUE), .size = 5), 
+         long_mean = slide_dbl(adjusted, ~mean(.x, na.rm = TRUE), .size = 50))
+```
+
+## Tidy your time series analysis with tsibble: Earo Wang
+
+The dataset features heterogeneous data types, irregular time interval, multiple measured variables, multiple grouping variables.
+
+This data set doesn't quite fit into any of the other object types, `ts()`, `zoo()`, `xts()`
+
+`tsibble()` data class exactly fits this structure.
+
+### Making a tsibble out of tibble
+
+```{r}
+# do not load all packages, some cause errors in this code
+nycflights <- nycflights13::flights
+glimpse(nycflights)
+
+nycflights <- nycflights %>% 
+  mutate(sched_dep_datetime = parse_date_time(paste(year, month, day,
+                                                    str_pad(as.character(sched_dep_time), 
+                                                            width = 4, side = "left", pad = "0")),
+                                              orders = "%Y %m %d %H%M"))
+
+# check if any are duplicates
+nycflights %>% 
+  duplicates(index = sched_dep_datetime, key = c(flight, origin, carrier))
+
+nycflights <- nycflights %>%
+  as_tsibble(
+    index = sched_dep_datetime, key = c(flight, origin, carrier),
+    regular = FALSE, # to tell that time series is not in regular frequency
+    validate = FALSE, # since we have already validated that there are no duplicates by, don't need to validate
+  )
+
+# there could be structures in data which could be specified as either nested or crossed by following symbolism
+# to specify nesting use "|" sign and to specify crossed structures use ","
+# id(flight, origin | origin_city_name | origin_state)
+```
+
+Now that we have a tidy data, we can use every other tidy verbs.
+
+```{r}
+nycflights %>% 
+  filter(sched_dep_datetime < yearmonth("201304"))
+
+# in order to select it is better to drop the tsibble attribute
+# nycflights %>%
+#   select(flight, origin, dep_delay)
+```
+
+We can aggregate after grouping like a normal dataframe. This phenomena also automatically converts an irregular time series to regular
+
+```{r}
+nycflights %>% 
+  index_by(dep_date = as_date(sched_dep_datetime)) %>% 
+  summarise(avg_delay = mean(dep_delay, na.rm = T)) # some values are NA
+```
+
+Some of the useful utility functions that perform aggregation are:
+
+1. `year()` for yearly
+2. `yearquarter()` for quarterly
+3. `yearmonth()` for monthly
+4. `yearweek()` for weekly
+6. `foor_date()` and `ceiling_date()`
+
+On answering real questions from the flights dataset, from a passenger's point of view, one might be interested to know how efficienty carriers perform. i.e. Annual carrier on-time performance.
+
+```{r}
+nycflights %>% 
+  mutate(delayed = dep_delay > 15) %>% # creates dummy variable
+  group_by(carrier) %>% 
+  index_by(year = year(sched_dep_datetime)) %>% 
+  summarise(
+    Ontime = sum(delayed == 0, na.rm = T), 
+    Delayed = sum(delayed, na.rm = T)
+  ) %>% 
+  pivot_longer(cols = c("Ontime", "Delayed"), names_to = "Delayed", values_to = "n_flights")
+  # ggplot()
+  
+```
+
+
+```{r}
+nyc_delay <- nycflights %>% 
+  filter(origin %in% c("JFK", "LGA")) %>% # for these two places of origin in the US
+  mutate(delayed = dep_delay > 15) %>% 
+  group_by(origin) %>% 
+  index_by(sched_dep_date = as_date(sched_dep_datetime)) %>% 
+  summarise(
+    n_flights = n(),
+    n_delayed = sum(delayed)
+  ) %>% 
+  mutate(pct_delay = n_delayed/n_flights)
+
+nyc_delay
+```
+
+The moving average operations
+
+```{r}
+# 15 days smoothing
+nyc_fortnight <- nyc_delay %>% 
+  filter(!is.na(pct_delay)) %>% 
+  group_by(origin) %>% 
+  mutate(ma_delay = slide_dbl(
+    pct_delay, mean, .size = 15, .align = "center"
+  ))
+
+nyc_fortnight %>% select(origin, ma_delay)
+
+# 15 days smoothing plot
+nyc_delay %>% 
+  filter(!is.na(pct_delay)) %>% 
+  ggplot(aes(sched_dep_date, pct_delay)) +
+  geom_line(color = "turquoise", alpha = 0.5) +
+  geom_line(data = nyc_fortnight, aes(y = ma_delay, color = origin), inherit.aes = T) +
+  facet_wrap(~origin, nrow = 2) +
+  labs(y = "Percentage delay")
+```
+
+### Flexible calendar period
+
+How is data organized in a calendar period
+
+```{r}
+nyc_lst <- nyc_delay %>% 
+  filter(!is.na(pct_delay)) %>% 
+  mutate(yrmth = yearmonth(sched_dep_date)) %>% 
+  group_by(origin, yrmth) %>% 
+  nest()
+```
+
+Some months have very small data available. Anyway, we can apply a calendar period level moving average to the data.
+
+```{r}
+# # not run!
+# nyc_lst %>% 
+#   mutate(n_obs = map_int(data, nrow)) %>%
+#   filter(n_obs > 2) %>%
+#   group_by(origin) %>% 
+#   mutate(monthly_ma = slide_dbl(data, 
+#                                 ~mean(.x$pct_delay), .size = 2, .bind = T))
+```
+
+```{r}
+nycflights %>% 
+  index_by(dep_datehour = floor_date(sched_dep_datetime, "hour")) %>% 
+  summarise(
+    qtl50 = quantile(dep_delay, 0.5, na.rm = T), 
+    qtl80 = quantile(dep_delay, 0.8, na.rm = T),
+    qtl95 = quantile(dep_delay, 0.95, na.rm = T)
+  ) %>% 
+  mutate(
+    hour = hour(dep_datehour),
+    wday = wday(dep_datehour, label = TRUE, week_start = 1),
+    date = as_date(dep_datehour)
+  ) %>% 
+  gather(key = qtl, value = dep_delay, qtl50:qtl95)
+```
+
+
+## Crossvalidation
+
+Jump to later half of Talk by Davis Vaughan, Sept 26, 2018 "Time series in the tidyverse" to see how to perform crossvalidation to make better predictive models. CV samples could use sliding window or expanding window.
+
+In order to resample use `rsample` package.
+
+```{r}
+
+# better use aggregated data to not let computer cry
+# again use fang_time dataset
+
+fang_time
+
+rolling_origin(fang_time, initial = 500, assess = 40, cumulative = FALSE) # cumulative 'false' means sliding window, else it is expanding window.
+```
+
+## Time series visualization and annotating
+
+```{r}
+
+rect <- data.frame(
+  min_x   = as.Date("2014-10-01"),
+  max_x   = as.Date("2016-11-01"), # used for marking label
+  min_adj = min(fang_time$adjusted),
+  max_adj = max(fang_time$adjusted)
+)
+
+fang_time %>%
+  ggplot() +
+  # Price
+  geom_line(aes(x = date, y = adjusted)) +
+  # Shaded rect
+  geom_rect(aes(xmin = min_x, 
+                xmax = as.Date("2013-10-01"),
+                ymin = min_adj,
+                ymax = max_adj),
+            alpha = 0.5,
+            fill = "#1874CD",
+            data = rect) +
+  # Label
+  geom_label(aes(x = max_x, 
+                 y = max_adj - 10, 
+                 label = "2016"), data = rect) + 
+  theme_minimal()
+```
+
+
+# References
+
+- Talk by Davis Vaughan, Sept 26, 2018 [Time series in the tidyverse](https://www.youtube.com/watch?v=nBmeRDUAADs&t=242s). The slide, script and the dataset used by Davis for the presentation are available at: https://github.com/DavisVaughan/slides
+- For any further notes and updates refer to the beautiful website of tsibble package [author](https://earo.me/); She has the documentation and some nice blog posts on the package, of particular interest is this vignette: https://pdf.earo.me/tsibble.pdf
+- Video talk by Earo Wang [Melt the clock tidy time series analysis](https://www.youtube.com/watch?v=2BbCcSooIeE)
+- Video talk by Earo Wang [Tidy your time series analysis with tsibble](https://www.youtube.com/watch?v=AH7n2LflQZo)
+- Video talk by Rob Hyndman [Tidy forcasting in R](https://www.youtube.com/watch?v=MemnYSGeJ34)
+- Video screencast by Dave Robinson [Tidy tuesday: Analysing US dairy consumption in R](https://www.youtube.com/watch?v=13iG_HkEPVc)
+- Video talk at Rconsortium [fasster package](https://www.youtube.com/watch?v=6YlboftSalY)
+- Video talk by Rob Hyndman [Feature based time series analysis](https://www.youtube.com/watch?v=yx6OQ-8HofU)
+- Video talk by Rob Hyndman [Talk time series data](https://www.youtube.com/watch?v=Ykiuj16P450)
+- Video talk by Rob Hyndman [Forecasting and big data](https://www.youtube.com/watch?v=ZVniWXd9E50)
+- [Lubridate cheat sheet](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf) 

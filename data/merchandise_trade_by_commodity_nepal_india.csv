@@ -1,0 +1,83 @@
+# merchandise trade by commodity,,,,,,,,
+# between Nepal and India,,,,,,,,
+# unit: USD in current prices (Million),,,,,,,,
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,1980,1981,1982,,
+India,Exports,Agricultural products,World,2841,2841,2822,,
+India,Exports,Food,World,2413,2500,2501,,
+India,Imports,Agricultural products,World,1483,1600,1469,,
+India,Imports,Food,World,1242,1235, ,,
+Nepal,Exports,Agricultural products,World,65,47,24,,
+Nepal,Exports,Food,World,20,35,14,,
+Nepal,Imports,Agricultural products,World,11,42,23,,
+Nepal,Imports,Food,World,10,36,21,,
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,1983,1984,1985,1986,1987
+India,Exports,Agricultural products,World,2509,2570,2568,2619,2533
+India,Exports,Food,World,2187,2303,2310,2290,2220
+India,Imports,Agricultural products,World,2227,1911,1921,1676,2139
+India,Imports,Food,World,1783,1467,1366,1108,1449
+Nepal,Exports,Agricultural products,World,34,47,52,53,33
+Nepal,Exports,Food,World,25,41,45,46,31
+Nepal,Imports,Agricultural products,World,77,74,72,77,50
+Nepal,Imports,Food,World,72,64,62,69,41
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,1988,1989,1990,1991,1992
+India,Exports,Agricultural products,World,2474,2931,3506,3361,3676
+India,Exports,Food,World,2212,2593,2782,3002,3346
+India,Imports,Agricultural products,World,2434,1613,1721,1135,1825
+India,Imports,Food,World,1559,762,771,527,924
+Nepal,Exports,Agricultural products,World,46,27,29,33,49
+Nepal,Exports,Food,World,41,19,24,30,48
+Nepal,Imports,Agricultural products,World,98,76,126,93,130
+Nepal,Imports,Food,World,69,59,85,60,78
+,,,,,,,,
+eporter,Flow,Indicator,Partner,1993,1994,1995,1996,1997
+India,Exports,Agricultural products,World,4167,4399,6322,7040,6863
+India,Exports,Food,World,3729,4085,5912,6193,6168
+India,Imports,Agricultural products,World,1509,2944,3003,3034,3562
+India,Imports,Food,World,721,1700,1553,1811,2173
+Nepal,Exports,Agricultural products,World,43,33,32,39,43
+Nepal,Exports,Food,World,40,27,28,36,40
+Nepal,Imports,Agricultural products,World,125,178,157,192,191
+Nepal,Imports,Food,World,64,119,127,134,132
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,1998,1999,2000,2001,2002
+India,Exports,Agricultural products,World,6235,5835,5951,6329,6911
+India,Exports,Food,World,5687,5315,5418,5829,6379
+India,Imports,Agricultural products,World,4632,4862,3993,4513,4954
+India,Imports,Food,World,3386,3294,2283,2666,3170
+Nepal,Exports,Agricultural products,World,36,112,74, , 
+Nepal,Exports,Food,World,34,110,71, , 
+Nepal,Imports,Agricultural products,World,162,271,240,210, 
+Nepal,Imports,Food,World,110,212,185, , 
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,2003,2004,2005,2006,2007
+India,Exports,Agricultural products,World,7205,8799,10274,12452,16301
+India,Exports,Food,World,6564,7885,9001,10370,13408
+India,Imports,Agricultural products,World,6167,6822,7520,7976,10659
+India,Imports,Food,World,3962,4265,4743,5018,6891
+Nepal,Exports,Agricultural products,World,141,142,177,174,193
+Nepal,Exports,Food,World,134,132,165,157,165
+Nepal,Imports,Agricultural products,World,394,315,301,429,520
+Nepal,Imports,Food,World,311,248,237,338,337
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,2008,2009,2010,2011,2012
+India,Exports,Agricultural products,World,21251,16384,23106,34491,41890
+India,Exports,Food,World,18095,14104,18199,27009,31214
+India,Imports,Agricultural products,World,12005,14224,17864,22551,25668
+India,Imports,Food,World,7375,10238,12317,15296,17672
+Nepal,Exports,Agricultural products,World,294,248,211,198,238
+Nepal,Exports,Food,World,252,223,177,169,209
+Nepal,Imports,Agricultural products,World,565,622,791,970,1094
+Nepal,Imports,Food,World,366,551,698,839,1014
+,,,,,,,,
+Reporter,Flow,Indicator,Partner,2013,2014,2015,2016,2017
+India,Exports,Agricultural products,World,44685,43619,35039,33545,39496
+India,Exports,Food,World,36304,36618,30298,29485,34963
+India,Imports,Agricultural products,World,24418,27316,27718,29032,33254
+India,Imports,Food,World,16690,19103,20490,21719,24729
+Nepal,Exports,Agricultural products,World,203,253,198,202,222
+Nepal,Exports,Food,World,177,227,178,178,194
+Nepal,Imports,Agricultural products,World,1312,1475,1301,1763,1909
+Nepal,Imports,Food,World,1189,1361,1184,1619,1771

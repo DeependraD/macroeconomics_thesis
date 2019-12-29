@@ -1,0 +1,1294 @@
+---
+title: Price cointegration of food crops in major Nepalese markets
+author: "Samita Paudel"
+date: "6/28/2019"
+output: 
+  bookdown::pdf_document2:
+    latex_engine: xelatex
+    keep_tex: true
+    toc: false
+    includes:
+      in_header: template_header.tex
+  word_document:
+    # reference_docx: draft_word_template.docx
+fontsize: 12pt
+geometry: margin=1in
+citecolor: DodgerBlue4
+linestretch: 1
+bibliography: bibliographies.bib
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+require(AER)
+require(tidyverse)
+require(forecast)
+require(tsibble)
+require(ggfortify)
+require(fable)
+require(fabletools)
+require(tseries)
+# require(timetk)
+# require(timeSeries)
+# require(timeDate)
+require(urca)
+# require(rvest)
+# require(rebus)
+require(lubridate)
+theme_set(theme_bw())
+
+knitr::opts_chunk$set(tidy = FALSE, echo = FALSE, cache = TRUE, message = F, warning = F)
+options(htmltools.dir.version = FALSE, 
+        # knitr.table.format = "latex",
+        kableExtra.latex.load_packages = FALSE)
+```
+
+# Administrative summary of Nepal
+
+```{r administrative-summary-nepal}
+# require(rvest)
+# require(htmltools)
+# 
+# wiki_district <- "https://en.wikipedia.org/wiki/List_of_districts_of_Nepal" %>% 
+#   read_html()
+# 
+# wiki_district %>% 
+#   html_nodes("table") %>% 
+#   .[6:13] %>%
+#   map(~html_table(.x, fill = T) %>% 
+#         as_tibble(.name_repair = "minimal")) %>% 
+#   map2(.y = paste("./data/nepal_provincial/", 
+#                   c("province_and_hq", paste("province", 1:7, sep = "")), 
+#                   ".csv", sep = ""), 
+#        .f = ~write_csv(x = .x, path = , .y, na = ""))
+
+##  read from saved csvs
+nepal_provincial <- map(list.files("./data/nepal_provincial", pattern = ".*\\d", full.names = T), ~read_csv(.x)) %>% 
+  map(~.x %>% slice(1:(nrow(.x)-1))) %>% 
+  map_dfr(c, .id = "province")
+
+nepal_provincial %>% 
+  mutate(Name = str_trim(str_remove_all(Name, "District"))) %>% 
+  dplyr::select(province, district_name = Name) %>% 
+  mutate(province = paste0("Province ", province))
+```
+
+## Study districts and provinces
+
+```{r}
+
+```
+
+
+# Retail price of rice, wheat and fuel in major nepalese market hubs
+
+Retail prices of Rice, Wheat and Fuel (diesel and petrol). The series is mostly imbalanced and irregular and contains data for following 21 districts.
+
+Achham, Banke, Bhojpur, Chitwan, Dhankuta, Dhanusha, Doti, Illam, Jhapa, Jumla, Kailali, Kaski, Kathmandu, Morang, Nuwakot, Palpa, Parsa, Ramechap, Rolpa, Rupandehi, Surkhet.
+
+```{r food-fuel-retail-import}
+
+# import data
+retail_pr_np_wfp <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1)
+
+# subset out empty row
+retail_pr_np_wfp <- retail_pr_np_wfp[,1:16]
+
+retail_pr_np_wfp <- retail_pr_np_wfp %>% 
+  dplyr::select(-country, -currency, -adm1id, -catid, -cmid, -mktid, -ptid, -umid) %>% 
+  as_tsibble(index = date, key = c(cmname, mktname))
+
+# retail_pr_np_wfp %>% 
+#   skimr::skim()
+
+retail_pr_np_wfp %>% 
+  count(cmname) %>% 
+  head() %>% 
+  knitr::kable(booktabs = T)
+
+retail_pr_np_wfp %>% 
+  ## convert first to tibble is you want to drop date indexing
+  # as_tibble() %>% 
+  count(mktname) %>% 
+  head() %>% 
+  knitr::kable(booktabs = T)
+
+# summarize to make indexing monthly, and retain only food data (fuel data will be dropped)
+retail_pr_np_wfp <- retail_pr_np_wfp %>%
+  filter(category != 'non-food') %>%
+  group_by(cmname, mktname, admname) %>% 
+  index_by(year_mon_detail = yearmonth(date)) %>% 
+  summarise(price = sum(price, na.rm = T)) %>% 
+  ungroup()
+
+retail_pr_np_wfp %>% 
+  ggplot(aes(x = year_mon_detail, y = price, color = mktname, linetype = `mktname`)) +
+  geom_line() +
+  facet_grid(~cmname)
+
+retail_pr_np_wfp %>% 
+  group_by(cmname) %>% 
+  summarise(price_mean = mean(price, na.rm = T)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = `year_mon_detail`, y = `price_mean`, color = `cmname`, linetype = `cmname`)) +
+  geom_line()
+
+# retail_pr_np_wfp %>%
+#   filter(admname = "Central") %>% 
+#   group_split(cmname, admname) %>% 
+#   map(~.x %>% fill_gaps(.full = FALSE)) %>% 
+#   map(~.x %>% tidyr::fill(price, .direction = "down")) %>% 
+#   map(~tsbox::ts_ts(.x)) %>% 
+#   map(~.x %>% na.omit()) %>% 
+#   map(~acf(.x))
+# data is highly autocorrelated, hence it needs differencing to remove the trend.
+
+retail_pr_np_wfp %>%
+  filter(admname == "Central") %>% 
+  group_split(cmname, admname) %>%
+  map(~.x %>% fill_gaps(.full = FALSE)) %>%
+  map(~.x %>% tidyr::fill(price, .direction = "down")) %>%
+  map(~tsbox::ts_ts(.x)) %>%
+  map(~.x %>% na.omit()) %>%
+  map(~pacf(.x))
+```
+
+Simple differenceing (with `diff`) could make the series stationary, however, we have other functionalities are available to assist in the process.
+
+```{r}
+
+# let us only take central region and its market multivariate series
+retail_pr_central <- retail_pr_np_wfp %>%
+  filter(admname == "Central") %>% 
+  group_split(cmname, admname) %>%
+  map(~.x %>% fill_gaps(.full = FALSE)) %>%
+  map(~.x %>% tidyr::fill(price, .direction = "down")) %>%
+  map(~tsbox::ts_ts(.x)) %>%
+  map(~.x %>% na.omit())
+
+# optimum number of differing required
+map(retail_pr_central, ~ndiffs(x = .x))
+# this shows rice series needs no differencing!
+
+plot(retail_pr_central[[1]])
+# well, it kindda looks like it is already stationary.
+# but let's check with other unit root tests.
+
+map(retail_pr_central, ~ndiffs(x = .x, test = "kpss"))
+# both the pp and adf test show need for differencing, for both
+# rice and wheat seris. `type` of test does not affect the result.
+# however, with kpss test, only wheat series is shown to be
+# requiring differencing. 
+```
+
+## Arima modeling of wheat retail price for central region
+
+```{r}
+# difference the wheat series and plot
+plot(diff(retail_pr_central[[2]], lag = ndiffs(retail_pr_central[[2]], test = "kpss"))) # differenced with lag 1
+
+# this will automatically difference and come up with arima function
+retail_pr_central_auto_arima_wheat <- map(.x = colnames(retail_pr_central[[2]]), 
+                                    .f = ~auto.arima(x = retail_pr_central[[2]][, .x])) %>% 
+  set_names(colnames(retail_pr_central[[2]]))
+
+retail_pr_central_auto_arima_wheat
+# ARIMA(p, q, r); q = differencing
+
+map(retail_pr_central_auto_arima_wheat, ~acf(.x[['residuals']]))
+# residual series, no longer shows autocorrelation
+
+# extracting coefficients
+purrr::map(retail_pr_central_auto_arima_wheat, ~coef(.x))
+
+# predict 5 years into the future and include the standard error
+retail_pr_central_ar_wheat_predictions <- purrr::map(retail_pr_central_auto_arima_wheat[c(2,3,5)], ~predict(.x, n.ahead = 5, se.fit = T))
+# error in data for 1 and 4, so no output
+```
+
+## Var modeling of wheat retail price for central region
+
+```{r}
+retail_pr_central
+
+retail_pr_wheat_central_ndiff <- ndiffs(retail_pr_central[[2]], test = "kpss", alpha = 0.05)
+# only kpss test shows suggests of first order differencing
+retail_pr_wheat_central_ndiff
+
+# retail_pr_wheat_central_diff <- diff(retail_pr_central[[2]], 
+#                                      differences = retail_pr_wheat_central_ndiff)
+
+retail_pr_wheat_central_diff <- diff(retail_pr_central[[2]], lag = 12,
+                                     differences = 1)
+
+retail_pr_wheat_central_diff %>% 
+  as_tsibble() %>% 
+  ggplot(aes(x = index, y = value, linetype = key, color = key)) +
+  geom_line() +
+  labs(x = "Date", y = "p(1) series") +
+  theme(legend.position = "bottom")
+
+# run a var model
+# multivariate VAR (with 5 variables, i.e., markets of central regions)
+retail_pr_wheat_central_var <- vars::VAR(retail_pr_wheat_central_diff, p = 1, ic = "SC", type = "const", lag.max = 2)
+
+# order chosen
+retail_pr_wheat_central_var$p
+
+# plotting
+plot(retail_pr_wheat_central_var)
+
+summary(retail_pr_wheat_central_var$varresult$Wheat...Retail_Chitwan_Central) # lm class!
+# retail price series of wheat in chitwan has no associations with lagged prices (previous month price) of any of the central region districts
+
+summary(retail_pr_wheat_central_var$varresult$Wheat...Retail_Dhanusha_Central) # lm class!
+# retail price series of wheat in dhanusha district is associated with lagged price (previous month price) of parsa district
+
+summary(retail_pr_wheat_central_var$varresult$Wheat...Retail_Kathmandu_Central) # lm class!
+# retail price series of wheat in kathmandu district is associated with lagged price (previous month price) of chitwan district
+
+summary(retail_pr_wheat_central_var$varresult$Wheat...Retail_Parsa_Central) # lm class!
+# no association with in any of the districts' lagged prices
+
+summary(retail_pr_wheat_central_var$varresult$Wheat...Retail_Ramechap_Central) # lm class!
+# highly associated with own price lag, but not with any other district's price lags
+
+broom::tidy(retail_pr_wheat_central_var$varresult$Wheat...Retail_Ramechap_Central)
+
+retail_pr_wheat_central_var$varresult$Wheat...Retail_Ramechap_Central %>% coefplot()
+retail_pr_wheat_central_var$varresult$Wheat...Retail_Parsa_Central %>% coefplot()
+retail_pr_wheat_central_var$varresult$Wheat...Retail_Kathmandu_Central %>% coefplot()
+retail_pr_wheat_central_var$varresult$Wheat...Retail_Dhanusha_Central %>% coefplot()
+retail_pr_wheat_central_var$varresult$Wheat...Retail_Chitwan_Central %>% coefplot()
+
+retail_pr_wheat_central_var_prediction <- predict(retail_pr_wheat_central_var, n.ahead = 8)
+
+retail_pr_wheat_central_var_prediction$fcst$Wheat...Retail_Chitwan_Central
+
+```
+
+
+# Seasonal ARMA
+
+```{r}
+# price series "x"
+retail_pr_np_wfp %>% 
+  filter(admname == "Central") %>% 
+  filter(cmname == "Wheat - Retail") %>% 
+  tsibble::fill_gaps(.full = F) %>% 
+  ggplot(aes(x = year_mon_detail, y = price, color = mktname)) +
+  geom_line(size = 1.2) +
+  labs(x = "Date") +
+  theme(legend.position = "bottom")
+
+# logged price series "lx"
+retail_pr_np_wfp %>% 
+  filter(admname == "Central") %>% 
+  filter(cmname == "Wheat - Retail") %>% 
+  tsibble::fill_gaps(.full = F) %>% 
+  mutate_at("price", list(~log(.))) %>% 
+  ggplot(aes(x = year_mon_detail, y = price, color = mktname)) +
+  geom_line(size = 1.2) +
+  labs(x = "Date") +
+  theme(legend.position = "bottom")
+
+# first lag differenced logged price series "dlx"
+retail_pr_np_wfp %>% 
+  filter(admname == "Central") %>% 
+  filter(cmname == "Wheat - Retail") %>% 
+  tsibble::fill_gaps(.full = F) %>% 
+  # tidyr::fill(price, .direction = "down") %>% 
+  mutate_at("price", list(~log(.))) %>% 
+  mutate_at("price", list(~difference(.))) %>% 
+  ggplot(aes(x = year_mon_detail, y = price, color = mktname)) +
+  geom_line(size = 1.2) +
+  labs(x = "Date") +
+  theme(legend.position = "bottom")
+
+# twelveth lag differenced, first lag differenced logged price series "ddlx"
+# price series "x"
+retail_pr_np_wfp %>% 
+  filter(admname == "Central") %>% 
+  filter(cmname == "Wheat - Retail") %>% 
+  tsibble::fill_gaps(.full = F) %>% 
+  # tidyr::fill(price, .direction = "down") %>% 
+  mutate_at("price", list(~log(.))) %>% 
+  mutate_at("price", list(~difference(difference(.), lag = 12))) %>% 
+  ggplot(aes(x = year_mon_detail, y = price, color = mktname)) +
+  geom_line(size = 1.2) +
+  labs(x = "Date") +
+  theme(legend.position = "bottom")
+
+```
+
+## Tidy VAR fitting
+
+```{r}
+cbind(mdeaths, fdeaths) %>% as_tsibble(pivot_longer = F) %>% model(VAR(vars(log(mdeaths), fdeaths)~AR(3))) %>% report()
+```
+
+# Median retail price of rice and wheat in major nepalese market hubs
+
+The dataset is imbalanced and irregular. It mentions prices of following major cities: Achham, Banke, Dhankuta, Dhanusha, Kailali, Kaski, Kathmandu, Morang, Parsa, Rolpa, Surkhet.
+
+- What's the difference between regular price and median price ?
+
+```{r food-median-retail-import}
+# cereal median retail
+food_median_np_wfp <- read_csv("./data/prices_nepal/wfp_food_median_prices_markethubwise_nepal_2005-2019.csv", skip = 2)
+
+food_median_np_wfp <- food_median_np_wfp %>% 
+  dplyr::select(-umid, -x, -unit, -scaling, -ptid, -adm1id, 
+         -catid, -currency, -mktid, -sn, -default, 
+         -interpolated, -cmid, -country, -label, -year) %>% 
+  mutate(year_mon_detail = yearmonth(date)) %>% 
+  as_tsibble(index = year_mon_detail, key = c(cmname, mktname, admname))
+
+# food_median_np_wfp %>% 
+#   skimr::skim()
+
+food_median_np_wfp %>% 
+  count(mktname) %>% 
+  head() %>% 
+  knitr::kable(booktabs = T)
+
+food_median_np_wfp %>% 
+  count(cmname) %>% 
+  head() %>% 
+  knitr::kable(booktabs = T)
+```
+
+# Annual wholesale price of major food commodities
+
+Annual average wholesale price of Barley, Buckwheat, Maize, Millet, Rice/paddy and Wheat since 1991 through 2017 (27 years).
+
+```{r food-wholesale}
+food_wholesale_np <- readxl::read_xlsx("./data/prices_nepal/cereal_wholesale_nepal.xlsx", skip = 1) %>% 
+  mutate(year = yearmonth(`Year Code`)) %>% 
+  dplyr::select(-`Year Code`, -SN) %>% 
+  as_tsibble(index = `year`, key = `Item`)
+
+food_wholesale_np %>% 
+  as_tibble() %>% 
+  count(Item) %>% 
+  knitr::kable(booktabs = T)
+# so this is balanced
+```
+
+
+# Import export
+
+```{r im-ex-import}
+
+# # list of commodity htmls
+# # table of commodity values
+# # generate second list of dataframes
+# commodity_table_lst <- paste("http://www.efourcore.com.np/tepcdatabank/commoditylist.php?page=commoditylist.php&c=&npage=", 1:62, sep = "")
+# 
+# commodity_tables <- map(commodity_table_lst, read_html)
+# 
+# commodity_tables_df2 <- map(commodity_tables, ~ .x %>% 
+#       html_nodes("table.dataTable") %>% 
+#       .[[1]] %>% 
+#       html_table() %>% 
+#       magrittr::set_colnames(.[1, ]) %>% 
+#       slice(-1) %>% 
+#       as_tibble())
+# 
+# # write table of commodity codes to file
+# commodity_tables_df2 %>% map_dfr(bind_rows) %>% 
+#   write_csv("./data/commodity_codes/commodity_codes.csv", na = "")
+
+# import data
+import_export_2009_xl <- readxl::read_xlsx("./data/import_export_cereals_2009-2019_aggregate.xlsx", 
+                                        sheet = "import_export_cereals_2009-2019") %>% 
+  mutate_at(c("Quantity_export", "Value_export"), ~readr::parse_number(.))
+
+# import_export_2009_xl$Commodity %>% fct_count()
+
+import_export_2009_xl <- import_export_2009_xl %>% 
+  mutate(Commodity = forcats::fct_collapse(Commodity, 
+                                           Others = c("Buckwheat,millet,canary seeds and other cereals", "Barley")))
+
+import_export_2009_xl %>% 
+  group_by(Commodity, Year) %>% 
+  summarise_all(sum) %>% 
+  ungroup() %>% 
+  ggplot() +
+  geom_col(aes(x = Year, y = `Quantity_import`/1000000, fill = Commodity), position = position_dodge2()) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_discrete() +
+  labs(x = "Year", y = "Quantity import (in million tons)")
+
+```
+
+<!-- ## Retail price of rice, wheat and fuel in major nepalese market hubs (data pieces) -->
+
+<!-- ```{r wheat-prices-nepal} -->
+<!-- # list of filenames -->
+<!-- wheat_retail <- list.files("./data/prices_nepal/monthly/wheat_retail_npr_per_kg", full.names = T) -->
+
+<!-- # read in data from names -->
+<!-- wheat_retail_np <- map(wheat_retail, ~read_csv(.x, skip = 1, skip_empty_rows = T)) -->
+
+<!-- # remove unwanted name pre/suffixes -->
+<!-- wheat_retail_names <- str_extract(wheat_retail, pattern = "wheat_retail_[a-z]+\\.csv") %>%  -->
+<!--   str_remove_all("wheat_retail_") %>%  -->
+<!--   str_remove_all("\\.csv") -->
+
+<!-- # make ready for join -->
+<!-- wheat_retail_df <- map_dfr(wheat_retail_np, .f = c,.id = "file") %>%  -->
+<!--   mutate(file = as.integer(file)) -->
+
+<!-- # join filename(region) information with data -->
+<!-- wheat_retail_df <- left_join(wheat_retail_df, enframe(wheat_retail_names, name = "file", value = "region")) %>%  -->
+<!--   dplyr::select(region, date=Date, price=Price, -file) %>%  -->
+<!--   mutate(region = str_to_title(region)) %>%  -->
+<!--   mutate(date = parse_date(date, format = "%B-%Y")) -->
+
+<!-- wheat_retail_df %>%  -->
+<!--   ggplot(aes(x = date, y = price, color = region)) + -->
+<!--   geom_line() + -->
+<!--   theme_bw() -->
+<!-- ``` -->
+
+
+<!-- ```{r rice-prices-nepal} -->
+<!-- # list of filenames -->
+<!-- rice_retail <- list.files("./data/prices_nepal/monthly/rice_retail_npr_per_kg", full.names = T) -->
+
+<!-- # read in data from names -->
+<!-- rice_retail_np <- map(rice_retail, ~read_csv(.x, skip = 1, skip_empty_rows = T)) -->
+
+<!-- # remove unwanted name pre/suffixes -->
+<!-- rice_retail_names <- str_extract(rice_retail, pattern = "rice_retail_[a-z]+\\.csv") %>%  -->
+<!--   str_remove_all("rice_retail_") %>%  -->
+<!--   str_remove_all("\\.csv") -->
+
+<!-- # make ready for join -->
+<!-- rice_retail_df <- map_dfr(rice_retail_np, .f = c,.id = "file") %>%  -->
+<!--   mutate(file = as.integer(file)) -->
+
+<!-- # join filename(region) information with data -->
+<!-- rice_retail_df <- left_join(rice_retail_df, enframe(rice_retail_names, name = "file", value = "region")) %>%  -->
+<!--   dplyr::select(region, date=Date, price=Price, -file) %>%  -->
+<!--   mutate(region = str_to_title(region)) %>%  -->
+<!--   mutate(date = parse_date(date, format = "%B-%Y")) -->
+
+<!-- rice_retail_df %>%  -->
+<!--   ggplot(aes(x = date, y = price, color = region)) + -->
+<!--   geom_line() + -->
+<!--   theme_bw() -->
+<!-- ``` -->
+
+<!-- Join wheat and rice retail data. -->
+
+<!-- ```{r} -->
+<!-- retail_spread_pr_np_region <- full_join(rice_retail_df %>%  -->
+<!--             mutate(crop = "Rice"),  -->
+<!--           wheat_retail_df %>%  -->
+<!--             mutate(crop = "Wheat")) %>%  -->
+<!--   mutate(year_mon_detail = yearmonth(date)) %>%  -->
+<!--   dplyr::select(-date) %>%  -->
+<!--   as_tsibble(index = year_mon_detail, key = c(crop, region)) -->
+<!-- ``` -->
+
+<!-- Check whether retail_pr_np_wfp and retail_spread_per_np_region are same ? -->
+
+<!-- ```{r} -->
+<!-- retail_spread_pr_np_region %>% -->
+<!--   filter(region %in% c("Central", "East", "Farwest", "Midwest", "West")) %>%  -->
+<!--   ggplot(aes(x = year_mon_detail, y = price, color = crop)) + -->
+<!--   geom_line() -->
+
+<!-- retail_pr_np_wfp %>%  -->
+<!--   # as_tibble() %>%  -->
+<!--   group_by(admname, cmname) %>%  -->
+<!--   summarise(price = mean(price, na.rm = T)) %>%  -->
+<!--   ggplot(aes(x = year_mon_detail, y = price, color = cmname)) + -->
+<!--   geom_line() -->
+<!-- ``` -->
+
+<!-- They are indeed the same. So let us forget the pieces of data and continue working with the wfp data. -->
+
+# Import historical rice and wheat data
+
+Retail price of various rice commodities and wheat flour since 1976 AD.
+
+```{r rice-wheat-historical-annual-series}
+
+cmname_file <- list.files(path = "./data", pattern = "npl_nepalindata_", full.names = T)
+cmname_list <- map(cmname_file, ~read_csv(.x, skip = 1))
+
+historical_pr_rice_wheat <- cmname_list %>% 
+  map(~(t(.x)[-1,])) %>% 
+  map_dfr(~as_tibble(.x, rownames = "year", .name_repair = ~ c("cmname", "price"))) %>% 
+  mutate(year = yearmonth(year), 
+         price = as.numeric(price))
+
+historical_pr_rice_wheat %>% 
+  ggplot(aes(x = year, y = price, color = cmname)) +
+  geom_line() +
+  scale_color_viridis_d() +
+  # facet_grid(~cmname)
+  guides(color = guide_legend(label.position = "left", direction = "vertical", 
+                              title.hjust = 0.5, title = "Commodity",
+                              ncol = 1, size = 8, keywidth = 1, keyheight = 1))
+
+```
+
+
+<!-- Market watch data is not much useful. It is fully transcribed into wfp's retail price data -->
+
+<!-- ## Marketwatch data -->
+
+<!-- ```{r} -->
+<!-- food_retail_mw_old <- readxl::read_xlsx("./data/coarse_rice_wheat_flour_monthly_regional_mw_0810.xlsx") %>% -->
+<!--   janitor::clean_names(case = "snake") %>%  -->
+<!--   mutate(month = base::month.name[`month`]) -->
+<!-- food_retail_mw_new <- readxl::read_xlsx("./data/coarse_rice_wheat_flour_monthly_regional_mw_1317.xlsx", skip = 1) %>%  -->
+<!--   janitor::clean_names(case = "snake") -->
+
+<!-- retail_mw_hubwise <- full_join(food_retail_mw_new, food_retail_mw_old) %>%  -->
+<!--   mutate(year_mon_detail = parse_date(paste(year, month, 1, sep = "-"), format = "%Y-%B-%d")) %>%  -->
+<!--   mutate(year_mon_detail = yearmonth(year_mon_detail)) %>%  -->
+<!--   dplyr::select(-year, -month, -day) %>%  -->
+<!--   dplyr::select(last_col(), everything())  -->
+
+<!-- retail_mw_hubwise <- retail_mw_hubwise %>%  -->
+<!--   pivot_longer(cols = kathmandu_coarse_rice:dhangadi_wheat_flour,  -->
+<!--                names_to = c("region", "commodity_type"),  -->
+<!--                names_pattern = "(.*)_(.*_.*)") %>%  -->
+<!--   rename(price = value) %>%  -->
+<!--   as_tsibble(index = year_mon_detail, key = c(region, commodity_type))  -->
+
+<!-- ``` -->
+
+
+# Unit root testing
+
+## ADF test of retail price
+
+The ADF, available in the function `adf.test()` (in the package `tseries`) implements the t-test of $H_0: \gamma = 0$ in the regression, below.
+
+$$
+  \Delta {{Y}_{t}}={{\beta
+  }_{1}}+{{\beta }_{2}}t+\gamma {{Y}_{t-1}}+ \sum\limits_{i=1}^{m}{\delta_i \Delta
+    {{Y}_{t-i}}+{{\varepsilon }_{t}}}
+$$
+  
+The null is therefore that x has a unit root. If only x has a non-unit root, then the x is stationary (rejection of null hypothesis).
+
+```{r adf-test-retail}
+
+# adf test for major citywise series
+stationary_series_cities <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(mktname, cmname) %>% 
+  summarise(adf_price = list(tseries::adf.test(price)), 
+            n_observations = n()) %>% 
+  mutate(adf_price_pvalue = map_dbl(adf_price, ~.x[["p.value"]]), 
+         adf_price_tstatistic = map_dbl(adf_price, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_pvalue < 0.05)
+
+# stationary_series_cities %>% 
+#   dplyr::select(-adf_price) %>%
+#   write_csv("./outputs/adf_test_retail_price_rice_wheat_major_city_markets.csv", "")
+
+# stationary series plot
+stationary_series_cities_gg <- stationary_series_cities %>%
+  filter(stationary) %>% 
+  dplyr::select(mktname, cmname) %>%
+  left_join(retail_pr_np_wfp) %>%
+  ggplot(aes(x = year_mon_detail, y = price)) +
+  geom_line() +
+  facet_wrap(~mktname + cmname, nrow = 3)
+
+# ggsave("./outputs/adf_test_retail_price_rice_wheat_major_city_markets_stationary.png", 
+#        stationary_series_cities_gg, width = 8, height = 6, units = "in")
+
+# # adf test for development regionwise series
+stationary_series_devregion <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(cmname, admname) %>% 
+  summarise(adf_price = list(tseries::adf.test(price)), 
+            n_observations = n()) %>% 
+  mutate(adf_price_pvalue = map_dbl(adf_price, ~.x[["p.value"]]), 
+         adf_price_tstatistic = map_dbl(adf_price, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_pvalue < 0.05)
+
+# stationary_series_devregion %>% 
+#   dplyr::select(-adf_price) %>%
+#   write_csv("./outputs/adf_test_retail_price_rice_wheat_devregion_markets.csv", "")
+
+# stationary series plot
+# stationary_series_devregion %>%
+#   filter(stationary) %>% # all are non-stationary
+#   dplyr::select(admname, cmname) %>%
+#   left_join(retail_pr_np_wfp) %>%
+#   ggplot(aes(x = year_mon_detail, y = price)) +
+#   geom_line() +
+#   facet_wrap(~admname + cmname, nrow = 3)
+```
+
+We are setting the alternative hypothesis as being "stationary" in the above test. This extends to following assumption about parameters in above model;
+
+$$
+-2 \leq \gamma \leq 0\ \text{or } (-1 < 1+\phi < 1)
+$$
+
+`k` in the function refers to the number of $\delta$ lags, i.e., $1, 2, 3, ...., m$ in the model equation. 
+
+The number of lags `k` defaults to `trunc((length(x)-1)^(1/3))`, where `x` is the series being tested. The default value of `k` corresponds to the suggested upper bound on the rate at which the number of lags, `k`, should be made to grow with the sample size for the general ARMA(p,q) setup `citation(package = "tseries")`.
+
+For a Dickey-Fueller test, so only up to AR(1) time dependency in our stationary process, we set `k = 0`. Hence we have no $\delta$s (lags) in our test.
+
+The DF model can be written as:
+
+$$
+Y_t = \beta_1 + \beta_2 t + \phi Y_{t-1} + \varepsilon_t
+$$
+
+It can be re-written so we can do a linear regression of $\Delta Y_t$ against $t$ and $Y_{t-1}$ and test if $\phi$ is different from 0. If only, $\phi$ is not zero and assumption above ($-1 < 1+\phi < 1$) holds, the process is stationary. If $\phi$ is straight up 0, then we have a random walk process -- all white noise.
+
+$$
+\Delta {Y}_{t}=\beta_1+\beta_2 t+\gamma {Y}_{t-1} + \varepsilon_{t}
+$$
+
+## ADF test of log retail price
+
+```{r adf-test-logretail}
+
+# # adf test for major citywise series
+stationary_series_cities_log <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(mktname, cmname) %>% 
+  summarise(adf_price = list(tseries::adf.test(log(price))), 
+            n_observations = n()) %>% 
+  mutate(adf_price_pvalue = map_dbl(adf_price, ~.x[["p.value"]]), 
+         adf_price_tstatistic = map_dbl(adf_price, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_pvalue < 0.05)
+
+# stationary_series_cities_log %>%
+#   dplyr::select(-adf_price) %>%
+#   write_csv("./output/adf_test_retail_price_rice_wheat_major_city_markets_log.csv", "")
+
+# stationary series plot
+stationary_series_cities_gg_log <- stationary_series_cities_log %>%
+  filter(stationary) %>% 
+  dplyr::select(mktname, cmname) %>%
+  left_join(retail_pr_np_wfp) %>%
+  ggplot(aes(x = year_mon_detail, y = log(price))) +
+  geom_line() +
+  facet_wrap(~mktname + cmname, nrow = 3)
+
+# ggsave("./output/adf_test_retail_price_rice_wheat_major_city_markets_stationary_log.png",
+#        stationary_series_cities_gg_log, width = 8, height = 6, units = "in")
+
+# # adf test for major development regionwise series
+stationary_series_devregion_log <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(cmname, admname) %>% 
+  summarise(adf_price = list(tseries::adf.test(log(price))), 
+            n_observations = n()) %>% 
+  mutate(adf_price_pvalue = map_dbl(adf_price, ~.x[["p.value"]]), 
+         adf_price_tstatistic = map_dbl(adf_price, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_pvalue < 0.05)
+
+# stationary_series_devregion_log %>%
+#   dplyr::select(-adf_price) %>%
+#   write_csv("./output/adf_test_retail_price_rice_wheat_devregion_markets_log.csv", "")
+
+# stationary series plot
+# stationary_series_devregion_log %>%
+#   filter(stationary) %>% # all are non-stationary
+#   dplyr::select(admname, cmname) %>%
+#   left_join(retail_pr_np_wfp) %>%
+#   ggplot(aes(x = year_mon_detail, y = log(price))) +
+#   geom_line() +
+#   facet_wrap(~admname + cmname, nrow = 3)
+```
+
+## ADF test of first order differenced series
+
+All development regionwise series are non-stationary while only certain cities show non-stationarity, meaning that they have a trend associated with time.
+
+Much description is available at: https://nwfsc-timeseries.github.io/atsa-labs/ on chapter Unit root tests.
+
+Then we test the series on first order differences:
+
+```{r adf-test-diffretail}
+
+# # first order differencing of development regionwise series 
+stationary_series_devregion_diff <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(cmname, admname) %>% 
+  summarise(adf_price_diff = list(tseries::adf.test(diff(price))), 
+            n_observations = n()) %>% 
+  mutate(adf_price_diff_pvalue = map_dbl(adf_price_diff, ~.x[["p.value"]]), 
+         adf_price_diff_tstatistic = map_dbl(adf_price_diff, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_diff_pvalue < 0.05)
+
+# # non-run (because series is differenced).
+# # stationary series plot
+# stationary_series_devregion_diff %>%
+#   filter(stationary) %>% # all are non-stationary
+#   dplyr::select(admname, cmname) %>%
+#   left_join(retail_pr_np_wfp) %>%
+#   ggplot(aes(x = year_mon_detail, y = diff(price))) +
+#   geom_line() +
+#   facet_wrap(~admname + cmname, nrow = 3)
+```
+
+The first order differences give all series stationary.
+
+## Phillips-Perron test
+
+Alternatively, the Phillips-Perron test with its nonparametric correction for autocorrelation (essentially employing a HAC estimate of the long-run variance in a Dickey-Fuller-type test instead of parametric decorrelation) can be used. It is available in the function `pp.test()`.
+
+```{r pp-test-logretail}
+
+stationary_series_devregion_log_pp <- retail_pr_np_wfp %>% 
+  as_tibble() %>% # doesn't work with tsibble
+  group_by(cmname, admname) %>% 
+  summarise(adf_price_log = list(tseries::pp.test(log(price), type = "Z(t_alpha)")), 
+            n_observations = n()) %>% 
+  mutate(adf_price_log_pvalue = map_dbl(adf_price_log, ~.x[["p.value"]]), 
+         adf_price_log_tstatistic = map_dbl(adf_price_log, ~.x[['statistic']])) %>% 
+  mutate(stationary = adf_price_log_pvalue > 0.05)
+
+# only stationary series are filtered out
+stationary_series_devregion_log_pp <- stationary_series_devregion_log_pp %>%
+  filter(stationary) %>%
+  dplyr::select(admname, cmname) %>%
+  left_join(retail_pr_np_wfp) %>% 
+  as_tsibble(index = year_mon_detail, key = c(admname, cmname, mktname)) %>% 
+  group_by(admname, cmname) %>% 
+  summarise(price = mean(price)) %>% 
+  ungroup()
+
+# visualize stationary series
+stationary_series_devregion_log_pp %>% 
+  ggplot(aes(x = year_mon_detail, y = log(price))) +
+  geom_line() +
+  facet_wrap(~admname + cmname, nrow = 3)
+
+# although it is non obvious, there still are several gaps (implicit missing) in the series
+
+# visualize time gaps in price (missing)
+stationary_series_devregion_log_pp %>%
+  as_tsibble(index = year_mon_detail, key = c(admname, cmname)) %>% 
+  # has_gaps() # presents which key combinations has gaps
+  # scan_gaps() # shows exactly which date intervals are missing
+  count_gaps() %>% # useful to locate which time period has how many missing entries
+  ggplot(aes(x = admname, colour = admname)) +
+  geom_linerange(aes(ymin = .from, ymax = .to)) +
+  geom_point(aes(y = .from)) +
+  geom_point(aes(y = .to)) +
+  coord_flip() +
+  theme(legend.position = "bottom")
+
+# fill time gaps in price (missing)
+# we could have filled the gaps with mktname intact in the tsibble, as that would have made more
+# accurate imputation (as we have aggregated against mktname already, we should bear the cost of foregoing early imputation)
+# however, our purpose of demonstration might permit that well.
+
+stationary_series_devregion_log_pp_filled1 <- stationary_series_devregion_log_pp %>%
+  as_tsibble(index = year_mon_detail, key = c(admname, cmname)) %>% 
+  # fill_gaps(price = lag(price), .full = FALSE) # doesn't work
+  fill_gaps(.full = FALSE) %>% 
+  tidyr::fill(price, .direction = "down")
+
+stationary_series_devregion_log_pp_filled2 <- stationary_series_devregion_log_pp %>%
+  as_tsibble(index = year_mon_detail, key = c(admname, cmname)) %>% 
+  # fill_gaps(price = lag(price), .full = FALSE) # doesn't work
+  fill_gaps(.full = FALSE) %>% 
+  tidyr::fill(price, .direction = "up")
+
+stationary_series_devregion_log_pp_filled <- stationary_series_devregion_log_pp_filled1 %>% 
+  mutate(price2 = stationary_series_devregion_log_pp_filled2$price, 
+         price = (price + price2)/2) %>% 
+  dplyr::select(-price2)
+
+stationary_series_devregion_log_pp_filled %>%
+  ggplot(aes(x = year_mon_detail, y = log(price))) +
+  geom_line() +
+  facet_wrap(~admname + cmname, nrow = 3)
+```
+
+Hence, Phillips-Perron test on logged prices shows that series pertaining to CDR are stationary, among all other (total: 5 DR x 2 commodities = 10 series).
+
+# Cointegration
+
+## Residual based
+
+Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series).
+
+A two step method proposed by Engle and Granger (1987), can be used to test for cointegration.
+
+The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after Phillips and Ouliaris (1990). Specifically, `po.test()` performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance.
+
+The test computes the Phillips-Ouliaris test for the null hypothesis that series is not cointegrated `citation(package = "tseries")`.
+
+We check the rice retail price series for eastern and central development region and central and western development region first. Then we progress to other combinations.
+
+```{r series-devregion-wise-cmname}
+series_devregion_wise <- retail_pr_np_wfp %>% 
+  group_by(cmname, admname) %>% 
+  summarise(price = mean(price)) %>% 
+  ungroup() %>% 
+  group_split(cmname) %>% 
+  set_names(c("rice", "wheat")) %>% 
+  map(~fill_gaps(.x, .full = FALSE) %>% 
+        tidyr::fill(price, .direction = "down"))
+```
+
+
+```{r pairwise-phillips-cointegration}
+# need to perform pairwise cointegration tests
+# philip-oularis test
+# we map to simultaneously test in different commodities (rice and wheat)
+pairwise_series_name <- combn(c("Eastern", "Central", "Western", "Mid Western", "Far Western"), 2) %>% 
+  t()
+
+# rice series
+rice_series_combination <- map2(pairwise_series_name[,1],
+     pairwise_series_name[,2],
+    ~tsbox::ts_ts(filter(series_devregion_wise[[1]], admname %in% c(.x, .y))))
+
+# # po test results aren't symmetric for same series done in different order
+rice_series_combination_po_test <- map(rice_series_combination, ~tseries::po.test(.x[, 1:2])) %>% 
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
+
+# wheat series
+wheat_series_combination <- map2(pairwise_series_name[,1],
+     pairwise_series_name[,2],
+    ~tsbox::ts_ts(filter(series_devregion_wise[[2]], admname %in% c(.x, .y))))
+
+# # po test results aren't symmetric for same series done in different order
+wheat_series_combination_po_test <- map(wheat_series_combination, ~tseries::po.test(.x[, 1:2])) %>% 
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
+
+rice_cointegration_pair <- rice_series_combination_po_test %>% map_df(~ list(p_value = .x[["p.value"]], 
+                                                  statistic = .x[["statistic"]]), .id = "combination")
+wheat_cointegration_pair <- wheat_series_combination_po_test %>% map_df(~ list(p_value = .x[["p.value"]], 
+                                                  statistic = .x[["statistic"]]), .id = "combination")
+
+rice_cointegration_pair %>% 
+  knitr::kable(booktabs = T)
+wheat_cointegration_pair %>% 
+  knitr::kable(booktabs = T)
+```
+
+Note `po.test` does not handle missing values, so we fix them through imputation. It is implemented through `tidyr::fill(..., .direction = "down")`.
+
+The test suggests that all series (Both that of wheat and rice) are cointegrated pairwise for all regional markets.
+
+The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric.
+
+The po.test() function is testing the cointegration with Phillip’s Z_alpha test, which is the second residual-based test described in P171 of the paper. For this test, critical values in tables Ia – Ic in P189 are used to reject the Null of No Cointegration. Because the po.test() will use the series at the first position to derive the residual used in the test, results would be determined by the series on the most left-hand side^[https://www.r-craft.org/r-news/phillips-ouliaris-test-for-cointegration/].
+
+The Phillips-Ouliaris test implemented in the `ca.po()` function from the urca package is different. In the `ca.po()` function, there are two cointegration tests implemented, namely “Pu” and “Pz” tests. Although both the `ca.po()` function and the po.test() function are supposed to do the Phillips-Ouliaris test，outcomes from both functions are completely different.
+
+Below shows results of the Pu test, which is a Variance Ratio test and the fourth residual-based test described in P171 of the paper. For this test, critical values in tables IIIa – IIIc in P191 are used to reject the Null of No Cointegration. Similar to Phillip’s Z_alpha test, the Pu test also is not invariant to the position of each series and therefore would give different outcomes based upon the series on the most left-hand side. 
+
+For the Pz test implemented in the `ca.po()` function, critical values in tables IVa – IVc in P192 are used to reject the Null of No Cointegration. As a multivariate trace statistic, the Pz test has its appeal that the outcome won’t change by the position of each series.
+
+## VAR based (Johansen (1991, 1995))
+
+The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach (Johansen, 1991). For a p^th-order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components):
+
+For a more formal treatment of the topic refer to: http://www.eviews.com/help/helpintro.html#page/content%2Fcoint-Johansen_Cointegration_Test.html%23ww189915; also saved as [pdf file](./literatures/johansen_cointegration_eviews.pdf)
+
+$$
+\Delta y_t = \Pi y_t + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t
+$$
+
+The relevant tests are available in the function `urca::ca.jo()`. The basic version considers the eigenvalues of the matrix $\Pi$ in the preceding equation.
+
+Here, we employ the trace statistic -- the maximum eigenvalue, or "lambdamax" test is available as well -- in an equation amended by a constant term (specified by ecdet = "const"), yielding:
+
+```{r cajo-test-procedure}
+
+# # Johansens cointegration test
+# # data
+# series_devregion_wise # (generated in code chunk 'series-devregion-wise-cmname')
+# pairwise_series_name # (generated in code chunk 'pairwise-phillips-cointegration')
+
+# rice_series_combination # (generated in code chunk 'series-devregion-wise-cmname')
+# wheat_series_combination # (generated in code chunk 'series-devregion-wise-cmname')
+
+# # ca.jo test
+rice_series_combination_cajo_test <- map(rice_series_combination, ~urca::ca.jo(log(.x), ecdet = "const", type = "trace")) %>% 
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
+
+wheat_series_combination_cajo_test <- map(wheat_series_combination, ~urca::ca.jo(log(.x), ecdet = "const", type = "trace")) %>% 
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
+
+```
+
+Johansen cointegration test summary and time series plots for rice (development regionwise)
+
+```{r rice-cajo-test, fig.width=6, out.width="90%"}
+rice_series_combination_cajo_test_tidy <- map(rice_series_combination_cajo_test, ~summary(.x)) %>% 
+  # .[1] %>% 
+  map(.f = function(x){
+    map(.x = c("model", "type", "teststat", "cval", "lambda", "V", "W"), .f = function(y)slot(x, y))
+    })
+
+map(rice_series_combination_cajo_test, ~summary(.x))
+# map(rice_series_combination_cajo_test, ~plot(.x))
+```
+
+
+Johansen cointegration test summary and time series plots for wheat (development regionwise)
+
+```{r wheat-cajo-test, fig.width=6, out.width="90%"}
+wheat_series_combination_cajo_test_tidy <- map(wheat_series_combination_cajo_test, ~summary(.x)) %>% 
+  # .[1] %>% 
+  map(.f = function(x){
+    map(.x = c("model", "type", "teststat", "cval", "lambda", "V", "W"), .f = function(y)slot(x, y))
+    })
+map(wheat_series_combination_cajo_test, ~summary(.x))
+# map(wheat_series_combination_cajo_test, ~plot(.x, type = "single"))
+```
+
+
+```{r wheat-rice-ci-out-bind}
+
+wheat_series_combination_cajo_test_ci_out <- map(wheat_series_combination_cajo_test, 
+    ~.x@x %*% .x@V[-(.x@P + 1), ])
+rice_series_combination_cajo_test_ci_out <- map(rice_series_combination_cajo_test, 
+    ~.x@x %*% .x@V[-(.x@P + 1), ])
+
+```
+
+
+```{r grid-arrange-share-legend}
+grid_arrange_share_legend_m <- function(..., nrow = 1, ncol = length(list(...)), position = c("bottom", "right")) {
+  plots <- list(...)
+  position <- match.arg(position)
+  g <- ggplot2::ggplotGrob(plots[[1]] + ggplot2::theme(legend.position = position))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  lheight <- sum(legend$height)
+  lwidth <- sum(legend$width)
+  gl <- lapply(plots, function(x) x + theme(legend.position = "none"))
+  gl <- c(gl, nrow = nrow, ncol = ncol)
+  
+  combined <- switch(position,
+                     "bottom" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl),
+                                                       legend,
+                                                       ncol = 1,
+                                                       heights = grid::unit.c(unit(1, "npc") - lheight, lheight)),
+                     "right" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl),
+                                                      legend,
+                                                      ncol = 2,
+                                                      widths = grid::unit.c(unit(1, "npc") - lwidth, lwidth)))
+  return(combined)
+}
+```
+
+Wheat series and cointegration plots
+
+```{r wheat-coint-plots, fig.width=10, fig.height=6, out.width="100%", fig.show='hold', fig.align='center'}
+# first variable series
+wheat_series_ci_df1 <- map2(wheat_series_combination_cajo_test, 
+                            wheat_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 1] %>% 
+                              as_tsibble() %>% 
+                              mutate(ci_test = .y[, 1]))
+
+wheat_series_ci_df1_bind <- wheat_series_ci_df1 %>% 
+  map_dfr(c, .id = "which_pair") %>% 
+  as_tsibble(index = "index", key = which_pair)
+
+wheat_series_df1_bind_var_gg <- wheat_series_ci_df1_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y1 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_series_ci_df1_bind_var_gg <- wheat_series_ci_df1_bind %>% 
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of cointegration relation of 1st variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+# second variable series
+wheat_series_ci_df2 <- map2(wheat_series_combination_cajo_test, 
+                            wheat_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 2] %>% 
+                              as_tsibble() %>% 
+                              mutate(ci_test = .y[, 2]))
+
+wheat_series_ci_df2_bind <- wheat_series_ci_df2 %>% 
+  map_dfr(c, .id = "which_pair") %>% 
+  as_tsibble(index = "index", key = which_pair)
+
+wheat_series_df2_bind_var_gg <- wheat_series_ci_df2_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y2 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_series_ci_df2_bind_var_gg <- wheat_series_ci_df2_bind %>% 
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  # scale_color_discrete(name = "Market region") +
+  ggtitle("Pairs of cointegration relation of 2nd variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_price_series_gg <- grid_arrange_share_legend_m(wheat_series_df1_bind_var_gg, wheat_series_df2_bind_var_gg, ncol = 2, position = "bottom")
+wheat_ci_series_gg <- grid_arrange_share_legend_m(wheat_series_ci_df1_bind_var_gg, wheat_series_ci_df2_bind_var_gg, ncol = 2, position = "bottom")
+
+plot(wheat_price_series_gg)
+plot(wheat_ci_series_gg)
+
+# walk2(c("./output/wheat_price_series_gg.png", "./output/wheat_ci_series_gg.png"),
+#      list(wheat_price_series_gg, wheat_ci_series_gg),
+#      ~ggsave(.x, .y, device = "png", width = 12, height = 8, units = "in", dpi = 280))
+
+```
+
+Rice series and cointegration plots
+
+```{r rice-coint-plots, fig.width=10, fig.height=6, out.width="100%", fig.show='hold', fig.align='center'}
+# first variable series
+rice_series_ci_df1 <- map2(rice_series_combination_cajo_test, 
+                            rice_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 1] %>% 
+                              as_tsibble() %>% 
+                              mutate(ci_test = .y[, 1]))
+
+rice_series_ci_df1_bind <- rice_series_ci_df1 %>% 
+  map_dfr(c, .id = "which_pair") %>% 
+  as_tsibble(index = "index", key = which_pair)
+
+rice_series_df1_bind_var_gg <- rice_series_ci_df1_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y1 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+rice_series_ci_df1_bind_var_gg <- rice_series_ci_df1_bind %>% 
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of cointegration relation of 1st variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+# second variable series
+rice_series_ci_df2 <- map2(rice_series_combination_cajo_test, 
+                            rice_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 2] %>% 
+                              as_tsibble() %>% 
+                              mutate(ci_test = .y[, 2]))
+
+rice_series_ci_df2_bind <- rice_series_ci_df2 %>% 
+  map_dfr(c, .id = "which_pair") %>% 
+  as_tsibble(index = "index", key = which_pair)
+
+rice_series_df2_bind_var_gg <- rice_series_ci_df2_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y2 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+rice_series_ci_df2_bind_var_gg <- rice_series_ci_df2_bind %>% 
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  # scale_color_discrete(name = "Market region") +
+  ggtitle("Pairs of cointegration relation of 2nd variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+rice_price_series_gg <- grid_arrange_share_legend_m(rice_series_df1_bind_var_gg, rice_series_df2_bind_var_gg, ncol = 2, position = "bottom")
+rice_ci_series_gg <- grid_arrange_share_legend_m(rice_series_ci_df1_bind_var_gg, rice_series_ci_df2_bind_var_gg, ncol = 2, position = "bottom")
+
+plot(rice_price_series_gg)
+plot(rice_ci_series_gg)
+
+# walk2(c("./output/rice_price_series_gg.png", "./output/rice_ci_series_gg.png"),
+#      list(rice_price_series_gg, rice_ci_series_gg),
+#      ~ggsave(.x, .y, device = "png", width = 12, height = 8, units = "in", dpi = 280))
+
+```
+
+
+# Order of integration
+
+In practice, "order of integration" provides you with the number of times you have to difference a series in order to obtain a covariance-stationary series.
+
+The use of the term "integration" _does_ have something to do with the usual meaning of the term, but in its discrete incarnation (i.e. with "summation"). It comes from the fact that, looking "upstream", a series integrated of order $1$, $I(1)$, can be represented as the sum of the elements of a series integrated of order $0$:
+
+Consider the stochastic process $\{X_t\}$, and assume that it is $I(0)$. Define the process
+
+$$Z_t = \sum_{i=1}^tX_i$$
+
+Then 
+$$\Delta Z_t = Z_t - Z_{t-1} = \sum_{i=1}^tX_i - \sum_{i=1}^{t-1}X_i = X_t$$
+
+So the process $\{\Delta Z_t\}$ is $I(0)$ and then the process $\{Z_t\}$ is $I(1)$, while also being the sum of the elements of $\{X_t\}$.  
+
+And this can continue for higher orders of integration, as you can easily check.
+
+<!-- *Question* -->
+
+<!-- Econometricians often talk about a time series being integrated with order k, I(k). k being the minimum number of differences required to obtain a stationary time series. What methods or statistical tests can be used to determine, given a level of confidence, the order of integration of a time series? -->
+
+<!-- *Answer* -->
+
+<!-- There are a number of statistical tests (known as "unit root tests") for dealing with this problem. The most popular is probably the "Augmented Dickey-Fuller" (ADF) test, although the Phillips-Perron (PP) test and the KPSS test are also widely used. -->
+
+<!-- Both the ADF and PP tests are based on a null hypothesis of a unit root (i.e., an I(1) series). The KPSS test is based on a null hypothesis of stationarity (i.e., an I(0) series). Consequently, the KPSS test can give quite different results from the ADF or PP tests. -->
+
+<!-- *Question* -->
+
+<!-- First puzzle: I am taught that the lag order of VECM does not affect the cointegration rank because the lag order is for the differenced regressors. But, I see the contrary: I experimented with sample data of 4 variables, using lag orders between 1 and 12. At low lag orders the cointegration rank is low, but as I increase the lag length, cointegration rank goes up. Does anyone know of a paper or source discussing this issue? Any suggestions as to what to do in this situation? -->
+
+<!-- Second puzzle: If I go by what information criteria indicate as an optimal lag length, establish the coinegration rank and then set up a VECM model, the residuals of the model are heteroscedastic and serially correlated. The info criteria based lag order is 2. To circumvent the issue, I have two options: -->
+
+<!-- 1. Go back, increase the lag order and set up a new VECM and do diagnostic tests -->
+
+<!-- 2. Just keep the cointegration rank as it is and increase the lag order until the residuals are homoscedastic and free of autocorrelation -->
+
+<!-- What would be the optimal course of action? -->
+
+<!-- *Answer* -->
+
+<!-- This is a usual problem with the two steps procedure, where one selects first the lag, then the cointegration rank depending on the lag chose in the first step.  -->
+
+<!-- **Puzzle 1:** The claim that the lag order does not matter for the cointegration test depends on the type of test:  -->
+
+<!--  - VAR based test: if you use a Johansen test, the lag matters!   -->
+
+<!--  - Residual-based test (cf Engle-Granger, Phulips-Ouliaris), then yes, the lag order does not matter -->
+
+<!-- **Puzzle 2:** My favourite approach is the simultaneous-selection approach, where you choose the lag and rank based on a simlutaneous criterion selection (This is implemented in package tsDyn in R for example, see http://www.inside-r.org/packages/cran/tsDyn/docs/rank.select). See references below.  -->
+
+<!-- Now what should you do if the ideal criterion selects a model where there is still some auto-correlation in errors? Great question, and I am not aware of papers tackling this directly. So one option would be to increase lags till you get a model with good residuals. Another option would be to stick with the AIC/BIC choice, and use heteroskedasticity and autocorrelation robust estimators (HAC) for any test you do (t-test, Granger causality, etc). Cheng an Philips (2009) show that their AIC/BIC lag/rank procedure is robust even in presence of auto-correlation (hence the name of semi-parametric). The issue is probably that few softwares will allow you do to this for all tests, in particular, IRF, usually computed with bootstrap, might not include a bootstrap scheme mimicking auto-correlation.   -->
+
+<!-- - Aznar A and Salvador M (2002). Selecting The Rank Of The Cointegration Space And The Form Of The Intercept Using An Information Criterion. Econometric Theory, *18*(04), pp. 926-947. . -->
+
+<!-- - Cheng X and Phillips PCB (2009). Semiparametric cointegrating rank selection. Econometrics Journal , *12*(s1), pp. S83-S104.  -->
+
+<!-- *Question* -->
+
+<!-- When preforming Johansen Cointegration test for 2 time series (the simple case) you need to decide the lag you want to use. Doing the test for different lags return different results: for some lag levels the null hypothesis can be rejected but for others it can't. -->
+
+<!-- My question is what is the right method based on the input data to decide what lag I need to use when preforming the Johansen Test? -->
+
+<!-- *Answer* -->
+
+<!-- You are correct. The weakness of Johansen approach is that it is sensitive to the lag length. So, the lag length should be determined in a systematic manner. Following is the normal process used in the literature.  -->
+
+<!-- a. Choose maximum lag length "m" for VAR model. Usually, for annual data this is set to 1, for quarterly data this is set to 4, and for monthly data this is set to 12.  -->
+
+<!-- b. Run the VAR model in level. For example, if the data is monthly, run the VAR model for lag lengths 1,2, 3,....12.  -->
+
+<!-- c. Find the AIC (Akaike information criterion) and SIC (Schwarz information criterion) [ there are also other criteria  such as HQ (Hannan-Quin information criterion), FPE (Final prediction error criterion) but AIC and SIC are mostly used) for the VAR model for each lag length. Choose the lag length that minimizes AIC and SIC for the VAR model. Note that SIC and AIC may give conflicting results.  -->
+
+<!-- d. Finally, you MUST confirm that for the lag length you selected in step c, the residuals of the VAR model are not correlated [use Portmanteau Tests for autocorrelations]. You may have to modify the lag length, if there is the autocorrelation. Usually, beginners in time series econometrics tend to skip step d.  -->
+
+<!-- e. For the cointegration, the lag length is the lag length chosen from step d minus one (since we are running the model in first difference now, unlike in level when we used VAR to decide the lag length). -->
+
+<!-- AIC or SBC could be used to help you decide what lag. The URCA package in R recommends selecting the lag having minimum AIC or SBC. -->
+
+<!-- ## Question -->
+
+<!-- I am testing for cointegration using the Johansen test. I have seen questions like how to interpret the test results, but when I am interpreting mine I have some doubts. In my results r = 3 since 4.10 < 10.49, so I cannot form a stationary series. It is the same for r = 2 and r = 1. But for r = 0, 86.12 > 59.14, so there is a stationary combination. -->
+
+<!-- But r = 0 implies that there are zero cointegrating vectors. Does that mean that my data are not cointegrated and therefore I cannot build a VECM? -->
+
+<!-- Please find my results below. -->
+
+<!-- cointegration <- ca.jo(Canada, type="trace",ecdet="trend",spec="transitory") -->
+<!-- > summary(cointegration) -->
+
+<!-- ######################  -->
+<!-- # Johansen-Procedure #  -->
+<!-- ######################  -->
+
+<!-- Test type: trace statistic , with linear trend in cointegration  -->
+
+<!-- Eigenvalues (lambda): -->
+<!-- [1]  4.483918e-01  2.323995e-01  1.313250e-01  4.877895e-02 -1.859499e-17 -->
+
+<!-- Values of teststatistic and critical values of test: -->
+
+<!--           test 10pct  5pct  1pct -->
+<!-- r <= 3 |  4.10 10.49 12.25 16.26 -->
+<!-- r <= 2 | 15.65 22.76 25.32 30.45 -->
+<!-- r <= 1 | 37.33 39.06 42.44 48.45 -->
+<!-- r = 0  | 86.12 59.14 62.99 70.05 -->
+
+<!-- Eigenvectors, normalised to first column: -->
+<!-- (These are the cointegration relations) -->
+
+<!--                e.l1    prod.l1       rw.l1        U.l1    trend.l1 -->
+<!-- e.l1      1.0000000  1.0000000  1.00000000  1.00000000  1.00000000 -->
+<!-- prod.l1   0.3685667 -0.1582521  2.01545971  0.06122231 -0.09644538 -->
+<!-- rw.l1    -0.1369713 -0.5035147 -0.08233586 -0.15589592 -0.47523051 -->
+<!-- U.l1      3.2569951  2.4162383  2.98414327  1.57795960  1.54780259 -->
+<!-- trend.l1 -0.1539863  0.1477376 -0.53596432 -0.20898570  0.16907450 -->
+
+<!-- Weights W: -->
+<!-- (This is the loading matrix) -->
+
+<!--               e.l1     prod.l1       rw.l1        U.l1      trend.l1 -->
+<!-- e.d     0.01520061  0.10989739  0.04306410 -0.01664954 -6.999563e-13 -->
+<!-- prod.d  0.06282619  0.17899905 -0.05415524 -0.10283813 -5.525444e-12 -->
+<!-- rw.d   -0.22958927  0.17308184 -0.03869293  0.06509098 -6.034107e-12 -->
+<!-- U.d    -0.05230297 -0.08731406 -0.01833898 -0.03719022  1.367902e-12 -->
+
+<!-- ## Answer -->
+
+<!-- In Johansen cointegration test, the null hypothesis for the eigenvalue test is that there are r+1 -->
+
+<!-- cointegration relations. -->
+
+<!-- The test is therefore sequential: you test first for r=0 -->
+<!-- , then r=1 -->
+
+<!-- , etc. -->
+
+<!-- The test concludes on the value of r -->
+<!-- when the test fails to reject H0 for the first time. In your case, the test fails to reject the null hypothesis for the first time when r=1 -->
+
+<!-- Therefore, you have one cointegration relationship. -->
+
+<!-- ## Question -->
+
+<!-- I've just started getting into cointegration testing in R using the "urca" and "tseries" packages last week and am still very confused about the different arguments, despite having read the manuals. This is of concern as my cointegration tests have so far yielded "no cointegration" results, when I know intuitively that my series should co-integrate (e.g. U.S. 10-year yield vs. U.S. 2-year yield, or XLE price vs. Brent 1st Futures) -->
+
+<!-- I posted my results for the cointegration tests in a previous thread: Interpretation of results using Johansen and Engle-Granger 2-step Cointegration tests -->
+
+<!-- Specifically for the Johansen Cointegration test, I read in another thread that -->
+
+<!--     If you are really sure that there is a long term relationship in your data, then check that you are using the correct number of lags and appropriate dummy variables (constant, trend, seasonal dummies, etc) and then rerun the Johansen procedure again. -->
+
+<!-- My questions then are: -->
+
+<!-- (1) Lags: How do you select the optimal lags in the Johansen test? Unlike in the ADF test, I cannot let AIC select the lags for me. -->
+
+<!-- (2) Type: When should you use trace vs. eigen? Some tutorials I've read stated that trace is preferred, but without any explanations on why it is so. -->
+
+<!-- (3) ecdet: what does the argument ecdet refer to in the function ca.jo in package "urca"? The manual states that ecdet = Character, ‘none’ for no intercept in cointegration, ‘const’ for constant term in cointegration and ‘trend’ for trend variable in cointegration., but how do you decide which character fits? With the stationarity tests, I would plot the graphs to try and decipher if it's a random walk/with drift/with trend, but I am not sure if that makes sense for this test. -->
+
+<!-- Here is a graph of U.S. 10-year vs. 2-year yields, if anyone would like to use it to elaborate:  -->
+
+<!-- The graph is inside: [./literatures/temporary/FU...jpg] -->
+
+<!-- ## Answer -->
+
+<!-- The lag selection for cointegration test is the same as selecting lags for VAR model, since cointegration is a actually a special feature of VAR model. Use VARselect to choose number of lags. -->
+
+<!-- The two statistics test the same thing and are constructed from the same eigenvalues of a certain matrix. For practical purposes there are no differences between these two. -->
+
+<!-- Cointegration means that the linear combination of unit root processes is stationary process. It is usually assumed that this stationary process has zero mean. However it is entirely possible that it has a non-zero mean and there is a trend added to the process. In the case of trend and two unit root processes this means that the difference ?? has a trend, which means that the two processes are pushed apart over time. Judging from your graph it would be difficult to argue if this is really the case. -->

@@ -1,0 +1,359 @@
+"# FAO statistics collates and disseminates food and agricultural statistics globally. The division develops methodologies and standards for data collection, and holds regular meetings and workshops to support member countries develop statistical systems. We produce publications, working papers and statistical yearbooks that cover food security, prices, production and trade and agri-environmental statistics.",,,,,,,,,,,,,
+# source: https://data.humdata.org/dataset/faostat-nepal-indicators-for-food-security,,,,,,,,,,,,,
+Iso3,Area Code,Area,Item Code,Item,Element Code,Element,StartYear,EndYear,Year Code,Year,Unit,Value,Flag
+#country+code+v_iso3,,#country+name,#indicator+code,#indicator+name,,,#date+year+start,#date+year+end,,,#indicator+type,#indicator+num,
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,1999,2001,19992001,1999-2001,%,108,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2000,2002,20002002,2000-2002,%,108,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2001,2003,20012003,2001-2003,%,109,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2002,2004,20022004,2002-2004,%,110,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2003,2005,20032005,2003-2005,%,112,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2004,2006,20042006,2004-2006,%,112,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2005,2007,20052007,2005-2007,%,112,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2006,2008,20062008,2006-2008,%,113,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2007,2009,20072009,2007-2009,%,115,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2008,2010,20082010,2008-2010,%,116,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2009,2011,20092011,2009-2011,%,117,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2010,2012,20102012,2010-2012,%,119,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2011,2013,20112013,2011-2013,%,119,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2012,2014,20122014,2012-2014,%,119,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2013,2015,20132015,2013-2015,%,119,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2014,2016,20142016,2014-2016,%,118,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2015,2017,20152017,2015-2017,%,118,F
+NPL,149,Nepal,21010,Average dietary energy supply adequacy (percent) (3-year average),6121,Value,2016,2018,20162018,2016-2018,%,119,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,1999,2001,19992001,1999-2001,I$ per person,155,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2000,2002,20002002,2000-2002,I$ per person,157,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2001,2003,20012003,2001-2003,I$ per person,159,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2002,2004,20022004,2002-2004,I$ per person,162,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2003,2005,20032005,2003-2005,I$ per person,165,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2004,2006,20042006,2004-2006,I$ per person,166,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2005,2007,20052007,2005-2007,I$ per person,165,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2006,2008,20062008,2006-2008,I$ per person,167,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2007,2009,20072009,2007-2009,I$ per person,171,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2008,2010,20082010,2008-2010,I$ per person,176,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2009,2011,20092011,2009-2011,I$ per person,182,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2010,2012,20102012,2010-2012,I$ per person,194,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2011,2013,20112013,2011-2013,I$ per person,201,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2012,2014,20122014,2012-2014,I$ per person,207,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2013,2015,20132015,2013-2015,I$ per person,202,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2014,2016,20142016,2014-2016,I$ per person,203,F
+NPL,149,Nepal,21011,Average value of food production (constant 2004-2006 I$/cap) (3-year average),6122,Value,2015,2017,20152017,2015-2017,I$ per person,134,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,1999,2001,19992001,1999-2001,%,74,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2000,2002,20002002,2000-2002,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2001,2003,20012003,2001-2003,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2002,2004,20022004,2002-2004,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2003,2005,20032005,2003-2005,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2004,2006,20042006,2004-2006,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2005,2007,20052007,2005-2007,%,73,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2006,2008,20062008,2006-2008,%,72,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2007,2009,20072009,2007-2009,%,71,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2008,2010,20082010,2008-2010,%,70,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2009,2011,20092011,2009-2011,%,70,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2010,2012,20102012,2010-2012,%,69,F
+NPL,149,Nepal,21012,"Share of dietary energy supply derived from cereals, roots and tubers (kcal/cap/day) (3-year average)",6121,Value,2011,2013,20112013,2011-2013,%,68,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,1999,2001,19992001,1999-2001,g/capita/day,57,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2000,2002,20002002,2000-2002,g/capita/day,57,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2001,2003,20012003,2001-2003,g/capita/day,57.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2002,2004,20022004,2002-2004,g/capita/day,58.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2003,2005,20032005,2003-2005,g/capita/day,60.3,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2004,2006,20042006,2004-2006,g/capita/day,61,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2005,2007,20052007,2005-2007,g/capita/day,61.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2006,2008,20062008,2006-2008,g/capita/day,61.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2007,2009,20072009,2007-2009,g/capita/day,62.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2008,2010,20082010,2008-2010,g/capita/day,63.3,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2009,2011,20092011,2009-2011,g/capita/day,64.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2010,2012,20102012,2010-2012,g/capita/day,65.7,F
+NPL,149,Nepal,21013,Average protein supply (g/cap/day) (3-year average),6123,Value,2011,2013,20112013,2011-2013,g/capita/day,67.3,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,1999,2001,19992001,1999-2001,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2000,2002,20002002,2000-2002,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2001,2003,20012003,2001-2003,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2002,2004,20022004,2002-2004,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2003,2005,20032005,2003-2005,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2004,2006,20042006,2004-2006,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2005,2007,20052007,2005-2007,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2006,2008,20062008,2006-2008,g/capita/day,9,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2007,2009,20072009,2007-2009,g/capita/day,10,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2008,2010,20082010,2008-2010,g/capita/day,10,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2009,2011,20092011,2009-2011,g/capita/day,10,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2010,2012,20102012,2010-2012,g/capita/day,11,F
+NPL,149,Nepal,21014,Average supply of protein of animal origin (g/cap/day) (3-year average),6123,Value,2011,2013,20112013,2011-2013,g/capita/day,11,F
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2000,2000,2000,2000,I$,1526.8,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2001,2001,2001,2001,I$,1573.4,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2002,2002,2002,2002,I$,1551.2,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2003,2003,2003,2003,I$,1589.6,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2004,2004,2004,2004,I$,1641.9,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2005,2005,2005,2005,I$,1677.5,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2006,2006,2006,2006,I$,1712.5,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2007,2007,2007,2007,I$,1749.8,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2008,2008,2008,2008,I$,1836.8,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2009,2009,2009,2009,I$,1904.6,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2010,2010,2010,2010,I$,1986.7,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2011,2011,2011,2011,I$,2052.5,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2012,2012,2012,2012,I$,2154.8,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2013,2013,2013,2013,I$,2249.8,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2014,2014,2014,2014,I$,2385.5,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2015,2015,2015,2015,I$,2454.9,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2016,2016,2016,2016,I$,2447,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2017,2017,2017,2017,I$,2605.5,X
+NPL,149,Nepal,22013,"Gross domestic product per capita, PPP, dissemination (constant 2011 international $)",6126,Value,2018,2018,2018,2018,I$,2724,X
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,1999,2001,19992001,1999-2001,%,22,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2000,2002,20002002,2000-2002,%,21.4,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2001,2003,20012003,2001-2003,%,20.4,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2002,2004,20022004,2002-2004,%,18.7,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2003,2005,20032005,2003-2005,%,17.2,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2004,2006,20042006,2004-2006,%,16,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2005,2007,20052007,2005-2007,%,15.2,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2006,2008,20062008,2006-2008,%,14,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2007,2009,20072009,2007-2009,%,12.6,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2008,2010,20082010,2008-2010,%,11.2,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2009,2011,20092011,2009-2011,%,10.1,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2010,2012,20102012,2010-2012,%,9.4,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2011,2013,20112013,2011-2013,%,9,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2012,2014,20122014,2012-2014,%,9,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2013,2015,20132015,2013-2015,%,9.2,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2014,2016,20142016,2014-2016,%,9.2,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2015,2017,20152017,2015-2017,%,9,F
+NPL,149,Nepal,210041,Prevalence of undernourishment (percent) (3-year average),6121,Value,2016,2018,20162018,2016-2018,%,8.7,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,1999,2001,19992001,1999-2001,millions,5.2,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2000,2002,20002002,2000-2002,millions,5.2,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2001,2003,20012003,2001-2003,millions,5,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2002,2004,20022004,2002-2004,millions,4.7,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2003,2005,20032005,2003-2005,millions,4.4,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2004,2006,20042006,2004-2006,millions,4.1,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2005,2007,20052007,2005-2007,millions,3.9,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2006,2008,20062008,2006-2008,millions,3.7,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2007,2009,20072009,2007-2009,millions,3.3,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2008,2010,20082010,2008-2010,millions,3,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2009,2011,20092011,2009-2011,millions,2.7,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2010,2012,20102012,2010-2012,millions,2.6,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2011,2013,20112013,2011-2013,millions,2.5,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2012,2014,20122014,2012-2014,millions,2.5,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2013,2015,20132015,2013-2015,millions,2.6,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2014,2016,20142016,2014-2016,millions,2.6,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2015,2017,20152017,2015-2017,millions,2.6,F
+NPL,149,Nepal,210011,Number of people undernourished (million) (3-year average),6132,Value,2016,2018,20162018,2016-2018,millions,2.5,F
+NPL,149,Nepal,210401,Prevalence of severe food insecurity in the total population (percent) (3-year average),6121,Value,2014,2016,20142016,2014-2016,%,8.8,F
+NPL,149,Nepal,210401,Prevalence of severe food insecurity in the total population (percent) (3-year average),6121,Value,2015,2017,20152017,2015-2017,%,7.8,F
+NPL,149,Nepal,210401,Prevalence of severe food insecurity in the total population (percent) (3-year average),6121,Value,2016,2018,20162018,2016-2018,%,7.8,F
+NPL,149,Nepal,210091,Prevalence of moderate or severe food insecurity in the total population (percent) (3-year average),6121,Value,2014,2016,20142016,2014-2016,%,29.4,F
+NPL,149,Nepal,210091,Prevalence of moderate or severe food insecurity in the total population (percent) (3-year average),6121,Value,2015,2017,20152017,2015-2017,%,31.1,F
+NPL,149,Nepal,210091,Prevalence of moderate or severe food insecurity in the total population (percent) (3-year average),6121,Value,2016,2018,20162018,2016-2018,%,31.6,F
+NPL,149,Nepal,210071,Number of severely food insecure people (million) (3-year average),6132,Value,2014,2016,20142016,2014-2016,millions,2.5,F
+NPL,149,Nepal,210071,Number of severely food insecure people (million) (3-year average),6132,Value,2015,2017,20152017,2015-2017,millions,2.3,F
+NPL,149,Nepal,210071,Number of severely food insecure people (million) (3-year average),6132,Value,2016,2018,20162018,2016-2018,millions,2.3,F
+NPL,149,Nepal,210081,Number of moderately or severely food insecure people (million) (3-year average),6132,Value,2014,2016,20142016,2014-2016,millions,8.4,F
+NPL,149,Nepal,210081,Number of moderately or severely food insecure people (million) (3-year average),6132,Value,2015,2017,20152017,2015-2017,millions,9,F
+NPL,149,Nepal,210081,Number of moderately or severely food insecure people (million) (3-year average),6132,Value,2016,2018,20162018,2016-2018,millions,9.3,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,1999,2001,19992001,1999-2001,%,1.7,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2000,2002,20002002,2000-2002,%,1.6,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2001,2003,20012003,2001-2003,%,0.9,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2002,2004,20022004,2002-2004,%,1,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2003,2005,20032005,2003-2005,%,1.3,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2004,2006,20042006,2004-2006,%,1.9,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2005,2007,20052007,2005-2007,%,3.1,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2006,2008,20062008,2006-2008,%,3.3,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2007,2009,20072009,2007-2009,%,2.8,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2008,2010,20082010,2008-2010,%,2.6,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2009,2011,20092011,2009-2011,%,3.8,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2010,2012,20102012,2010-2012,%,5.5,F
+NPL,149,Nepal,21035,Cereal import dependency ratio (percent) (3-year average),6121,Value,2011,2013,20112013,2011-2013,%,7.6,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,1999,2001,19992001,1999-2001,%,48.7,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2000,2002,20002002,2000-2002,%,49.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2001,2003,20012003,2001-2003,%,50,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2002,2004,20022004,2002-2004,%,50.6,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2003,2005,20032005,2003-2005,%,51.4,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2004,2006,20042006,2004-2006,%,52.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2005,2007,20052007,2005-2007,%,53.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2006,2008,20062008,2006-2008,%,54.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2007,2009,20072009,2007-2009,%,55.4,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2008,2010,20082010,2008-2010,%,56.5,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2009,2011,20092011,2009-2011,%,57.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2010,2012,20102012,2010-2012,%,59.4,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2011,2013,20112013,2011-2013,%,61.3,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2012,2014,20122014,2012-2014,%,63.5,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2013,2015,20132015,2013-2015,%,64.2,F
+NPL,149,Nepal,21034,Percent of arable land equipped for irrigation (percent) (3-year average),6121,Value,2014,2016,20142016,2014-2016,%,64.8,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,1999,2001,19992001,1999-2001,%,23,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2000,2002,20002002,2000-2002,%,25,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2001,2003,20012003,2001-2003,%,32,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2002,2004,20022004,2002-2004,%,36,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2003,2005,20032005,2003-2005,%,37,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2004,2006,20042006,2004-2006,%,33,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2005,2007,20052007,2005-2007,%,37,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2006,2008,20062008,2006-2008,%,39,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2007,2009,20072009,2007-2009,%,48,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2008,2010,20082010,2008-2010,%,49,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2009,2011,20092011,2009-2011,%,60,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2010,2012,20102012,2010-2012,%,69,F
+NPL,149,Nepal,21033,Value of food imports in total merchandise exports (percent) (3-year average),6121,Value,2011,2013,20112013,2011-2013,%,81,F
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2000,2000,2000,2000,index,-1.17,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2002,2002,2002,2002,index,-1.72,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2003,2003,2003,2003,index,-1.89,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2004,2004,2004,2004,index,-2.15,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2005,2005,2005,2005,index,-2.1,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2006,2006,2006,2006,index,-1.89,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2007,2007,2007,2007,index,-1.88,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2008,2008,2008,2008,index,-1.83,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2009,2009,2009,2009,index,-1.62,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2010,2010,2010,2010,index,-1.58,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2011,2011,2011,2011,index,-1.42,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2012,2012,2012,2012,index,-1.38,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2013,2013,2013,2013,index,-1.13,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2014,2014,2014,2014,index,-0.72,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2015,2015,2015,2015,index,-1,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2016,2016,2016,2016,index,-0.85,X
+NPL,149,Nepal,21032,Political stability and absence of violence/terrorism (index),6125,Value,2017,2017,2017,2017,index,-0.66,X
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2000,2000,2000,2000,1000 I$,3.1,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2001,2001,2001,2001,1000 I$,1.8,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2002,2002,2002,2002,1000 I$,2,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2003,2003,2003,2003,1000 I$,2.1,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2004,2004,2004,2004,1000 I$,1.4,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2005,2005,2005,2005,1000 I$,1.1,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2006,2006,2006,2006,1000 I$,1.1,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2007,2007,2007,2007,1000 I$,1.8,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2008,2008,2008,2008,1000 I$,4.3,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2009,2009,2009,2009,1000 I$,4.2,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2010,2010,2010,2010,1000 I$,3.9,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2011,2011,2011,2011,1000 I$,3.4,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2012,2012,2012,2012,1000 I$,4.6,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2013,2013,2013,2013,1000 I$,11.6,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2014,2014,2014,2014,1000 I$,11.1,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2015,2015,2015,2015,1000 I$,10.8,F
+NPL,149,Nepal,21030,Per capita food production variability (constant 2004-2006 thousand int$ per capita),6127,Value,2016,2016,2016,2016,1000 I$,11.3,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2000,2000,2000,2000,kcal/capita/day,28,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2001,2001,2001,2001,kcal/capita/day,29,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2002,2002,2002,2002,kcal/capita/day,25,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2003,2003,2003,2003,kcal/capita/day,24,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2004,2004,2004,2004,kcal/capita/day,27,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2005,2005,2005,2005,kcal/capita/day,31,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2006,2006,2006,2006,kcal/capita/day,35,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2007,2007,2007,2007,kcal/capita/day,31,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2008,2008,2008,2008,kcal/capita/day,20,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2009,2009,2009,2009,kcal/capita/day,22,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2010,2010,2010,2010,kcal/capita/day,23,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2011,2011,2011,2011,kcal/capita/day,21,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2012,2012,2012,2012,kcal/capita/day,13,F
+NPL,149,Nepal,21031,Per capita food supply variability (kcal/cap/day),6128,Value,2013,2013,2013,2013,kcal/capita/day,18,F
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2000,2000,2000,2000,%,23.9,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2001,2001,2001,2001,%,24.2,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2002,2002,2002,2002,%,24.4,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2003,2003,2003,2003,%,24.6,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2004,2004,2004,2004,%,24.8,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2005,2005,2005,2005,%,25,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2006,2006,2006,2006,%,25.2,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2007,2007,2007,2007,%,25.3,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2008,2008,2008,2008,%,25.5,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2009,2009,2009,2009,%,25.7,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2010,2010,2010,2010,%,25.9,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2011,2011,2011,2011,%,26.1,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2012,2012,2012,2012,%,26.3,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2013,2013,2013,2013,%,26.5,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2014,2014,2014,2014,%,26.7,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2015,2015,2015,2015,%,26.9,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2016,2016,2016,2016,%,27.1,X
+NPL,149,Nepal,21045,Percentage of population using safely managed drinking water services (Percent),6121,Value,2017,2017,2017,2017,%,27.2,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2000,2000,2000,2000,%,80,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2001,2001,2001,2001,%,80.6,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2002,2002,2002,2002,%,81.1,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2003,2003,2003,2003,%,81.7,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2004,2004,2004,2004,%,82.2,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2005,2005,2005,2005,%,82.8,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2006,2006,2006,2006,%,83.3,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2007,2007,2007,2007,%,83.9,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2008,2008,2008,2008,%,84.4,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2009,2009,2009,2009,%,84.9,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2010,2010,2010,2010,%,85.4,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2011,2011,2011,2011,%,85.9,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2012,2012,2012,2012,%,86.4,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2013,2013,2013,2013,%,86.9,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2014,2014,2014,2014,%,87.4,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2015,2015,2015,2015,%,87.9,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2016,2016,2016,2016,%,88.3,X
+NPL,149,Nepal,21047,Percentage of population using at least basic drinking water services (percent),6121,Value,2017,2017,2017,2017,%,88.8,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2000,2000,2000,2000,%,15.1,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2001,2001,2001,2001,%,17.5,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2002,2002,2002,2002,%,19.9,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2003,2003,2003,2003,%,22.3,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2004,2004,2004,2004,%,24.8,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2005,2005,2005,2005,%,27.3,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2006,2006,2006,2006,%,29.9,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2007,2007,2007,2007,%,32.6,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2008,2008,2008,2008,%,35.3,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2009,2009,2009,2009,%,38,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2010,2010,2010,2010,%,40.9,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2011,2011,2011,2011,%,43.7,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2012,2012,2012,2012,%,46.7,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2013,2013,2013,2013,%,49.6,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2014,2014,2014,2014,%,52.7,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2015,2015,2015,2015,%,55.7,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2016,2016,2016,2016,%,58.9,X
+NPL,149,Nepal,21048,Percentage of population using at least basic sanitation services (percent),6121,Value,2017,2017,2017,2017,%,62.1,X
+NPL,149,Nepal,21026,Percentage of children under 5 years affected by wasting (percent),6121,Value,2001,2001,2001,2001,%,11.3,X
+NPL,149,Nepal,21026,Percentage of children under 5 years affected by wasting (percent),6121,Value,2006,2006,2006,2006,%,12.7,X
+NPL,149,Nepal,21026,Percentage of children under 5 years affected by wasting (percent),6121,Value,2011,2011,2011,2011,%,11.2,X
+NPL,149,Nepal,21026,Percentage of children under 5 years affected by wasting (percent),6121,Value,2014,2014,2014,2014,%,11.3,X
+NPL,149,Nepal,21026,Percentage of children under 5 years affected by wasting (percent),6121,Value,2016,2016,2016,2016,%,9.7,X
+NPL,149,Nepal,21025,Percentage of children under 5 years of age who are stunted (percent),6121,Value,2001,2001,2001,2001,%,57.1,X
+NPL,149,Nepal,21025,Percentage of children under 5 years of age who are stunted (percent),6121,Value,2006,2006,2006,2006,%,49.3,X
+NPL,149,Nepal,21025,Percentage of children under 5 years of age who are stunted (percent),6121,Value,2011,2011,2011,2011,%,40.5,X
+NPL,149,Nepal,21025,Percentage of children under 5 years of age who are stunted (percent),6121,Value,2014,2014,2014,2014,%,37.4,X
+NPL,149,Nepal,21025,Percentage of children under 5 years of age who are stunted (percent),6121,Value,2016,2016,2016,2016,%,35.8,X
+NPL,149,Nepal,21041,Percentage of children under 5 years of age who are overweight (percent),6121,Value,2001,2001,2001,2001,%,0.7,X
+NPL,149,Nepal,21041,Percentage of children under 5 years of age who are overweight (percent),6121,Value,2006,2006,2006,2006,%,0.6,X
+NPL,149,Nepal,21041,Percentage of children under 5 years of age who are overweight (percent),6121,Value,2011,2011,2011,2011,%,1.5,X
+NPL,149,Nepal,21041,Percentage of children under 5 years of age who are overweight (percent),6121,Value,2014,2014,2014,2014,%,2.1,X
+NPL,149,Nepal,21041,Percentage of children under 5 years of age who are overweight (percent),6121,Value,2016,2016,2016,2016,%,1.2,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2000,2000,2000,2000,%,1.4,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2001,2001,2001,2001,%,1.5,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2002,2002,2002,2002,%,1.6,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2003,2003,2003,2003,%,1.7,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2004,2004,2004,2004,%,1.8,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2005,2005,2005,2005,%,1.9,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2006,2006,2006,2006,%,2.1,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2007,2007,2007,2007,%,2.2,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2008,2008,2008,2008,%,2.4,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2009,2009,2009,2009,%,2.5,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2010,2010,2010,2010,%,2.6,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2011,2011,2011,2011,%,2.8,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2012,2012,2012,2012,%,3,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2013,2013,2013,2013,%,3.2,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2014,2014,2014,2014,%,3.3,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2015,2015,2015,2015,%,3.5,X
+NPL,149,Nepal,21042,Prevalence of obesity in the adult population (18 years and older),6121,Value,2016,2016,2016,2016,%,3.8,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2000,2000,2000,2000,%,51.5,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2001,2001,2001,2001,%,49.5,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2002,2002,2002,2002,%,47.6,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2003,2003,2003,2003,%,45.8,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2004,2004,2004,2004,%,44.1,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2005,2005,2005,2005,%,42.5,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2006,2006,2006,2006,%,41,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2007,2007,2007,2007,%,39.7,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2008,2008,2008,2008,%,38.5,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2009,2009,2009,2009,%,37.5,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2010,2010,2010,2010,%,36.6,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2011,2011,2011,2011,%,35.9,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2012,2012,2012,2012,%,35.4,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2013,2013,2013,2013,%,35.1,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2014,2014,2014,2014,%,34.8,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2015,2015,2015,2015,%,34.9,X
+NPL,149,Nepal,21043,Prevalence of anemia among women of reproductive age (15-49 years),6121,Value,2016,2016,2016,2016,%,35.1,X
+NPL,149,Nepal,21044,Prevalence of exclusive breastfeeding among infants 0-5 months of age,6121,Value,2001,2001,2001,2001,%,68.3,X
+NPL,149,Nepal,21044,Prevalence of exclusive breastfeeding among infants 0-5 months of age,6121,Value,2006,2006,2006,2006,%,53.2,X
+NPL,149,Nepal,21044,Prevalence of exclusive breastfeeding among infants 0-5 months of age,6121,Value,2011,2011,2011,2011,%,69.6,X
+NPL,149,Nepal,21044,Prevalence of exclusive breastfeeding among infants 0-5 months of age,6121,Value,2014,2014,2014,2014,%,56.7,X
+NPL,149,Nepal,21044,Prevalence of exclusive breastfeeding among infants 0-5 months of age,6121,Value,2016,2016,2016,2016,%,65.2,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2000,2000,2000,2000,%,27.2,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2001,2001,2001,2001,%,26.7,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2002,2002,2002,2002,%,26.2,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2003,2003,2003,2003,%,25.8,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2004,2004,2004,2004,%,25.4,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2005,2005,2005,2005,%,25,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2006,2006,2006,2006,%,24.6,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2007,2007,2007,2007,%,24.3,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2008,2008,2008,2008,%,23.9,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2009,2009,2009,2009,%,23.6,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2010,2010,2010,2010,%,23.2,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2011,2011,2011,2011,%,22.9,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2012,2012,2012,2012,%,22.6,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2013,2013,2013,2013,%,22.3,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2014,2014,2014,2014,%,22.1,X
+NPL,149,Nepal,21049,Prevalence of low birthweight (percent),6121,Value,2015,2015,2015,2015,%,21.8,X

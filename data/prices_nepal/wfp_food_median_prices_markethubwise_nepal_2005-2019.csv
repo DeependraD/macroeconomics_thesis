@@ -1,0 +1,117 @@
+,,,,,,,,,,,,,,,,,,,,,,
+#adm1+code,#adm1+name,#item+type,#item+type+code,#item+code,#item+name,#item+name+short,#country+name,#currency,#date,,,#item+label,,#name+market,#value,,,#meta+id,,#item+unit,,0
+adm1id,admname,category,catid,cmid,cmname,cmnameshort,country,currency,date,default,interpolated,label,mktid,mktname,price,ptid,scaling,sn,umid,unit,x,year
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-02-15,,0,Rice - Retail (KG),662,Kailali,36.5,15,1,662_52_15_5,5,KG,1392422400,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-03-15,,0,Rice - Retail (KG),663,Morang,38,15,1,663_52_15_5,5,KG,1394841600,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-04-15,,0,Rice - Retail (KG),647,Dhankuta,40,15,1,647_52_15_5,5,KG,1397520000,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-05-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1400112000,2014
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-06-15,,0,Rice - Retail (KG),662,Kailali,40.2,15,1,662_52_15_5,5,KG,1402790400,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-07-15,,0,Rice - Retail (KG),647,Dhankuta,42,15,1,647_52_15_5,5,KG,1405382400,2014
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-08-15,,0,Rice - Retail (KG),664,Parsa,42,15,1,664_52_15_5,5,KG,1408060800,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-09-15,,0,Rice - Retail (KG),647,Dhankuta,42,15,1,647_52_15_5,5,KG,1410739200,2014
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-10-15,,0,Rice - Retail (KG),664,Parsa,44,15,1,664_52_15_5,5,KG,1413331200,2014
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-11-15,,0,Rice - Retail (KG),652,Kathmandu,45,15,1,652_52_15_5,5,KG,1416009600,2014
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2014-12-15,,0,Rice - Retail (KG),645,Achham,40,15,1,645_52_15_5,5,KG,1418601600,2014
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-01-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1421280000,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-02-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1423958400,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-03-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1426377600,2015
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-04-15,,0,Rice - Retail (KG),662,Kailali,42,15,1,662_52_15_5,5,KG,1429056000,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-05-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1431648000,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-06-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1434326400,2015
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-07-15,,0,Rice - Retail (KG),662,Kailali,42,15,1,662_52_15_5,5,KG,1436918400,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-08-15,,0,Rice - Retail (KG),647,Dhankuta,42,15,1,647_52_15_5,5,KG,1439596800,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-09-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1442275200,2015
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-10-15,,0,Rice - Retail (KG),662,Kailali,41.8,15,1,662_52_15_5,5,KG,1444867200,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-11-15,,0,Rice - Retail (KG),647,Dhankuta,43,15,1,647_52_15_5,5,KG,1447545600,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2015-12-15,,0,Rice - Retail (KG),663,Morang,42,15,1,663_52_15_5,5,KG,1450137600,2015
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-01-15,,0,Rice - Retail (KG),647,Dhankuta,43,15,1,647_52_15_5,5,KG,1452816000,2016
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-02-15,,0,Rice - Retail (KG),664,Parsa,43,15,1,664_52_15_5,5,KG,1455494400,2016
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-03-15,,0,Rice - Retail (KG),647,Dhankuta,43,15,1,647_52_15_5,5,KG,1458000000,2016
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-04-15,,0,Rice - Retail (KG),647,Dhankuta,43,15,1,647_52_15_5,5,KG,1460678400,2016
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-05-15,,0,Rice - Retail (KG),645,Achham,40,15,1,645_52_15_5,5,KG,1463270400,2016
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-06-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1465948800,2016
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-07-15,,0,Rice - Retail (KG),662,Kailali,41.4,15,1,662_52_15_5,5,KG,1468540800,2016
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-08-15,,0,Rice - Retail (KG),662,Kailali,41.4,15,1,662_52_15_5,5,KG,1471219200,2016
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-09-15,,0,Rice - Retail (KG),662,Kailali,41.4,15,1,662_52_15_5,5,KG,1473897600,2016
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-10-15,,0,Rice - Retail (KG),647,Dhankuta,40,15,1,647_52_15_5,5,KG,1476489600,2016
+2153,Eastern,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-11-15,,0,Rice - Retail (KG),663,Morang,40,15,1,663_52_15_5,5,KG,1479168000,2016
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2016-12-15,,0,Rice - Retail (KG),658,Banke,41,15,1,658_52_15_5,5,KG,1481760000,2016
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2017-01-15,,0,Rice - Retail (KG),662,Kailali,40.8,15,1,662_52_15_5,5,KG,1484438400,2017
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2017-02-15,,0,Rice - Retail (KG),658,Banke,42,15,1,658_52_15_5,5,KG,1487116800,2017
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2017-03-15,,0,Rice - Retail (KG),658,Banke,42,15,1,658_52_15_5,5,KG,1489536000,2017
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2017-04-15,,0,Rice - Retail (KG),655,Rolpa,43,15,1,655_52_15_5,5,KG,1492214400,2017
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-04-15,,0,Rice - Retail (KG),660,Dhanusha,45,15,1,660_52_15_5,5,KG,1523750400,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-05-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1526342400,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-06-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1529020800,2018
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-07-15,,0,Rice - Retail (KG),657,Surkhet,44,15,1,657_52_15_5,5,KG,1531612800,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-08-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1534291200,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-09-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1536969600,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-10-15,,0,Rice - Retail (KG),660,Dhanusha,45,15,1,660_52_15_5,5,KG,1539561600,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-11-15,,0,Rice - Retail (KG),660,Dhanusha,45,15,1,660_52_15_5,5,KG,1542240000,2018
+2155,Mid Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2018-12-15,,0,Rice - Retail (KG),655,Rolpa,45,15,1,655_52_15_5,5,KG,1544832000,2018
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-01-15,,0,Rice - Retail (KG),660,Dhanusha,42,15,1,660_52_15_5,5,KG,1547510400,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-02-15,,0,Rice - Retail (KG),664,Parsa,40,15,1,664_52_15_5,5,KG,1550188800,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-03-15,,0,Rice - Retail (KG),660,Dhanusha,42,15,1,660_52_15_5,5,KG,1552608000,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-04-15,,0,Rice - Retail (KG),660,Dhanusha,42,15,1,660_52_15_5,5,KG,1555286400,2019
+2154,Far Western,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-05-15,,0,Rice - Retail (KG),645,Achham,44,15,1,645_52_15_5,5,KG,1557878400,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-06-15,,0,Rice - Retail (KG),664,Parsa,42,15,1,664_52_15_5,5,KG,1560556800,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-08-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1565827200,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-09-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1568505600,2019
+2152,Central,cereals and tubers,1,52,Rice - Retail,Rice,Nepal,NPR,2019-10-15,,0,Rice - Retail (KG),664,Parsa,45,15,1,664_52_15_5,5,KG,1571097600,2019
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-02-15,,0,Wheat - Retail (KG),663,Morang,40,15,1,663_84_15_5,5,KG,1392422400,2014
+2156,Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-03-15,,0,Wheat - Retail (KG),651,Kaski,42.5,15,1,651_84_15_5,5,KG,1394841600,2014
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-04-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1397520000,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-05-15,,0,Wheat - Retail (KG),664,Parsa,40,15,1,664_84_15_5,5,KG,1400112000,2014
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-06-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1402790400,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-07-15,,0,Wheat - Retail (KG),664,Parsa,42,15,1,664_84_15_5,5,KG,1405382400,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-08-15,,0,Wheat - Retail (KG),664,Parsa,40,15,1,664_84_15_5,5,KG,1408060800,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-09-15,,0,Wheat - Retail (KG),664,Parsa,40,15,1,664_84_15_5,5,KG,1410739200,2014
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-10-15,,0,Wheat - Retail (KG),663,Morang,40,15,1,663_84_15_5,5,KG,1413331200,2014
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-11-15,,0,Wheat - Retail (KG),663,Morang,40,15,1,663_84_15_5,5,KG,1416009600,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2014-12-15,,0,Wheat - Retail (KG),664,Parsa,42,15,1,664_84_15_5,5,KG,1418601600,2014
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-01-15,,0,Wheat - Retail (KG),664,Parsa,40,15,1,664_84_15_5,5,KG,1421280000,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-02-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1423958400,2015
+2156,Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-03-15,,0,Wheat - Retail (KG),651,Kaski,45,15,1,651_84_15_5,5,KG,1426377600,2015
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-04-15,,0,Wheat - Retail (KG),663,Morang,40,15,1,663_84_15_5,5,KG,1429056000,2015
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-05-15,,0,Wheat - Retail (KG),663,Morang,40,15,1,663_84_15_5,5,KG,1431648000,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-06-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1434326400,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-07-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1436918400,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-08-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1439596800,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-09-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1442275200,2015
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-10-15,,0,Wheat - Retail (KG),645,Achham,42,15,1,645_84_15_5,5,KG,1444867200,2015
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-11-15,,0,Wheat - Retail (KG),663,Morang,45,15,1,663_84_15_5,5,KG,1447545600,2015
+2156,Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2015-12-15,,0,Wheat - Retail (KG),651,Kaski,45,15,1,651_84_15_5,5,KG,1450137600,2015
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-01-15,,0,Wheat - Retail (KG),663,Morang,46,15,1,663_84_15_5,5,KG,1452816000,2016
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-02-15,,0,Wheat - Retail (KG),663,Morang,45,15,1,663_84_15_5,5,KG,1455494400,2016
+2155,Mid Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-03-15,,0,Wheat - Retail (KG),658,Banke,43,15,1,658_84_15_5,5,KG,1458000000,2016
+2155,Mid Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-04-15,,0,Wheat - Retail (KG),658,Banke,43,15,1,658_84_15_5,5,KG,1460678400,2016
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-05-15,,0,Wheat - Retail (KG),645,Achham,44,15,1,645_84_15_5,5,KG,1463270400,2016
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-06-15,,0,Wheat - Retail (KG),645,Achham,44,15,1,645_84_15_5,5,KG,1465948800,2016
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-07-15,,0,Wheat - Retail (KG),645,Achham,44,15,1,645_84_15_5,5,KG,1468540800,2016
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-08-15,,0,Wheat - Retail (KG),645,Achham,43,15,1,645_84_15_5,5,KG,1471219200,2016
+2155,Mid Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-09-15,,0,Wheat - Retail (KG),658,Banke,42.7,15,1,658_84_15_5,5,KG,1473897600,2016
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-10-15,,0,Wheat - Retail (KG),652,Kathmandu,44,15,1,652_84_15_5,5,KG,1476489600,2016
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-11-15,,0,Wheat - Retail (KG),663,Morang,45,15,1,663_84_15_5,5,KG,1479168000,2016
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2016-12-15,,0,Wheat - Retail (KG),652,Kathmandu,45,15,1,652_84_15_5,5,KG,1481760000,2016
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2017-01-15,,0,Wheat - Retail (KG),663,Morang,45,15,1,663_84_15_5,5,KG,1484438400,2017
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2017-02-15,,0,Wheat - Retail (KG),663,Morang,45,15,1,663_84_15_5,5,KG,1487116800,2017
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2017-03-15,,0,Wheat - Retail (KG),664,Parsa,45,15,1,664_84_15_5,5,KG,1489536000,2017
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2017-04-15,,0,Wheat - Retail (KG),652,Kathmandu,43,15,1,652_84_15_5,5,KG,1492214400,2017
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-04-15,,0,Wheat - Retail (KG),660,Dhanusha,45,15,1,660_84_15_5,5,KG,1523750400,2018
+2155,Mid Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-05-15,,0,Wheat - Retail (KG),658,Banke,42.5,15,1,658_84_15_5,5,KG,1526342400,2018
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-06-15,,0,Wheat - Retail (KG),645,Achham,43,15,1,645_84_15_5,5,KG,1529020800,2018
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-07-15,,0,Wheat - Retail (KG),645,Achham,44,15,1,645_84_15_5,5,KG,1531612800,2018
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-08-15,,0,Wheat - Retail (KG),660,Dhanusha,45,15,1,660_84_15_5,5,KG,1534291200,2018
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-09-15,,0,Wheat - Retail (KG),647,Dhankuta,45,15,1,647_84_15_5,5,KG,1536969600,2018
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-10-15,,0,Wheat - Retail (KG),647,Dhankuta,45,15,1,647_84_15_5,5,KG,1539561600,2018
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-11-15,,0,Wheat - Retail (KG),647,Dhankuta,45,15,1,647_84_15_5,5,KG,1542240000,2018
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2018-12-15,,0,Wheat - Retail (KG),660,Dhanusha,45,15,1,660_84_15_5,5,KG,1544832000,2018
+2155,Mid Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-01-15,,0,Wheat - Retail (KG),657,Surkhet,46,15,1,657_84_15_5,5,KG,1547510400,2019
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-02-15,,0,Wheat - Retail (KG),652,Kathmandu,48,15,1,652_84_15_5,5,KG,1550188800,2019
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-03-15,,0,Wheat - Retail (KG),647,Dhankuta,50,15,1,647_84_15_5,5,KG,1552608000,2019
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-04-15,,0,Wheat - Retail (KG),660,Dhanusha,50,15,1,660_84_15_5,5,KG,1555286400,2019
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-05-15,,0,Wheat - Retail (KG),660,Dhanusha,50,15,1,660_84_15_5,5,KG,1557878400,2019
+2153,Eastern,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-06-15,,0,Wheat - Retail (KG),647,Dhankuta,50,15,1,647_84_15_5,5,KG,1560556800,2019
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-08-15,,0,Wheat - Retail (KG),664,Parsa,50,15,1,664_84_15_5,5,KG,1565827200,2019
+2154,Far Western,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-09-15,,0,Wheat - Retail (KG),645,Achham,50,15,1,645_84_15_5,5,KG,1568505600,2019
+2152,Central,cereals and tubers,1,84,Wheat - Retail,Wheat,Nepal,NPR,2019-10-15,,0,Wheat - Retail (KG),652,Kathmandu,50,15,1,652_84_15_5,5,KG,1571097600,2019

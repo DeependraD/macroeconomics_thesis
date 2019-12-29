@@ -1,0 +1,753 @@
+---
+title: Macroeconomics of cereal production and import and its
+  impact on trade policy
+author: "Samita Paudel"
+date: "6/28/2019"
+output: 
+  bookdown::pdf_document2:
+    keep_tex: true
+    toc: false
+    includes:
+      in_header: template_header.tex
+  word_document:
+    reference_docx: draft_word_template.docx
+fontsize: 12pt
+geometry: margin=1in
+citecolor: DodgerBlue4
+linestretch: 2
+bibliography: bibliographies.bib
+link-citations: yes
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+require(tidyverse)
+require(tidyxl)
+require(unpivotr)
+# invalidate cache when the package version changes
+knitr::opts_chunk$set(tidy = FALSE, cache.extra = packageVersion('tint'), echo = FALSE)
+options(htmltools.dir.version = FALSE, 
+        knitr.table.format = "latex",
+        kableExtra.latex.load_packages = FALSE)
+```
+
+# Background
+
+Nepal’s recent history poses a strange developmental paradox. Many countries in the world have experienced rapid growth but modest poverty reduction with income concentrated in the hands of the wealthy. Nepal, however, has the opposite problem with modest growth but brisk poverty reduction. The country has halved the poverty rate in just seven years and witnessed an equally significant decline in income inequality. Yet, Nepal remains one of the poorest and slowest growing economies in South Asia [@wbg2017].
+
+Government of Nepal has prioritized Trade and Integration as critical aids to achieving the ambitious objective of reaching middle-income status by 2030 and reducing absolute poverty to single digits [@moc2016nepal]. But the country data suggests otherwise with a continued growth of trade deficit over the past several years; particularly during the last ten years where the export-import (EXIM) ratio has risen three folds (currently 1:15) between 2005-06 and 2017-18 [@mocs2017nepal].
+
+\coffa
+
+Agriculture is still the largest sector of the economy and the major source of livelihood for about 65.6 per cent of the population. It contributes 27.10% to  the GDP [@moald2019nepal]. Nepalese agriculture is characterized by dominance of small and marginal farm holders following traditional and indigenous farming technology which is regarded as low yielding technology. Over the last 10 years, population has been increasing at 1.35 percent annually (CBS, 2012) while agricultural land has decreased by 129 thousands hectares (CBS, 2013). Increasing population coupled with declining agricultural land and stagnant productivity of major cereals has led to food and self-insufficiency in some districts of the country. It has however been reported that terai and hill regions, with exception of 12 districts of high hills have surplus production of cereals. Although the exact scenario of nutritional security and food distribution across regions remains much poorer[@statusreport2018].
+
+Nepal has acceded to global liberal trade arena most extensively during 1990s. Although 30 years since then, its status of Least Developed Country (LDC), still remains to be challenged. Nepal ranks ?? in GNP per capita. While Nepal has, on average, the lowest tariffs in South Asia and has taken several steps to downsize its public distribution system and remove a host of agricultural subsidies, continuing trend of a negative balance of trade with rapidly rising import-export ratio [@pyakuryal2010trade; @GoNMoFDoC] warrants a vigorous discussion on the trade policy subject.
+
+Import is a process of buying or bringing in products from another country. Imports consist of transactions in goods and services (i.e. sales, barter, gifts or grants) from non-resident residents to residents. An import of a good occurs when there is a change of ownership from a non-resident to a resident; this does not necessarily imply that the good in question physically crosses the frontier. Also smuggled goods be included in the import measurement. While, export is the process of sending goods or services across national frontiers for the purpose of selling and realizing foreign exchange. In spite of having an agrarian economy Nepal still imports large quantity of food products to meet her consumption needs and provide raw materials to her industries. In the fiscal year 2017/18 Nepal imported goods of NRS 1,245,103,223,000 with trade deficit of NRS 1,163,507,864,000 which is 15.3 times of export (MOAD, 2018). The importation of food items takes place from different countries of world particularly from neighboring country India and China. In fiscal year 2017/18 the contribution of India alone in total import was 65.39 percent while 12.85 percent import was from China (MOAD, 2018). Nepal’s export basket is dominated by agricultural goods and primary products. Based on 2015-16 figure, major export items consist of woolen carpets (8.1 billion Rs), readymade garments (5.8 billion Rs), yarns (5.3 billion Rs) iron and steel products (4.6 billion Rs), cardamom (4.6 billion Rs), textile (3.9 billion Rs), juices (3.1 billion Rs.), woolen and pashmina shawls (2.8 billion Rs), tea (2.4 billion Rs.), jute bags (1.9 billion Rs) and rosin and resin acid (1.7 billion Rs.). Imports on the other hand constitute primarily of final consumer products with little to no value addition occurring within the country. As of 2015- 16, iron and steel products (78 billion Rs.), petroleum products (69 billion Rs.), vehicles (66 billion Rs.), machinery and parts (57 billion Rs.), electronic good and electrical equipment (34.5 billion Rs.), pharmaceutical products (26.5 billion Rs.) were the highest imported goods.
+
+Since the early 1990s, reforms have taken place in the form of border infrastructures development through Inland Clearances Depots (ICDs), systemic changes in the bilateral trade treaty with India, membership of SAFTA, BIMSTEC FTA and the World Trade Organization. Similarly, with the newest revisions to the Trade Policy 2015 and the Nepal Trade Integration Strategy (NTIS) 2016, the country is aiming at promoting export led growth while strengthening inclusiveness and choosing a pro-poor approach.
+
+\coffb
+
+A barrier to trade is a government-imposed restraint on the flow of international goods or services. Those restraints are sometimes obvious, but are most often subtle and non-obvious. The most common barrier to trade is a tariff–a tax on imports. Tariffs raise the price of imported goods relative to domestic goods (good produced at home). Another common barrier to trade is a government subsidy to a particular domestic industry. Subsidies make those goods cheaper to produce than in foreign markets. This results in a lower domestic price. Both tariffs and subsidies raise the price of foreign goods relative to domestic goods, which reduces imports. A quota, a type of trade barrier, is a restriction on the quantity that can import into a country. Quotas and Tariffs are effectively the same except that governments collect revenue from tariffs while exporting firms can collect extra revenue from quotas. This increases the firm’s export revenues. Barriers to trade are often called “protection” because their stated purpose is to shield or advance particular industries or segments of an economy. From an economic perspective, though, the costs to the economy of reducing its opportunities to trade almost always outweigh the benefits enjoyed by those who are protected. The main objective of the tax system is to enhance revenue mobilization through effective revenue collection procedure for the economic development of the nation and to reduce trade deficit by promoting export and reducing import.  After trade liberalization in Nepal import taxes and levies (VAT, customs, and excise duties) has become an important source of government revenue, about 59% of total government revenue, or about 13% of GDP, in 2016-2017 (Economic Survey, 2017).
+
+Trade liberalization, although deemed necessary in the past, is now a topic of controversy in different countries and that is discussed by several scholars relating the overall effect on some countries. This study aims to assess the post-hoc effect of the country’s accession to WTO, consequent changes in national trade policy and global trading strategies, trade provisions and restrictions, respectively, for and against Nepal.
+
+# Rationale of study
+
+Centering the trade policy analysis on past and recent trends of cereal domestic production and import, likely impacts of policies-in-action on food security and economic growth of Nepal will be explored. An explanation of how existing tariffs and trade regulating measures are performing, more specifically the overall effect it has on domestic production and import of the food crops will be discussed in detail.
+
+Finally, a policy level solution to the existing problem of largely imbalanced food trade will be devised using widely applicable macroeconomic policy model framework.
+
+One of the benefits of policy impact assessment is to better position our national planning body to make informed trade decisions in fiscal as well as long term planning. That said, interventions could be raised in various trade negotiation forums to suit national interest of enhancing production and achieving food soverignity. Also global arena for international exports could be tapped with unequivocal policy guidelines. Moreover, this study will also dissect various indicators of trade in a hope to improve one or more of them for bringing about more accountable trading regime.
+
+# Objectives
+
+## General objective
+
+The main objective of the research is to analyse the trade policy on import and export of ??cereal market ?? food crops and its effects on economic growth, trade balance and ?? welfare distribution?? and overall food supply. For the present research, the focus will be on Rice, Maize, Wheat and other cereals which constitute the food basket of Nepal.
+
+## Specific objectives
+
+- To examine the past and current trends of Nepal’s major agriculture imports.
+?? 
+- To examine the trend of major import and export of major cereals before and after wto.
+- To study the existing tariff and non-tariff barriers on import of cereals in Nepal{ agricultural commodities}
+- Access trend  ...
+- To assess the macroeconomic impact of changes in tariff structures and non-tariff barriers
+- To assess the role of constitutive trade factors on country’s economic growth.
+- To suggest policy measures to foster more balanced trade in short and longer term.
+- Put forward a discussion on implications along with some recommendations which fall out of this analysis.
+
+# Literature review
+
+## Cereal production and trade
+
+### Cereal production and share in economy
+
+### Import-export scenario of cereals in Nepal
+
+## Trade policy: Past, Present and Future
+
+For Nepal, Ministry of Industry, Commerce and Supplies is responsible for formulating, implementing and monitoring policies, plans and programmes related to international trade, industrial development and investment. It also is the focal point for negotiations and the administration of trade agreements, and serves as a National Enquiry Point (NEP) for Trade in Services. It also coordinates "aid for trade" initiatives, including the Enhanced Integrated Framework (EIF); and it takes the lead in developing trade-related legislation, in coordination with other relevant ministries and government agencies. In its role as having primary responsibility for international trade, an interagency coordination mechanism has been devised for dealing with issues related to international trade. 
+
+While the Ministry of Industry, Commerce and Supplies is responsible for most aspects of trade policy, the Ministry of Finance is responsible for setting tariffs, which are assessed and collected by the Customs Department of the same Ministry. Tariffs are set for each fiscal year (FY) through the Budget and Finance Act ( _Arthik Bidhiyek_ ).
+
+The Chair of the Board of Trade is the Minister of Industry, Commerce and Supplies, while the other members include representatives from the public and private sectors as well as academics. The Board aims to coordinate the implementation of the trade policy, and gives advice on current policy and recommendations on future policy to the Government. The BOT is supported by subsidiary committees chaired by the Secretary of the Ministry of Industry, Commerce and Supplies. Sectoral focal points are designated by the responsible ministries and agencies (including the Nepal Rastra Bank (NRB)) to deal with WTO-related issues. Private sector representatives participate in different committees. Under the Ministry of Industry, Commerce and Supplies, a Trade and Export Promotion Centre (TEPC) has been established as the national trade promotion agency, with the objective of promoting foreign trade in general, and exports in particular.
+
+### Policies in trade
+
+The principal legislation relating to trade is set out in Table \@ref(tab:trade-legislation-np).
+
+```{r trade-legislation-np, warning=FALSE, message=FALSE}
+trade_legislation_np <- read_csv("./data/trade_legislation_nepal.csv")
+
+trade_legislation_np %>% 
+  knitr::kable(format = "latex", digits = 2, caption = "Trade legislations in rule in Nepal", booktabs = TRUE) %>% 
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 8) %>% 
+  kableExtra::collapse_rows(1, valign = "middle", latex_hline = "major") %>% 
+  kableExtra::column_spec(column = 1, width = "10em") %>% 
+  kableExtra::column_spec(column = 2, width = "22em")
+```
+
+The First Trade Policy introduced in 1983 with the slogan of "Exports for Development". Following the wave of economic liberalization and Structural Adjustment Program, Nepal introduced its first Liberal Trade Policy in 1992. Trade Policy 1992 removed most of the trade barriers such as eliminating licensing for import and export, establishing industry etc. Given the changed context GoN introduced Trade Policy, 2009. Considering the dynamism in the trade sector and addressing alarming trade deficit, the Government introduced new Trade Policy, 2015/16.
+
+In 2002, at the request of the Government, the World Bank carried out Nepal's first Diagnostic Trade Integration Studies (DTIS) on behalf of the Integrated Framework Working Group, which was finalized as the Nepal Trade and Competitiveness Study (NTCS) examined the trade regime and its performance, and identified products with comparative and competitive advantages. An updated version of the NTCS 2004, the NTIS was published in 2010 by the then Ministry of Commerce and Supplies, and focused on the development of 12 goods and 7 services areas for making trade inclusive and equitable, and contributing to the poverty reduction goal adopted by the Government. According to the authorities, despite plans, reforms and other measures, Nepal's trade performance over the past decade was not satisfactory, as the trade in goods deficit continued to increase, mainly due to supply-side constraints, low investment, inadequate trade infrastructure, and inadequate trade facilitation measures. Therefore, NTIS 2010 was updated in 2016 (NTIS, 2016). This is now Nepal's third-generation trade integration strategy, and it aims to address trade and competitiveness challenges in the export sector. NTIS-2016 also provides the foundation for the implementation of Trade Policy 2015, through enhancing export competitiveness by addressing cross-cutting issues, and improving value chain development for priority products. It includes actions and measures in 19 strategic areas, covering 7 cross-cutting and 12 product-specific sub-sectors, as well as SWOT analyses for priority products, export targets and the identification of responsible agencies.
+
+Under National Agriculture Policy, fiscal plan of 2075-76, trade is recognized as an important factor towards achieving the objective of long-term inclusive and sustainable growth. Nepal Trade Integration Strategy (NTIS), 2016 has similar propensity. In addition, recently formulated Trade Policy, 2015 includes outward-looking strategies, which emphasize export promotion. The objective of the Trade Policy is to reduce the trade deficit by enhancing the supply side capacity, and to enhance access of goods, services and intellectual property to regional and world markets. It also aims to complement other policies, including the NTIS, and to implement WTO decisions.
+
+#### Nepal Trade Integration Strategy, 2016
+
+1. NTIS 2016 identified 190 actions to be implemented by 2020, with the focus on:
+
+- Improving supply capacity through increased production and productivity; product and value chain development; development of trade-related infrastructure to address supply-side constraints; and enhanced market access in terms of both technical and institutional capacity building. The four main objectives are:
+- Strengthen the trade- and export-enabling environment;
+- Focus on product development and strengthen the supply-side capacity of priority products;
+- Strengthen institutional capacity, trade negotiation and inter-agency coordination; and
+- Build and enhance trade-related infrastructure.
+
+2. Strategic areas identified in NTIS, 2016
+
+3. Challenges to be addressed to achieve targeted goals for the development of the export sectors:
+
+- Adoption of key legal and regulatory reforms to create a trade and investment enabling environment remains slow;
+- Transportation and energy infrastructure remain a constraint, particularly as Nepal is a landlocked country; 
+- Non-tariff measures have been serious bottlenecks for the access of Nepalese products into foreign markets; 
+- Inadequate legal framework to protect intellectual property rights;
+- Nepal lacks clear, well-coordinated, and institutionalized value-chains to maximize value addition in potential export sectors;
+- Nepal lacks sufficient investment in modern technologies for products and services with export potential; attracting foreign investment to expand the manufacturing base and technology transfer to ensure quality products remains an additional challenge to trade sector development;
+- Exported commodities are mainly unprocessed goods;
+- Shortage of semi-skilled labour;
+- Service sectors lack a focus on international trade;
+- Coordination amongst line agencies remains weak; and
+- Technical and financial support from donors has not focused exclusively on areas of trade-related infrastructure and capacity development.
+
+In FY 2017-18, the Government allocated about USD 4 million to support the implementation of NTIS, double the amount of the previous year. According to OECD Credit Reporting System (CRS) data, Nepal received USD 278.8 million in 2016 in aid for trade.
+
+### Trade enforcing mechanisms and barriers to trade
+
+#### WTO
+
+World Trade Organization (WTO) became effective from January 1, 1995. To date 147 countries including Nepal have become its members and about 97% of the merchandise trade in the globe is in the hands of WTO members. Nepal has been a WTO Member since 23 April 2004 when it became the first least developed country (LDC) to join the WTO through the full working party negotiation process. As an LDC, it is a beneficiary of the special and differential treatment provisions applicable to the LDCs under WTO agreements. It actively participates in the WTO, including as an LDC and on behalf of LDCs – including through its role as Coordinator of the LDC group in the WTO in 2013 and during the Ministerial Conference in Bali.
+
+Under WTO non-tariff and other trade barriers are converted into tariff barriers and an upper bound is set for the tariff barriers. This makes the foreign companies, investors and governments confident that the non-tariff and other trade barriers will not be imposed in future and tariff barriers will not be raised above the bound set for it. Market opening commitment helps the companies and investors to estimate the market size for their products. Developing countries and LDCs get more time for adjustment and greater flexibility in rules. In addition, the LDCs get some privileges of technical assistance from developed countries.
+
+According to the authorities, Nepal is a strong believer in, and supporter of, a rules-based, transparent, and non-discriminatory multilateral trading system. It is of the view that international support mechanisms like Aid for Trade should leverage their efforts with other donor partners to strengthen the technical, regulatory, institutional and infrastructural capacities of LDCs. Nepal ratified the TFA on 24 January 2017, and the protocol amending the TRIPS agreement on 11 March 2016. It accords at least MFN treatment to all its trading partners, including for non-WTO Members. As of August 2018, it had not been involved in any cases under the WTO dispute settlement mechanism. Since 2012, Nepal has made efforts to fulfil its notifications obligations to the WTO, including the notification of category 'A' commitments under the TFA. The most recent notifications (2012-18) on the different legal provisions are as: 
+
+1. Agreement on Agriculture
+2. General Agreement on Trade in Services
+3. Agreement on Implementation of Article VI of the GATT 1994 (Anti-Dumping Agreement)
+4. Agreement on Implementation of Article VII of the GATT 1994 (Customs Valuation Agreement)
+5. Agreement on Trade Facilitation
+6. Agreement on Rules of Origin
+7. Agreement on Import Licensing Procedures
+8. Agreement on Subsidies and Countervailing Measures
+9. Agreement on Trade-Related Aspects of Intellectual Property Rights
+10. Agreement on Safeguards
+11. Agreement on the Application of Sanitary and Phytosanitary Measures
+12. Agreement on Technical Barriers to Trade
+
+##### General agreement on trade and tariffs (GATT)
+
+GATT is a multilateral agreement on trade in goods. Before 1995, GATT itself was an international agency containing the main set of rules for international trade.
+
+Since the establishment of WTO, GATT has become one of the agreements dealing with trade in goods. This agreement is concerned with associate agreements, understandings, and decisions made for the biggest portion of constraints and allow for most of the exclusions in trade policy formulation by members. GATT is led by the principles of WTO under which members must design and implement their trade policies to be non-discriminatory. Members must observe the national treatment principle and when granting protection, use tariffs, which are reasonable and bound.
+
+Under GATT, members deal with:
+
+- Agriculture
+- Health regulations for farm products
+- Textiles and clothing
+- Product standards
+- Investment measures
+- Antidumping measures
+- Customs valuation methods
+- Pre-shipment inspection
+- Rates of origin
+- Import licensing
+- Subsidies and counter measures
+- Safeguards
+
+#### Regional and preferential agreements
+
+Nepal continues to participate in two overlapping regional agreements: the South Asian Free Tree Area (SAFTA) and the Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation (BIMSTEC); and in 17 bilateral agreements. Nepal's international trade (in goods) is mainly concentrated with reciprocal RTA parties, which represented 67% of its imports and 58% of its exports (Chart 2.2); practically all this trade is with India, which represented 65% and 57% of Nepal's imports and exports, respectively, in 2017.
+
+##### South Asian Free Trade Area (SAFTA) and South Asian Association for Regional Cooperation (SAARC)
+
+In order to deepen trade cooperation amongst the SAARC memberships, the SAFTA was signed in January 2004 and has been implemented and started tariff liberalization effective from July 2006 (for Nepal). As a successor to the South Asian Preferential Trade Arrangement (SAPTA), the SAFTA was revived to reach a higher level of integration of trade in the region, by recognizing the varying levels of development of its members. It provides the basis for trade liberalization programmes for LDCs and non-LDCs separately, in terms of tariff reductions and inclusion of products in the sensitive list. As an LDC, Nepal benefits from special and differential treatment accorded to LDCs under the Arrangement, while offering similar benefits to other LDCs (i.e. Afghanistan, Bangladesh, and Bhutan). Each SAFTA member maintains a list of exceptions (Sensitive List), and Nepal's original list contained 1,295 tariff lines at the HS eight-digit level for non-LDCs, and 1,257 tariff lines for LDCs.
+
+At the Sixth Meeting of the SAFTA Ministerial Council (SMC) in 2012, an initiative to reduce the number of products on the sensitive lists by 20% was undertaken; this was implemented by Nepal in 2014 through a Financial Ordinance. As a result, Nepal currently has 1,036 tariff lines for non LDCs and 998 tariff lines for LDCs on its revised Sensitive List. Under the SAFTA, Nepal provides lower duties or a margin of preference on over 2,837 tariff lines for non-LDCs, and an additional 37 lines for LDCs, with a preference margin of 2.2 percentage  points vis-à-vis the prevailing MFN tariffs in agriculture products (WTO definition) and 2.9 percentage points (3 percentage points for LDCs) in non-agriculture products (Section 3.1.3.4). Despite the fact that Nepal has been engaging actively in negotiations in the SAFTA in order to benefit from the preferential market access in the region, there is not much evidence of any increase in export volumes under the agreement. Neither Nepal nor Bhutan recorded exports under the SAFTA until 2013. One reason for this may be because Nepal's exports are mainly to India, with which it has a separate bilateral agreement. In addition, SAARC members have been undertaking initiatives to cooperate in other areas, such as harmonization of customs procedures, standards, double taxation, and trade in services. At the Sixteenth SAARC Summit in 2010, the SATIS was signed; it was subsequently ratified by all members’ states and entered into force on 29 November 2012. As noted by the Eleventh Meeting of the Expert Group, held in Islamabad on 5 July 2015, Nepal was in a position to provide the final offers list22, and the authorities stated that Nepal has submitted its final offer to the SAARC Secretariat.
+ 
+##### Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation (BIMSTEC)
+
+In 2004, Nepal, along with Bhutan, joined the agreement now known as the Bay of Bengal Initiative for Multi-Sectoral Technical and Economic Cooperation (BIMSTEC). Also in 2004, all BIMSTEC members agreed to establish the Framework Agreement on BIMSTEC Free Trade Area. The aim of the Framework Agreement is to stimulate trade and investment among the parties, and to attract trade and investment from outside. A Trade Negotiating Committee (TNC) was set up to negotiate on trade in goods and services, investment, trade facilitation and technical assistance for LDCs in BIMSTEC. After 20 rounds of the TNC, four agreements were reported to be in the final stages of negotiation and three agreements are under negotiation.
+
+Tariff reductions/elimination are to be implemented under a "fast track" or a "normal track", depending on whether the country granting the preference is a developing country or an LDC, and whether the country getting the preference is a developing country or an LDC. Due to the impact of the 2015 earthquakes and the adoption of the new Constitution, Nepal was granted an additional year for both the commencement and the completion of the time-frame.
+
+##### Bilateral agreement between India and Nepal
+
+Nepal and India concluded the bilateral Treaty of Transit, Treaty of Trade, Railways Services Agreement, and Agreement of Cooperation to Control Unauthorized Trade. The Transit Treaty allows Nepal to trade with other countries through the Kolkata/Haldia ports and, since 2016, Vishakapatnam. The revised Treaty of Trade with India, signed in October 2009, replaced its 1991 predecessor. According to Article XII of the Treaty, it is automatically renewed every seven years, unless one of the parties informs the other to the contrary. Under the Treaty, Nepal and India accord each other unconditional MFN treatment, and a mutually agreed list of primary products are exempt from customs duties and quantitative restrictions on a reciprocal basis. Industrial products from Nepal are given (non-reciprocal) access to the Indian market, free of customs duties and quantitative restrictions. Exceptions to this duty-free access include vegetable fats, acrylic yarn, zinc oxide, and copper products under HS headings 74 and 8544. For these products originating in Nepal, India applies tariff quotas, with an in-quota rate of 0%.
+
+### Trade measures in force
+
+#### Tariff in Agricultural products
+
+Import tariffs are generally assessed on an ad valorem basis.  Nepal uses the Harmonized Tariff System (HTS) for classification purposes.  Import duty rates vary from zero to 80 percent.  Live animals, fish, and most primary products are exempt from import duties if imported from India, while a duty of 10 percent is applied on imports of these items from countries other than India.  Machinery or goods related to basic needs are charged at a 5 percent rate.  Custom duties are generally assessed on the cost, insurance, and freight (CIF) value.  Imported goods are also liable for a value-added Tax (VAT) of 13 percent levied on CIF plus customs duty value.  Changes in the import tariffs, other duties, and taxes are generally announced through the annual budget, and later ratified by the Parliament before it is enforced.  The annual budget for FY 2019/20 of amount NPR 1.53 trillion budget for the new fiscal year was released on May 29, 2019.
+
+Table \@ref{tab:np-product-tariff-rates} of bound duties by product category [@nepalwtotariffdata]
+
+```{r tidying-np-product-tariff-rates, message=FALSE, warning=FALSE}
+np_product_trates <- tidyxl::xlsx_cells("./data/nepalwtotariff/NP_e.xlsx", sheet = "English")
+# np_product_trates %>% glimpse()
+
+np_formats <- xlsx_formats("./data/nepalwtotariff/NP_e.xlsx")
+# np_formats %>% glimpse()
+
+# identify the local formating of cell, whether or not it has been border lined at bottom
+
+bottom_ulined_style <- np_formats$local$border$bottom$style
+# bottom_ulined_style[54] # styled with thin line at bottom
+# bottom_ulined_style[50] # not styled
+
+# # for product_group_major
+# mask only for doubly lined bottom border
+bottom_ulined_style_double <- if_else(bottom_ulined_style == "double", TRUE, FALSE, missing = FALSE)
+bottom_ulined_style_medium <- if_else(bottom_ulined_style == "medium", TRUE, FALSE, missing = FALSE)
+
+# since two separate line styles are used, one in middle of table and the other at the end
+# we need to combine both of those 
+bottom_ulined_style_major <- bottom_ulined_style_double | bottom_ulined_style_medium
+
+# # for product_group_minor
+bottom_ulined_style_minor <- if_else(bottom_ulined_style == "thin", TRUE, FALSE, missing = FALSE)
+
+# clean beheaded data
+np_product_trates_tidy <- np_product_trates %>% 
+  filter(row > 20, row <= 45) %>% 
+  filter(!is_blank) %>% 
+  behead("NNW", "duties_imports") %>% 
+  behead("N", "binds_share") %>% 
+  behead("N", "bs_leftover") %>% 
+  # mutate to add major and minor product categories
+  mutate(product_group_major_border = bottom_ulined_style_major[local_format_id]) %>% 
+  mutate(product_group_minor_border = bottom_ulined_style_minor[local_format_id]) %>% 
+  behead("W", "product_group") %>% 
+  # filter(address == "F33") %>%
+  select(row, col, numeric, character, duties_imports, data_type,
+         binds_share, bs_leftover, product_group, product_group_major_border, product_group_minor_border) %>% 
+  mutate(binds_share = if_else(!is.na(bs_leftover), paste(binds_share, bs_leftover, sep = " "), binds_share)) %>% 
+  select(-bs_leftover)
+
+np_product_trates_tidy_short <- np_product_trates_tidy %>% 
+  mutate(numeric_percent = if_else(is.na(numeric), "percent", "numeric", missing = NA_character_)) %>% 
+  mutate(numeric = if_else(is.na(numeric), as.numeric(character), numeric, missing = NA_real_)) %>% 
+  filter(!binds_share %in% c("formatting of Cols E and I bnd", "NA app")) %>% 
+  unite(di_bs, duties_imports, binds_share, sep = "_") %>% 
+  spread(di_bs, value = numeric, drop = TRUE) %>%
+  # trouble: These cells control MAX values
+  select(-contains("These cells control"), row, col, -data_type, -character) %>% 
+  # arrange(product_group_major_border, product_group_minor_border) %>% 
+  select(-numeric_percent, -row, -col) %>% 
+  nest(-product_group, -product_group_major_border, -product_group_minor_border) %>% 
+  mutate(data = map(data, ~ map_dfc(., na.omit))) %>% 
+  unnest()
+
+```
+
+
+```{r np-product-tariff-rates, warning=FALSE, message=FALSE}
+major <- which(np_product_trates_tidy_short$product_group_major_border)
+minor <- which(np_product_trates_tidy_short$product_group_minor_border)
+
+np_product_trates_tidy_short %>% 
+  select(-product_group_minor_border, -product_group_major_border) %>% 
+  rename_all(list(~str_replace_all(., "_", " "))) %>% 
+  knitr::kable(format = "latex", caption = "Tariffs and imports by product groups", 
+               booktabs = TRUE, longtable = TRUE) %>% 
+  kableExtra::kable_styling(latex_options = "HOLD_position", font_size = 8) %>% 
+  kableExtra::row_spec(row = major, hline_after = TRUE) %>% 
+  kableExtra::row_spec(row = minor, hline_after = TRUE) %>% 
+  kableExtra::collapse_rows(columns = 1, valign = "middle") %>% 
+  kableExtra::column_spec(column = 1:10, width = c("10em", rep("4em", 9)))
+
+```
+
+
+#### Other duties and charges affecting import of Agriculture products
+
+Nepal had committed to fully eliminate other duties and charges (ODCs) before acceding to the WTO, with a transition period of 10 years which ended in 2013. It also agreed not to introduce any new ODCs in the future. According to the authorities, no ODCs are applied, with the exception of an agriculture reform fee of 5% (or 8% on a small number of products) which is currently levied on selected agriculture products imported from India and the Tibet Autonomous Region of China where no custom duty is applied.
+
+In addition to customs tariffs, the Department of Customs also collects VAT and excise duties at the customs border, which represent a large part of Nepal's revenue collection.
+
+### Key Features of Nepalese Agriculture Exports and Imports
+
+In order to rationalize the production in agriculture it is imperative to make Nepali agriculture sensitive to domestic and international markets. It will help in the diversification and expansion of agricultural base of Nepal. With its expansion and diversification it can be more export oriented. This will help in driving Nepal's future economic growth that will act positively for poverty reduction. There are two reasons for this. First, the size of the agricultural sector within Nepal's economy indicates that strong growth in agriculture is a necessary condition for any broad-based, overall economic growth. Second, there is a potential to produce exportable crops in Nepal. The international competitiveness of Nepali agricultural exports is constrained in numerous ways. They are mentioned in the subsequent sub sections.
+
+#### Export of Small Size of Non Traditional Goods
+
+Compared to the exports of nonagricultural products the export of agricultural products is limited and the value of exports is of relatively small in size (??). Most of the agricultural products are exported to the neighboring countries. Some agricultural products like Tea, coffee, spices are also exported to the countries of Europe. Because of the small size of export, the bargaining power of Nepali exporters is limited and weak.
+
+#### Import of Food Items and Raw Materials
+
+In spite of having an agrarian economy Nepal still imports large quantity of food products to meet her consumption needs and provide raw materials to her industries (??). The importation of food items from other countries and particularly from India has helped reduce the price of such products within the country and the Nepali farmers are not getting real price for their products. This has brought competitive atmosphere within the country. In this context it is imperative to enhance the competitive strengths of the Nepali products.
+
+### Economics of trade in cereals
+
+- Effect of cereal import in price of national food crops
+- Impact of cereal trade in national level supply and demand
+
+### Significance and extent of Nepal-India trade relationship
+
+- Impact of agriculture trade policies of India on Nepalese cereal commodity market
+
+### Revisiting national trade policy for food sufficiency achievement and trade balancing
+
+In the past, hierarchical structures have been found in distribution of trade benefit arising from Nepal's liberalized trade scenario. @cockburn2001trade and @sapkota2008trade, both using SAM reflecting various financial periods (1986 and 1996-97, respectively) showed stratification of the policy impact by geographical regions within a computable general equilibrium model framework with mountains being the worse off than terai regions. 
+
+## Trade policy analysis tools
+
+As noted earlier, trade policy is defined by factors of production and prevailing trade and globalization related bindings and agreements, such as those involving multilateral tariff committments and preferential trade agreements. In order to make informed policy decisions reliable information and effect analysis of trade policies is required. It goes without saying that analyzing the effects of change in tariffs as detailed in theoretical discourse is different than real world interpretation of tariff and non-tariff measures. Moreover, defining macroeconomic indicators in terms of agricultural trade and quantifying its effects to reflect the changes in income distribution is in wide speculation. Current study aims to put into context some popular analytical techniques used in macroeconomics, and specifically policy analysis [@bacchetta2008practical]. As such, a range of options are available. These includes:
+
+- Descriptive statistics and modelling approaches, 
+- _Ex ante_ and _ex post_ approaches, 
+- Partial and general equilibrium. 
+
+In the beginning descriptive tools come to paint the picture of trade performace of a country. Questions like, How much does a country trade?; What does it trade?; and With whom does it trade? are simply answered to reflect on the overall performace.
+
+Assessment of descriptive indicators, naturally, are labile based on the objectives we set. For our study -- trade of Agricultural commodity -- the performance indicator "How much" can be set forth as being determined by factors such as trade openness (function of trade barrier, foreign exchange regime, geographical accessibility, geographical remoteness and integration to global value chains). Although, trade openness is in itself a result of policy change as much as it is a indicator feature. 
+
+As to the "what" question, a country's import and export patterns are determined in the standard trade model by its endowment of productive factors and the technology (land, natural resources, physical and capital) it has available. The question of "what" is also directly related to government policy on diversification [@bacchetta2008practical].
+
+Influencing trade patterns may be a legitimate policy objective. Governments typically try to achieve this with supply-side policies aimed at "endowment building" and technology enhancement (and to a lesser extent with demand-side policies such as reducing trade barriers). Thus, any meaningful discussion of what a country trades should take into account what it can trade, ideally through direct measurement of factor and technology endowments. As endowment data are rarely available, in their absence revealed comparative advantage (RCA) indices are used; because they are based on trade data, however, they cannot be used to compare actual with potential sectoral trade patterns [??RCA paper].
+
+Finally, the characteristics of a country's trading partners affect how much it will gain from trade. This matches the description of "with whom". For instance, it is imperative that trade links with growing and technologically sophisticated markets can boost domestic productivity growth. So natural trading partners are of special interest, which typically depends on geography (distance, terrain), infrastructure and other links, such as historical ties. Additionally, the observation of regional trade patterns can help government authorities assess whether potential preferential partners are "natural" or not.
+
+### Description of indicators
+
+#### Overall openness
+
+1. Trade over GDP measure
+
+<!-- The most natural measure of a country's integration in world trade is its degree of openness. One might suppose that measuring a country's openness is a relatively straightforward endeavour. Let $X^i$ , $M^i$ and $Y^i$ be respectively country $i$'s total exports, total imports and GDP. Country $i$'s openness ratio is defined as: -->
+
+<!-- $$ -->
+<!-- O^i = \frac{X^i + M^i}{Yi} -->
+<!-- $$ -->
+2. Import content of exports and external orientation
+3. Trade in intermediate goods
+4. Offshoring
+5. Vertical specialization
+
+#### Trade composition
+
+1. Sectoral and geographical orientation of trade
+2. Intra-industry trade
+3. Margins of export growth
+4. Export diversification
+
+#### Comparative advantage
+
+1. Revealed comparative advantage
+2. Revealed technology content: PRODY index
+3. Reaveled factor intensities
+
+#### Analysing regional trade
+
+1. Regional intensity of trade
+2. Trade complementarity
+
+#### Other indicators
+
+1. Real effective exchange rate
+2. Barter terms of trade
+3. Income terms of trade
+
+## Trade policy impact modelling
+
+Some of these approaches form the basis of problem exposition of current trends in agricultural trade and its policy implications. Also available information (in the form of data and fact reports) will be discussed and summarized for use in estimation of economic indicators. Current study will employ _ex post_ approaches where historical data will be used to conduct an analysis of the effects of past trade policy. An assumption that past relations continue to be relevant in the future is an important stepping stone for the further equilibrium analysis. Finally, implications of change in trade policy for food grain sufficiency will be projected and aspect of more balanced trade scenario will be explored within the equilibrium framework. Thus, answering at large "what if" questions surrounding agriculture sector.
+
+Partial equilibrium analysis focuses on one or multiple specific markets or products, ignoring the link between factor incomes and expenditures, while general equilibrium explicitly accounts for all the links between sectors of an economy – households, firms, governments and the rest of the world. In econometric models, parameter values are estimated using statistical techniques and they come with confidence intervals. Use case of econometric model could be in assessment of the distributional effects of trade policy. This model, factors in the ex-post investigation of variables of interest, while requiring both variable level of econometric sophistication and data. In simulation models, however, behavioural parameters are typically drawn from a variety of sources, while other parameters are chosen so that the model is able to reproduce exactly the data of a reference year (calibration).
+
+Partial equilibrium models are best suited for the analysis of sectoral policies, or when interactions with other markets are expected to be limited. They allow for inclusion of more market relevant details than GE models. E.g.: assessing the welfare effect of a reduction of the tariff on wheat.
+
+```{r comparison-pe-ge}
+pe_ge <- tribble(~"PE", ~"GE",
+                 0, 1,
+                 0, 1,
+                 1, 0,
+                 1, 0,
+                 1, 0,
+                 1, 0,
+                 0, 1)
+
+pe_ge %>% 
+  add_column(.before = 1, "  " = c("Capaturing economy wide linkages", 
+                                   "Consistency with budget constraints",
+                                   "Capturing disaggregated effects",
+                                   "Capturing complicated policy mechanisms",
+                                   "Use of timely data",
+                                   "Capturing short and medium term effects",
+                                   "Capturing long term effects")) %>% 
+  kable(format = "latex", booktabs = TRUE, caption = "Partial versus general equilibrium models", 
+        escape = FALSE, longtable = TRUE, 
+        col.names = c(" ", "PE", "GE")) %>% 
+  kableExtra::kable_styling(latex_options = "HOLD_position")
+
+```
+
+Source: WITS Advanced Course Presentation (World Bank, 2008)
+
+# Methodology
+
+## General equilibrium (GE) modelling framework
+
+In describing a suite of [Recursive Models for Dynamic Linear Economies](https://lectures.quantecon.org/py/hs_recursive_models.html), model classess are defined in an implementation of python program package called quantecon. Using this model class, growth and sustainance of equilibrium economies due changes in growth affecting parameters, and a scenario of changed growth rate overall is described in lecture series: [Growth in Dynamic Linear Economies](https://lectures.quantecon.org/py/growth_in_dles.html)
+
+Yet another application of recursive models is provided by constructing instances of the [Cattle Cycles](https://lectures.quantecon.org/py/cattle_cycles.html) model of Rosen, Murphy and Scheinkman (1994) [RMS94]. That paper constructs a rational expectations equilibrium model to understand sources of recurrent cycles in US cattle stocks and prices. The model features a static linear demand curve and a "time-to-grow" structure for cattle.
+
+CGE models use an entirely different and a simpler approach. They too have a longer history and have been very widely applied to practical policy questions such as the impact of trade deals than General equilibrium models. Many economic consultancies have their own in-house CGE model/s which they wheel out and aadapt to a range of their clients’ questions. They work by comparing static equilibrium states, assumed to meet requirements (such as markets clearing effectively instantly) needed to be in equilibrium, “calibrated” to the real economy by choosing a set of numbers for the various parameters that match the state of the economy at a particular point in time. The model is then adjusted - for example, to allow for changes in prices from a free trade agreement - and the new equilibrium compared to the old.
+
+DSGE models are also based on an assumption of a steady state equilibrium of the economy, but they allow for real amounts of time being taken to move towards that steady state, and for a random (ie stochastic) element in the path taken towards that steady state. This greatly improves their coherence in terms of philosophy of science - compared to a CGE which simply calibrates to a single point of time and doesn’t have any degrees of freedom to quantify uncertainty or the fit of the model to reality, the parameters in DSGEs can be estimated based on a history of observations, and parameters can have probability distributions not just points. Parameters are typically estimated with Bayesian methods.
+
+**Critiques**
+
+General Equilibrium approach has been roundly criticised from the margins of the economics field (pun) ever since it leapt to dominance in the second half of the twentieth century, from a philosophy of science perspective (doesn’t really make Popperian falsifiable predictions) and from the obvious and acknowledged absurdity/simplification of the assumptions needed to make the system tractable.
+
+With an upsurge in computing power, agent-based models are now possible that allow simulation of much more complex interactions between agents who lack the perfect knowledge required in the GE approach and behave realistically in terms of interactions and other ways. Such models lack analytical solutions (ie ones that could in principle be worked out with pen and paper) but Monte Carlo methods can lead to insight as to how the real economy behaves.
+
+### Defining a GE model with gEcon
+
+The definition of agents’ optimisation problems in a sophisticated DGSE in the gEcon environment looks like this example extract from an [implementation of the classic Smets-Wouters 2003 DSGE for the Euro area](https://ideas.repec.org/p/pra/mprapa/64440.html). The total model description is around 500 lines of code.
+
+This particular block is describing aspects of the price setting mechanism. 
+
+```
+block PRICE_SETTING_PROBLEM # example gEcon language extract
+{
+    identities
+    {
+        g_1[] = (1 + lambda_p) * g_2[] + eta_p[];
+        g_1[] = lambda[] * pi_star[] * Y[] + beta * xi_p *
+                E[][(pi[] ^ gamma_p / pi[1]) ^ (-1 / lambda_p) *
+                    (pi_star[] / pi_star[1]) * g_1[1]];
+        g_2[] = lambda[] * mc[] * Y[] + beta * xi_p *
+                E[][(pi[] ^ gamma_p / pi[1]) ^ (-((1 + lambda_p) / lambda_p)) * g_2[1]];
+    };
+
+    shocks
+    {
+        eta_p[];                # Price mark-up shock
+    };
+
+    calibration
+    {
+        xi_p = 0.908;           # Probability of not receiving the ``price-change signal''
+        gamma_p = 0.469;        # Indexation parameter for non-optimising firms
+    };
+};
+```
+
+Similar code controls parts of the system such as the approach taken by the monetary authority (how much weight do they give to controlling inflation?), government expenditure, friction in the labour market, etc.
+
+Incidentally, when the gEcon authors implemented the Smets-Wouters '03 model they identified a few small mistakes in the original implementation.
+
+gEcon is implemented in R; the authors give the reason for this (as opposed to more traditional Matlab / Octave / GAMS solution) being the greater flexibility ("not everything needs to be a matrix") and easy connections to full range of other econometric and data management methods.
+
+Impulse response functions
+
+In a method familiar to users of other economic modelling methods like Vector Autoregressions (VARs), it’s possible to "shock" the DSGE system and see the impact play out over time as the complex inter-relationships of agents within the system move from the shock towards a new equilibrium. Here’s an example of the expected impact of a shock to the inflation objective applied to the Smets-Wouters '03 model:
+
+One of the characteristics of the DSGE models is the importance they give to agents' expectations. As their philosophy has increasingly dominated in recent decades, discussion of monetary policy has become less focused on individual actions of the monetary authority than on the overal regime and set of targets. Any more-than-casual observer of public economic debate will have noticed the importance given to discussion of the overall inflation-targetting regime. 
+
+Hence the plot in Figure \ref{fig:geq-plot} shows the modelled impact of a change in the inflation objective - with no other direct exogenous shock in the model at all.
+
+Here’s the R code that produced that plot:
+
+```{r geq-plot}
+# set covariance matrix of the parameters to be used in shock simulation:
+a <- c(eta_b = 0.336 ^ 2, eta_L = 3.52 ^ 2, eta_I = 0.085 ^ 2, eta_a = 0.598 ^ 2,
+       eta_w = 0.6853261 ^ 2, eta_p = 0.7896512 ^ 2,
+       eta_G = 0.325 ^ 2, eta_R = 0.081 ^ 2, eta_pi = 0.017 ^ 2)
+sw_gecon3  <- set_shock_cov_mat(sw_gecon2, shock_matrix = diag(a), shock_order = names(a))
+
+# compute the moments with that covariance matrix:
+sw_gecon3 <- compute_moments(sw_gecon3)
+
+sw_gecon_irf <- compute_irf(sw_gecon3, var_list = c('C', 'Y', 'K', 'I', 'L'), chol = T,
+                            shock_list = list('eta_pi'), path_length = 40)
+plot_simulation(sw_gecon_irf, to_tex = FALSE)
+```
+
+
+```{r geqmodel, eval=FALSE}
+require(gEcon)
+
+# make and load the model
+xrbc <- make_model("./data/gecon/rbc.gcn")
+
+# solve the model
+rbc <- steady_state(rbc)
+rbc <- solve_pert(rbc)
+
+# compute and print correlations
+rbc <- set_shock_cov_mat(rbc, cov_matrix = matrix(0.01, 1, 1),
+                         shock_order = "epsilon_Z")
+rbc <- compute_model_stats(rbc, ref_var = "Y")
+get_model_stats(rbc)
+
+# compute and plot the IRFs
+irf_rbc <- compute_irf(rbc)
+plot_simulation(irf_rbc)
+summary(rbc)
+```
+
+
+## Partial Equilibrium (PE) modelling framework
+
+### Step 1: Defining terminologies
+
+Assume that we would like to gauge ex-ante the impact of a change in trade policy on prices, trade flows, tariff revenues and welfare. We start with a graphical illustration of the simplest case, namely the effect of the elimination of a tariff t by a small country that faces fixed world prices, $P^*$ (Figure \@ref(fig:tariff-reduce-small-ctry)).
+
+```{r tariff-reduce-small-ctry, fig.cap=c("Tariff reduction in the small country case"), out.width="90%", results='hold'}
+# pdftools::pdf_convert("./../wto_unctad12_e.pdf", pages = 143, dpi = 250, format = "png", filenames = "./images/tariff_reduce_small_ctry.png")
+
+knitr::include_graphics("./images/tariff_reduce_small_ctry.png")
+```
+
+At world price $P^* + t$, domestic demand is given by $C_0$ , domestic supply is $Y_0$ and imports are $M_0$ . The elimination of the tariff $t$ decreases the domestic price by the full amount $t$ and as a consequence increases demand to $C_1$ and increases domestic supply to $Y_1$ . Imports increase from $M_0$ to $M_1$.
+
+The change in domestic price leads to a consumer surplus gain ($a+b+c+d$), as she/he is now able to purchase a larger amount of goods (i.e. $C_1 – C_0$). The tariff elimination leads to a producer surplus loss ($a$) and a loss in tariff revenue for the taxpayers ($c$). The total gain of the tariff elimination is thus the area ($b + d$) or the triangle under the import demand curve. As the height and base of the triangle depend on the tariff, the deadweight loss depends on the square of the tariff.
+
+Overall, we observe that in the case of a small country an import tariff elimination lowers the domestic price by the full amount of the tariff $t$. It also increases imports and removes the tariff revenue, $c$. However, the elimination of a tariff always results in a net gain that depends on the square of the tariff.
+
+```{r tariff-reduce-large-ctry, fig.cap=c("Tariff reduction in the large country case"), out.width="90%", results='hold'}
+# pdftools::pdf_convert("./../wto_unctad12_e.pdf", pages = 144, dpi = 250, format = "png", filenames = "./images/tariff_reduce_large_ctry.png")
+
+knitr::include_graphics("./images/tariff_reduce_large_ctry.png")
+```
+
+In the case of a large country, we assume that the foreign supply curve $X$ is upward sloping (depicted in panel (d) of Figure \@ref(fig:tariff-reduce-large-ctry)). With the tariff, the price equilibrium is at $P_0 + t$. Eliminating the tariff shifts the export supply to $X$, which results in a new domestic price $P_0$. As the supply curve is upward sloping, the decrease in the domestic price is less than the full amount of the tariff $t$.
+
+This also means that the foreign price in the presence of the tariff ($P$) is lower than the free trade price $P_0$ , which translates into a terms of trade gain ($e$) for the importing country. We recall that the terms of trade are usually defined by the price of a country’s exports divided by price of its imports.
+
+As in the case of a small country, eliminating a tariff leads to lower domestic prices, more imports and less domestic supply. However, all three effects are attenuated by the fact that the foreign supply curve is assumed to be upward sloping. The change in welfare looks now also slightly different, since there exist terms of trade gains. The area $e$ measures these terms of trade losses by multiplying the drop in prices by the new import demand, $M_1$ . The net gain triangle still corresponds to ($b + d$) and depends on the square of the tariff, $t_2$. The net welfare effect $e – (b + d )$ is thus positive for sufficiently small tariffs and negative for large tariffs.
+
+### Step 2: Measuring net welfare gains (Harberger triangle)
+
+Let us now turn to a theoretical analysis of the effect of an elimination of a tariff on trade flows, tariff revenue and welfare. Consider an economy whose representative individual has quasi-linear (QL) preferences over two goods: good zero, quantities of numeraire and good one are represented by $C_0$ and $C$ (one that competes for import) respectively. That is, the consumer's utility is:
+
+$$
+U = C_0 + u(C)
+$$
+
+where and $u(.)$ is an increasing, concave sub-utility function. Two useful properties of QL preferences are that:
+
+- The indirect utility function is the sum of income $I$ and consumer surplus $u (C) – PC$, where $P = P^*. (1+t)$ is the domestic price with $t$ being the tariff rate (it can be shown that the consumer derives no consumer surplus from good zero).
+
+- The marginal utility of income is always one, so at the consumer’s optimum $u^{\prime}= P$. 
+
+Income is the sum of profits $\pi$ and tariff revenue $tM$. Thus, once the representative individual’s optimal choices are taken into account, welfare as a function of the tariff is
+
+\begin{align}
+W(t) &= I + u(C) - PC \\
+&= \pi + tM + u(C) - PC
+\end{align}
+
+and the derivative of this expression with respect the tariff is:
+
+\begin{align}
+W^{\prime} &= u^{\prime}C^{\prime} - (C + PC^{\prime}) + \pi^{\prime} + M + tM^{\prime} \\
+&= (u^{\prime} - P^{\prime})C^{\prime} - C + Y + M + tM^{\prime} \\
+&= Y + M - C + tM^{\prime} \\
+&= \textbf{tM}^{\prime}
+\label{eq:wprimediff}
+\end{align}
+
+After differentiating, we take a second-order Taylor approximation of \@ref(eq:wprimediff) around $t = 0$, which yield the following after noting the known relationships.
+
+$$
+\Delta W = \frac{1M}{2P}\varepsilon t^2 \leq 0
+$$
+
+Here, the net welfare gain $\Delta W$ generated by elimination of a tariff $t$ depends only on the own-price elasticity of demand and the tariff itself.
+
+### Step 3: Product differentiation
+
+Most simulation models use the "Armington assumption" whereby varieties of goods are differentiated by country of origin [@armington1969theory]. A suggestion that rich countries export higher-quality or higher-technology varieties than poor ones do, is not generalizable when varieties are imported from countries at similar income levels.
+
+In simplifying our analysis, we consider a situation where there are just as many goods as factors. All countries are fully diversified, the outputs of all goods are jointly determined by full-employment conditions (one per factor of production) and factor prices are determined by zero-profit conditions (one per good). In this setting, a tariff change will trigger factor-price adjustments as predicted by the Stolper-Samuelson theorem.
+
+Assumption of more goods than factors complicates the analysis notably in two ways:
+
+1. If the vector of good prices happens to be such that our country of interest is fully diversified, its sectoral output levels are, in general, indeterminate because there are not enough full employment conditions to determine all output levels.
+
+2. If the vector of prices is different from the particular value that ensures diversification, then each country produces just as many goods as it has factors; countries are then in different
+"diversification cones".
+
+## Agricultural trade policy simulation model (ATPSM)
+
+The Agricultural Trade Policy Simulation Model (ATPSM) has been developed to analyse specifically agricultural trade policy issues. The model was mainly developed by UNCTAD in the 1990s in order to estimate the implications for developing countries of agricultural trade liberalization in the Uruguay Round. Compared with the other variants of PE models, ATPSM focuses more on standard agricultural policies such as quotas or subsidies as long as the latter are quantifiable.
+
+In the model, domestic prices are assumed to be a function of world market prices and national tariffs, subsidies, quotas and other support measures. For aggregate commodity groups such as beverages or cereals, countries are typically importers and exporters at the same time. To take into account this feature, ATPSM calculates composite tariffs that then determines the domestic consumption and production price.
+
+A domestic market tariff ($t_d$) is calculated as the weighted average of export tariffs ($t_x$) and import tariffs ($t_m$) using the imports ($M$) and exports ($X$) as weights:
+
+$$
+t_d = \frac{Xt_x + Mt_m}{M + X}
+$$
+
+ATPSM then computes a consumption (domestic market) tariff as the weighted average of the import tariff ($t_m$) and the domestic market tariff ($t_d$), with weights for imports and domestic supply, $S_d$, divided by total demand, D:
+
+$$
+t_c = \frac{Mt_m + S_dt_d}{D}
+$$
+
+In a similar way, a supply (domestic market) tariff is calculated as the weighted average of the export tariff ($t_x$) and the domestic market tariff ($t_d$), with weights for exports, domestic supply plus the domestic support tariff ($t_p$).
+
+$$
+t_s = \frac{Xt_x + S_dt_d}{S + t_p}
+$$
+
+These calculations are done for the baseline scenario and the scenario for a trade policy change.
+
+Four equations define the standard equation system for all countries:
+
+\begin{equation}
+\hat{D}_{j,i} = \mu_{j,j,i} \left[\hat{P}_{w_j} + (1+\hat{t}_{c_{j,i}}) \right] + \sum^K_{k = 1;j \neq k} \mu_{j,k,i} \left[\hat{P}_{w_k} + (1+\hat{t}_{c_{k,i}}) \right]
+(\#eq:dhatjji-equation)
+\end{equation}
+
+\begin{equation}
+\hat{S}_{j,i} = \varepsilon_{j,j,i} \left[\hat{P}_{w_j} + (1+\hat{t}_{p_{j,i}}) \right] + \sum^K_{k = 1;j \neq k} \varepsilon_{j,k,i} \left[\hat{P}_{w_k} + (1+\hat{t}_{p_{k,i}}) \right]
+(\#eq:shatjji-equation)
+\end{equation}
+
+
+\begin{equation}
+\Delta X_{j, i} = \gamma_{j,i} \Delta S_{j,i} 
+(\#eq:xji-equation)
+\end{equation}
+
+\begin{equation}
+\Delta M_{j,i} = D_{j,i} \hat{D}_{j,i} - S_{j,i} \hat{S}_{j, i} + \Delta X_{j,i}
+(\#eq:mji-equation)
+\end{equation}
+
+Where $\hat{}$ denotes a relative change and $\Delta$ an absolute change. The demand elasticity is denoted $\mu$ and the supply elasticity $\varepsilon$. $P_w$ stands for the world prices. Furthermore, $\gamma$ is the ratio of exports to production, $i$ is the country index and $j$ and $k$ are the commodity indices.
+
+Equation \@ref(eq:xji-equation) implies that the change in exports goes hand in hand with a change in production. In other words, the proportion of exports to production is always maintained. For example, if half of the initial production is exported, half of the change in production is also exported, i.e. the proportion of exports to production is maintained. Equation \@ref(eq:mji-equation) show that imports clears the market so that imports plus production equals domestic consumption and exports, imports clear the market, i.e., production plus imports equals domestic consumption plus exports. Domestic prices are determined as a function of the world market prices and policy variables, e.g. support measures, tariffs, subsidies and quotas. Model parameters are assembled from several sources, but mainly from the FAO World Food Model (WFM).
+
+This market clearing solution differs from the models above, as we no longer assume Armington elasticities. Using several mathematical manipulations, one is able to derive the change in world prices that can then be inserted into Equation \@ref(eq:dhatjji-equation)-\@ref(eq:mji-equation) in order to obtain the volume response, $\Delta X$, $\Delta M$, $\Delta A$ and $\Delta D$. Using the volume response, the trade revenue and welfare effect (sum of changes in producer surplus, consumer surplus and net government revenue) can be estimated.
+
+The trade revenue effect of a policy change is computed for each country and commodity as follows:
+
+$$
+\Delta R = (P_w + \Delta P_w)\left[(X + \Delta X)] - (M + \Delta M)\right]-P_w\left((X-M)\right)
+$$
+
+Total welfare is the sum of producer surplus, consumer surplus and government revenue, i.e. DW = DPS + DCS + DNGR. Following a simulation, a change in total welfare consists of the changes in these three components (A change in net government revenue, DNGR, is measured as within-quota and out-quota tariff revenue less export subsidy and domestic support expenditures and quota-rent foregone.) The changes in producer and consumer surpluses depend on changes in domestic market prices and changes in production and consumption quantities. The former also takes into account the change in the quota-rent received. Quota rents, U, are computed for each country and commodity as follows - the volume of imports times the world price times the difference between the in-quota and out-quota tariffs, i.e.
+
+$$
+U = QP_w(t_{m2} - t_{m1})
+$$
+
+where $Q$ denotes the import quota, $P_w$ the world price, $t_{m1}$ and $t_{m2}$ the in-quota and out-quota or applied tariff rates. Rent accrues only if the importing country is applying the out quota tariff rate. The capture rate, $c$, is the proportion of the rent captured by exporting producers as opposed to the proportion, $1-c$, going to the importing country. The change in quota rent received, $c\Delta U$, is added to producer surplus. For each country and commodity, producer and consumer surpluses are defined as:
+
+$$
+\Delta PS = \Delta P_p [S + 0.5(\Delta S_d)] + c\Delta U \\
+\Delta CS = -\Delta P_c[D + 0.5(\Delta D_d)]
+$$
+
+Change in net government revenue (DNGR) includes a change in tariff revenue, change in export subsidy expenditure, change in domestic support expenditure and change in quota rent not received by exporters. For each country and commodity, DNGR = DTR - DES - DDS + (1-c) DU, where TR is tariff revenue, ES is export subsidy expenditure, DS is domestic support expenditure and (1-c) DU is change in quota rent forgone.
+
+ATPSM can also estimate the economic consequences of import quota changes. The import quotas are assumed to be binding. Changing the import quotas will change the quota rents and tariff revenues but not the level of imports.
+
+ATPSM has been used to estimate the gains from a further multilateral liberalization of agricultural trade. One can imagine several scenarios for estimating the potential effects of such reforms on developed and developing countries. ATPSM offers the possibility of calculating the impact so as to include all main agricultural commodities and cover basically all world trade (176 countries including all larger economies). The rate cuts can be undertaken according to three types of measures: out-of-quota tariffs, export subsidies and domestic support. 
+
+```{r atpsm-scenarios, echo=FALSE, results='hold'}
+atpsm_scene <- tribble(~"Out of quota tariff", ~"Export subsidy", 
+                       ~"Domestic support", ~"Applied or bound rate",
+                           36, 21, 20, "Bound",
+                           24, 14, 13, "Bound")
+
+atpsm_scene %>% 
+  add_column(.before = 1, "Commodity code" = "All commodities") %>% 
+  add_column(.before = 1, "Country code" = c("Developing countries", "Developed countries")) %>% 
+  kable(format = "latex", booktabs = TRUE, caption = "Default scenarios for ATPSM", escape = TRUE) %>% 
+  kableExtra::kable_styling(latex_options = "hold_position") %>% 
+  kableExtra::add_header_above(c(" " = 2, "Rate cut (%)" = 3, " " = 1)) %>% 
+  kableExtra::add_header_above(c(" " = 2, "Parameters" = 4)) %>% 
+  kableExtra::column_spec(1:6, width = "70pt") %>% 
+  kableExtra::collapse_rows(columns = 2)
+  
+```
+
+ATPSM contains the default scenarios as set out in Table \@ref(tab:atpsm-scenarios). This implies a 36 per cent reduction in out-of-quota tariff, a 21 per cent reduction in export subsidies and a 20 per cent reduction in domestic support in developed countries. Two-thirds of these cuts apply to developing countries. ATPSM then estimates the impact on prices and produces five categories of economic estimates for each country:
+
+1. Volume changes (Quantity) in production consumption, imports and exports (X, M, S, and D)
+2. Trade value changes (changes in export, import and net trade revenue) 
+3. Welfare changes (changes in producer surplus, consumer surpluses and net government revenue) 
+4. Price changes (world market, wholesale (consumer) and farm prices) 
+5. Changes in tariff quota rents (forgone and receivable).
+
+## Data sources
+
+Secondary sources such as various economic surveys published by Ministry of Finance, published and nonpublished documents from Nepal Rastra Bank (NRB), Department of Commerce, Government of India, other research reports, articles and policy documents among others will be extensively utilized to enrich and validate the research. Mixed methods (quantitative and qualitative methods) will be used to collect the data; for example, semi structured questionnaire will be administrated among traders currently engaged in import-export activities to collect updated ground level information. The following table explains the data collection instruments and approaches
+
+Trade barrier related information will be ascertained from traders and merchants operating in cohert with transporters in the border region. Either one or more of the actors in import-export chain will be surveryed for the issues they face.
+
+For prospecting into major policy issues related to import-export barriers, expert opinions and documentation will be consulted. This will seek documents related to trade agreements, policies, existing legal provisions and research reports among others. (listing in Appendix ??)
+
+The model adapted for the study is based on data from various sources. The quantities of production, consumption, export and imports (in metric tonnes) are from FAOSTAT (Supply and Utilization Accounts and Trade Domain data). All prices are expressed in US dollars and are assembled from various sources. The base period for the model is 1998-2000 for production, imports, exports, etc. while tariffs and other policy parameters are based on the final year of implementation of the UR AoA (2000 for developed and 2004 for developing countries). In-quota tariffs, out-quota tariffs and global quotas are from the AMAD^[[Agricultural Market Access Data Base](http://www.amad.org/files/index.htm)] database and were aggregated to the ATPSM commodity levels. UNCTAD [COMTRADE](http://unstats.un.org/unsd/comtrade/) is the main source for bilateral trade flows, while applied tariffs are from the [TRAINS](http://r0.unctad.org/trains/) database.
+
+### Sample area and size
+
+Some major export-import outlets (in terai cities of Nepal) will be purposively selected based on the volume of transaction they engage in. To this end, a list of potential informants will be collected with primary correspondence and referral correspondence with business organization and Chamber of Commerce and Industry among others.
+
+### Data management and analysis
+
+For maintaining the validity and integrity of the data, questionnaires administered will be logically ordered. Entrying will be done manually by the researcher in a spreadsheet and its verification will be done in consulation with local level. Data management and analysis was done by using statistical analysis software R and available open source packages (A detailed listing of which is provided in Appendix ??). Economic and statistical methods were applied to identify the export/import barriers. 
+
+Identification and prioritization of barriers will be furnished by utilizing qualitative indicators, viz. from structured survey or those highlighted by literature. 
+- Logistic regression to estimate the probability the firms will experience barriers.
+- Graphs, export propensity index, revealed comparative advantage to analyze the secondary data.
+
+Parameters required calibration of dynamic stochastic general equilibrium model:
+
+Consumer: discount factor, capital depreciation rate, investment adjustment cost, capacity utilization cost, relative risk aversion, habit formation intensity, labor elasticity with respect to wage, labor disutility, 
+
+Other: Capital share in output, indexation for non optimizing workers, wage mark up, probability of missing wage-change signal, indexation for non optimizing funds, probability of missing price-change signal, weight given by monetary authority to inflation.
+
+## Model limitations
+
+All commodities are assumed to be tradable, i.e. there is no independent behaviour for domestic prices. There are no other domestic policies besides the Amber Box subsidies. All agricultural commodities are assumed to be homogeneous and so there is perfect substitution among goods produced in different countries, an assumption that may not always hold.
+
+Similarly, the model does not account for the possibility of countries exerting market power, though it is well known that international trade of several agricultural products is often concentrated in a small number of companies. Being a comparative static model, all non-price developments in supply and demand are not captured. Finally, there is no income variable in the model.
+
+An important assumption is that within-quota tariffs are not relevant even where quotas are unfilled. This means that the higher out-quota tariffs or applied rates, whichever is operative in a particular situation, are the key determinants of domestic prices. This assumption tends to overstate the benefits of liberalization, as there may be cases where in-quota rates are the relevant determinants of domestic prices. ATPSM does not account for preferential access and trade diversion. Bilateral quotas are allocated by a complex procedure based on each country's import and export shares. Quota rents are distributed in proportion to trade flows.
+
+# Bibliography
+
+1. Simultaneous equation modeling using watermelon suit data; https://www.core-econ.org/doing-economics/book/text/07-01.html
+
+2. Revisiting basic macroeconomics: Illustrations with R; Source: https://www.r-bloggers.com/revisiting-basic-macroeconomics-illustrations-with-r/
