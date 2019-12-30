@@ -114,14 +114,14 @@
 \begin{document}
 \maketitle
 
---\textgreater{}
-
 \hypertarget{retail-price-of-rice-and-wheat-in-major-districtwise-nepalese-market-hubs}{%
 \section{Retail price of rice and wheat in major districtwise Nepalese market hubs}\label{retail-price-of-rice-and-wheat-in-major-districtwise-nepalese-market-hubs}}
 
 The price series of districtwise market hubs available for study is mostly imbalanced and irregular and contains data for following 21 districts.
 
 Achham, Banke, Bhojpur, Chitwan, Dhankuta, Dhanusha, Doti, Illam, Jhapa, Jumla, Kailali, Kaski, Kathmandu, Morang, Nuwakot, Palpa, Parsa, Ramechap, Rolpa, Rupandehi, Surkhet.
+
+--\textgreater{}
 
 \hypertarget{aggregate-series-summary}{%
 \subsection{Aggregate series summary}\label{aggregate-series-summary}}
@@ -269,11 +269,11 @@ We test the logged prices of the series after first order differencing. Here we 
 
 The first order differencing renders all series stationary.
 
-\hypertarget{arima-modeling-logretail-price}{%
-\subsection{ARIMA modeling log(retail) price}\label{arima-modeling-logretail-price}}
+\hypertarget{arima-model}{%
+\section{ARIMA model}\label{arima-model}}
 
 \hypertarget{ar-model}{%
-\subsubsection{AR model}\label{ar-model}}
+\subsection{AR model}\label{ar-model}}
 
 A simple way to model dependence between consecutive observations is by specification of model such as one in Equation \ref{eqn:ar1-model}.
 
@@ -321,7 +321,7 @@ For an \(AR(1)\) model (Equation \ref{eqn:ar1-model}), following states may exis
 \end{itemize}
 
 \hypertarget{ma-model}{%
-\subsubsection{MA model}\label{ma-model}}
+\subsection{MA model}\label{ma-model}}
 
 An MA(q) process is
 
@@ -476,8 +476,11 @@ Rupandehi & sma1 & 0.215 & 0.075 & 2.854 & 0.005\\
 \end{tabular}
 \end{table}
 
-\hypertarget{var-modeling}{%
-\section{VAR modeling}\label{var-modeling}}
+\hypertarget{var-model}{%
+\section{VAR model}\label{var-model}}
+
+\hypertarget{var}{%
+\subsection{VAR}\label{var}}
 
 VAR is a system regression model, i.e., there are more than one dependent variable. The regression is defined by a set of linear dynamic equations where each variable is specified as a function of an equal number of lags of itself and all other variables in the system. Any additional variable, adds to the modeling complexity by increasing an extra equation to be estimated.
 
@@ -646,6 +649,101 @@ Rupandehi & constant & 0.157 & 0.070 & 2.259 & 0.025\\
 \subsection{Differenced series}\label{differenced-series}}
 
 \includegraphics{price_relations_of_food_cm_in_major_district_market_files/figure-latex/differenced-series-viz-1.pdf} \includegraphics{price_relations_of_food_cm_in_major_district_market_files/figure-latex/differenced-series-viz-2.pdf} \includegraphics{price_relations_of_food_cm_in_major_district_market_files/figure-latex/differenced-series-viz-3.pdf} \includegraphics{price_relations_of_food_cm_in_major_district_market_files/figure-latex/differenced-series-viz-4.pdf}
+
+\hypertarget{causality-test}{%
+\subsection{Causality test}\label{causality-test}}
+
+Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality (Granger \protect\hyperlink{ref-granger1988causality}{1988}) inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is \emph{granger-caused} by the second one.
+
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption {[}\^{}{[}1{]}(\url{https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html}){]}. Papana et al. (\protect\hyperlink{ref-papana2014identifying}{2014}) state that GC test can only to applied if both the series are stationary{[}\footnote{Mindy Mallory's blog article also suggests that series be stationary}(\url{http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/}){]}. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
+
+Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals.
+
+\hypertarget{case-i-gc-test-on-undifferenced-logprice-series}{%
+\subsubsection{Case I: GC test on undifferenced log(price) series}\label{case-i-gc-test-on-undifferenced-logprice-series}}
+
+\begin{table}
+
+\caption{\label{tab:gc-test-undifferenced-series}Granger causality test of multivariate (7 market series) var models of Rice log(price) series}
+\centering
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{20em}}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+1.053 & 0.200 & 5000 & Granger causality H0: kathmandu do not Granger-cause parsa morang kailali banke kaski rupandehi\\
+0.641 & 0.527 & 5000 & Granger causality H0: parsa do not Granger-cause kathmandu morang kailali banke kaski rupandehi\\
+1.098 & 0.381 & 5000 & Granger causality H0: morang do not Granger-cause kathmandu parsa kailali banke kaski rupandehi\\
+0.614 & 0.740 & 5000 & Granger causality H0: kailali do not Granger-cause kathmandu parsa morang banke kaski rupandehi\\
+2.744 & 0.065 & 5000 & Granger causality H0: banke do not Granger-cause kathmandu parsa morang kailali kaski rupandehi\\
+\addlinespace
+2.637 & 0.062 & 5000 & Granger causality H0: kaski do not Granger-cause kathmandu parsa morang kailali banke rupandehi\\
+1.262 & 0.171 & 5000 & Granger causality H0: rupandehi do not Granger-cause kathmandu parsa morang kailali banke kaski\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:gc-test-undifferenced-series}Granger causality test of multivariate (7 market series) var models of Wheat log(price) series}
+\centering
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{20em}}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+2.555 & 0.029 & 5000 & Granger causality H0: kathmandu do not Granger-cause parsa morang kailali banke kaski rupandehi\\
+0.646 & 0.738 & 5000 & Granger causality H0: parsa do not Granger-cause kathmandu morang kailali banke kaski rupandehi\\
+2.865 & 0.037 & 5000 & Granger causality H0: morang do not Granger-cause kathmandu parsa kailali banke kaski rupandehi\\
+1.684 & 0.204 & 5000 & Granger causality H0: kailali do not Granger-cause kathmandu parsa morang banke kaski rupandehi\\
+1.086 & 0.452 & 5000 & Granger causality H0: banke do not Granger-cause kathmandu parsa morang kailali kaski rupandehi\\
+\addlinespace
+3.554 & 0.007 & 5000 & Granger causality H0: kaski do not Granger-cause kathmandu parsa morang kailali banke rupandehi\\
+3.172 & 0.021 & 5000 & Granger causality H0: rupandehi do not Granger-cause kathmandu parsa morang kailali banke kaski\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{case-ii-gc-test-on-differenced-logprice-series}{%
+\subsubsection{Case II: GC test on differenced log(price) series}\label{case-ii-gc-test-on-differenced-logprice-series}}
+
+\begin{table}
+
+\caption{\label{tab:gc-test-differenced-series}Granger causality test of multivariate (7 market series) var models of Rice first order differenced log(price) series}
+\centering
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{20em}}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+0.388 & 0.641 & 5000 & Granger causality H0: kathmandu do not Granger-cause parsa morang kailali banke kaski rupandehi\\
+1.610 & 0.147 & 5000 & Granger causality H0: parsa do not Granger-cause kathmandu morang kailali banke kaski rupandehi\\
+2.020 & 0.218 & 5000 & Granger causality H0: morang do not Granger-cause kathmandu parsa kailali banke kaski rupandehi\\
+1.713 & 0.085 & 5000 & Granger causality H0: kailali do not Granger-cause kathmandu parsa morang banke kaski rupandehi\\
+0.622 & 0.511 & 5000 & Granger causality H0: banke do not Granger-cause kathmandu parsa morang kailali kaski rupandehi\\
+\addlinespace
+0.778 & 0.393 & 5000 & Granger causality H0: kaski do not Granger-cause kathmandu parsa morang kailali banke rupandehi\\
+0.423 & 0.739 & 5000 & Granger causality H0: rupandehi do not Granger-cause kathmandu parsa morang kailali banke kaski\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:gc-test-differenced-series}Granger causality test of multivariate (7 market series) var models of Wheat first order differenced log(price) series}
+\centering
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{20em}}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+0.787 & 0.504 & 5000 & Granger causality H0: kathmandu do not Granger-cause parsa morang kailali banke kaski rupandehi\\
+1.165 & 0.235 & 5000 & Granger causality H0: parsa do not Granger-cause kathmandu morang kailali banke kaski rupandehi\\
+1.788 & 0.097 & 5000 & Granger causality H0: morang do not Granger-cause kathmandu parsa kailali banke kaski rupandehi\\
+0.961 & 0.422 & 5000 & Granger causality H0: kailali do not Granger-cause kathmandu parsa morang banke kaski rupandehi\\
+1.942 & 0.139 & 5000 & Granger causality H0: banke do not Granger-cause kathmandu parsa morang kailali kaski rupandehi\\
+\addlinespace
+0.274 & 0.777 & 5000 & Granger causality H0: kaski do not Granger-cause kathmandu parsa morang kailali banke rupandehi\\
+1.642 & 0.104 & 5000 & Granger causality H0: rupandehi do not Granger-cause kathmandu parsa morang kailali banke kaski\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \hypertarget{cointegration}{%
 \section{Cointegration}\label{cointegration}}
@@ -1228,6 +1326,9 @@ Rice series and cointegration plots
 \addcontentsline{toc}{section}{Bibliography}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-granger1988causality}{}%
+Granger, Clive WJ. 1988. ``Causality, Cointegration, and Control.'' \emph{Journal of Economic Dynamics and Control} 12 (2-3): 551--59.
+
 \leavevmode\hypertarget{ref-hylleberg1990seasonal}{}%
 Hylleberg, Svend, Robert F Engle, Clive WJ Granger, and Byung Sam Yoo. 1990. ``Seasonal Integration and Cointegration.'' \emph{Journal of Econometrics} 44 (1-2): 215--38.
 
@@ -1239,6 +1340,9 @@ Johansen, Søren. 1991. ``Estimation and Hypothesis Testing of Cointegration Vec
 
 \leavevmode\hypertarget{ref-metcalfe2009introductory}{}%
 Metcalfe, Andrew V, and Paul SP Cowpertwait. 2009. \emph{Introductory Time Series with R}. Springer.
+
+\leavevmode\hypertarget{ref-papana2014identifying}{}%
+Papana, Angeliki, Catherine Kyrtsou, Dimitris Kugiumtzis, Cees Diks, and others. 2014. ``Identifying Causal Relationships in Case of Non-Stationary Time Series.'' \emph{Thessaloniki: Department of Economics of the University of Macedonia}.
 
 \leavevmode\hypertarget{ref-phillips1990asymptotic}{}%
 Phillips, Peter CB, Sam Ouliaris, and others. 1990. ``Asymptotic Properties of Residual Based Tests for Cointegration.'' \emph{Econometrica} 58 (1): 165--93.

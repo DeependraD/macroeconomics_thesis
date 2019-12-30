@@ -59,6 +59,50 @@ named_group_split <- function(.tbl, ...) {
 
 ```
 
+
+# Retail price of rice and wheat in major districtwise Nepalese market hubs
+
+The price series of districtwise market hubs available for study is mostly imbalanced and irregular and contains data for following 21 districts.
+
+Achham, Banke, Bhojpur, Chitwan, Dhankuta, Dhanusha, Doti, Illam, Jhapa, Jumla, Kailali, Kaski, Kathmandu, Morang, Nuwakot, Palpa, Parsa, Ramechap, Rolpa, Rupandehi, Surkhet.
+
+```{r food-retail-import}
+
+# import data
+retail_pr_np_wfp <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>% 
+  # convenient date type to work with
+  mutate(date = yearmonth(date)) %>% 
+  # deselect unnecessary columns
+  select(-last_col(), -country, -currency, -adm1id, -catid, -cmid, -mktid, -ptid, -umid, -sn, -unit) %>% 
+  # include only food items (filter out fuel)
+  filter(category != 'non-food') %>%
+  as_tsibble(index = date, key = c(cmname, mktname)) %>% 
+  # just to remove bloating columns, perfrom group_by and summarize
+  group_by(cmname, admname, mktname) %>%
+  summarise(price = mean(price, na.rm = T), 
+            lprice = log(price)) %>%
+  ungroup()
+
+# subset the data for some districtwise market series only
+retail_mhub <- retail_pr_np_wfp %>% 
+  filter(mktname %in% c("Morang", "Parsa", "Kathmandu", "Kaski", "Rupandehi", "Banke", "Kailali"))
+
+```
+
+
+<!-- ```{r} -->
+<!-- retail_mhub %>%  -->
+<!--   as_tibble() %>%  -->
+<!--   count(cmname, year = year(date)) %>%  -->
+<!--   mutate(break_grp = c(rep(1, times = floor(nrow(.)/2)), rep(2, times = nrow(.)-floor(nrow(.)/2)))) %>%  -->
+<!--   group_split(break_grp) %>%  -->
+<!--   bind_cols() %>%  -->
+<!--   select(-starts_with("break")) %>%  -->
+<!--   knitr::kable(caption = "Number of yearly records in the series available for study",  -->
+<!--                col.names = rep(colnames(.)[1:(ncol(.)/2)], times = 2), booktabs = T) -->
+
+<!-- ``` -->
+
 <!-- # Administrative summary of Nepal -->
 
 <!-- ```{r administrative-summary-nepal} -->
@@ -143,49 +187,6 @@ named_group_split <- function(.tbl, ...) {
 
 <!-- ``` -->
 
-
-# Retail price of rice and wheat in major districtwise Nepalese market hubs
-
-The price series of districtwise market hubs available for study is mostly imbalanced and irregular and contains data for following 21 districts.
-
-Achham, Banke, Bhojpur, Chitwan, Dhankuta, Dhanusha, Doti, Illam, Jhapa, Jumla, Kailali, Kaski, Kathmandu, Morang, Nuwakot, Palpa, Parsa, Ramechap, Rolpa, Rupandehi, Surkhet.
-
-```{r food-retail-import}
-
-# import data
-retail_pr_np_wfp <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>% 
-  # convenient date type to work with
-  mutate(date = yearmonth(date)) %>% 
-  # deselect unnecessary columns
-  select(-last_col(), -country, -currency, -adm1id, -catid, -cmid, -mktid, -ptid, -umid, -sn, -unit) %>% 
-  # include only food items (filter out fuel)
-  filter(category != 'non-food') %>%
-  as_tsibble(index = date, key = c(cmname, mktname)) %>% 
-  # just to remove bloating columns, perfrom group_by and summarize
-  group_by(cmname, admname, mktname) %>%
-  summarise(price = mean(price, na.rm = T), 
-            lprice = log(price)) %>%
-  ungroup()
-
-# subset the data for some districtwise market series only
-retail_mhub <- retail_pr_np_wfp %>% 
-  filter(mktname %in% c("Morang", "Parsa", "Kathmandu", "Kaski", "Rupandehi", "Banke", "Kailali"))
-
-```
-
-
-<!-- ```{r} -->
-<!-- retail_mhub %>%  -->
-<!--   as_tibble() %>%  -->
-<!--   count(cmname, year = year(date)) %>%  -->
-<!--   mutate(break_grp = c(rep(1, times = floor(nrow(.)/2)), rep(2, times = nrow(.)-floor(nrow(.)/2)))) %>%  -->
-<!--   group_split(break_grp) %>%  -->
-<!--   bind_cols() %>%  -->
-<!--   select(-starts_with("break")) %>%  -->
-<!--   knitr::kable(caption = "Number of yearly records in the series available for study",  -->
-<!--                col.names = rep(colnames(.)[1:(ncol(.)/2)], times = 2), booktabs = T) -->
-
-<!-- ``` -->
 
 ## Aggregate series summary
 
@@ -500,9 +501,9 @@ stationary_series_mhub_lprice_diff %>%
 
 The first order differencing renders all series stationary.
 
-## ARIMA modeling log(retail) price
+# ARIMA model
 
-### AR model
+## AR model
 
 A simple way to model dependence between consecutive observations is by specification of model such as one in Equation \@ref(eqn:ar1-model).
 
@@ -608,7 +609,7 @@ For an $AR(1)$ model (Equation \@ref(eqn:ar1-model)), following states may exist
 
 <!-- ``` -->
 
-### MA model
+## MA model
 
 An MA(q) process is
 
@@ -811,7 +812,9 @@ walk(retail_mhub_arima_fit_coef_tab, print)
 <!-- ``` -->
 
 
-# VAR modeling
+# VAR model
+
+## VAR
 
 VAR is a system regression model, i.e., there are more than one dependent variable. The regression is defined by a set of linear dynamic equations where each variable is specified as a function of an equal number of lags of itself and all other variables in the system. Any additional variable, adds to the modeling complexity by increasing an extra equation to be estimated.
 
@@ -1152,6 +1155,118 @@ retail_pr_np_wfp %>%
 <!--                               ncol = 1, size = 8, keywidth = 1, keyheight = 1)) -->
 
 <!-- ``` -->
+
+## Causality test
+
+Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality [@granger1988causality] inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is *granger-caused* by the second one.
+
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption^[https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html]. @papana2014identifying state that GC test can only to applied if both the series are stationary^[[Mindy Mallory's blog article also suggests that series be stationary](http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/)]. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
+
+Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals.
+
+### Case I: GC test on undifferenced log(price) series
+
+```{r gc-test-undifferenced-series}
+
+# # # Multivariate VAR (with 7 variables, i.e., markets) with lag order 1 -->
+# rice
+retail_mhub_var_rice_data <- retail_mhub_filled %>% 
+  select(cmname:lprice, -price, -admname) %>%
+  filter(cmname == "Rice - Retail") %>%
+  tsbox::ts_ts() %>% 
+  na.omit()
+
+colnames(retail_mhub_var_rice_data) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi")
+
+retail_mhub_var_rice <- retail_mhub_var_rice_data %>% 
+  vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2)
+
+# wheat
+retail_mhub_var_wheat_data <- retail_mhub_filled %>%
+  select(cmname:lprice, -price, -admname) %>%
+  filter(cmname == "Wheat - Retail") %>% 
+  tsbox::ts_ts() %>% 
+  na.omit()
+
+colnames(retail_mhub_var_wheat_data) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi")
+
+retail_mhub_var_wheat <- retail_mhub_var_wheat_data %>% 
+  vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2)
+
+# # Rice
+# Does log(price) of respective markets Granger-cause log(price) change of other markets
+gc_boot_rice   <- map_df(.x = colnames(retail_mhub_var_rice_data),
+                    .f = ~vars::causality(retail_mhub_var_rice, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy()
+)
+
+gc_boot_rice %>% 
+  knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Rice log(price) series", booktabs = T, digits = 3) %>%
+  kableExtra::kable_styling(latex_options = "HOLD_position") %>% 
+  kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em"))
+
+# # Wheat
+# Does log(price) of respective markets Granger-cause log(price) change of other markets
+gc_boot_wheat   <- map_df(.x = colnames(retail_mhub_var_wheat_data),
+                    .f = ~vars::causality(retail_mhub_var_wheat, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy()
+)
+
+gc_boot_wheat %>% 
+  knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Wheat log(price) series", booktabs = T, digits = 3) %>%
+  kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em"))
+
+```
+
+
+### Case II: GC test on differenced log(price) series
+
+```{r gc-test-differenced-series}
+
+# # # Multivariate VAR (with 7 variables, i.e., markets) with lag order 1 -->
+# rice
+retail_mhub_var_rice_data_diff <- retail_mhub_filled %>% 
+  select(cmname, mktname, date, lprice_diff) %>%
+  filter(cmname == "Rice - Retail") %>%
+  tsbox::ts_ts() %>% 
+  na.omit()
+
+colnames(retail_mhub_var_rice_data_diff) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi")
+
+retail_mhub_var_rice_diff <- retail_mhub_var_rice_data_diff %>% 
+  vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2)
+
+# wheat
+retail_mhub_var_wheat_data_diff <- retail_mhub_filled %>%
+  select(cmname, mktname, date, lprice_diff) %>%
+  filter(cmname == "Wheat - Retail") %>% 
+  tsbox::ts_ts() %>% 
+  na.omit()
+
+colnames(retail_mhub_var_wheat_data_diff) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi")
+
+retail_mhub_var_wheat_diff <- retail_mhub_var_wheat_data_diff %>% 
+  vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2)
+
+# # Rice
+# Does log(price) of respective markets Granger-cause log(price) change of other markets
+gc_boot_rice_diff   <- map_df(.x = colnames(retail_mhub_var_rice_data_diff),
+                    .f = ~vars::causality(retail_mhub_var_rice_diff, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy()
+)
+
+gc_boot_rice_diff %>% 
+  knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Rice first order differenced log(price) series", booktabs = T, digits = 3) %>%
+  kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em"))
+
+# # Wheat
+# Does log(price) of respective markets Granger-cause log(price) change of other markets
+gc_boot_wheat_diff   <- map_df(.x = colnames(retail_mhub_var_wheat_data_diff),
+                    .f = ~vars::causality(retail_mhub_var_wheat_diff, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy()
+)
+
+gc_boot_wheat_diff %>% 
+  knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Wheat first order differenced log(price) series", booktabs = T, digits = 3) %>%
+  kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em"))
+
+```
 
 
 # Cointegration
