@@ -1,5 +1,5 @@
 ---
-title: Price relations of food commodities in regional markets of Nepal
+title: Price relations wheat in major domestic and international markets
 author: "Samita Paudel"
 date: "6/28/2019"
 output: 
@@ -57,6 +57,26 @@ named_group_split <- function(.tbl, ...) {
     rlang::set_names(names)
 }
 
+```
+
+
+# Why domestic price is studied at district level
+
+- Until recently, before federal structure of governance was into force, planning, budgeting, service delivery and policy interventions in Agriculture were all excised through district level bodies. Each district was itself accountable for market information accrual and reporting. Hence, most reliable form of price series data would be district level itself.
+- Districts present isolated markets and well organized customer segments surrounding that. For e.g., food grain retail market of kathmandu is drastically different from that of kailali, because while in the former consumer segment has a larger role to play in determining of market demand, the market of farwestern terai region has significant share of producer segments in determining what and when to produce.
+- District present different socio-economic narrative for food commodity trade which is heavily affected by the geographical context of the district itself. For e.g., Rupandehi market is more closely tied to bordering Indian market, because of minimal to none customs intervention in cross-country trade of food grain. The price effects of indian districts are more easily reflected in border region market prices, than in distant market such as Jumla and Surkhet. 
+- District markets information systems are more organized than local level markets, mostly because there are factors that buffer price volatility in district level. For e.g., government intervene through subsidized input supply, facilitated by district level agriculture offices when prices of agricultural inputs are hightened. Also service delivery system, for example that providing subsidized farmers loan, is carried out at district level.
+
+# Why only few domestic markets were selected for study
+
+- These markets either have a large production volumes or strong consumer segment. Because districts of terai, and mostly those of Western to Farwestern region, show consistently high annual production volume (Terai is also dubbed grain basket of Nepal) major producer districts in terai -- Kailali, Kanchanpur, Kapilvastu, Rupandehi, Parsa and Bara are included in the study. At the same time Surkhet, Chitwan and Kathmandu districts have prominance of consumers.
+- An equally important aspect of current study is aggregation of some of the district market series. To justify this, we present some of the unique features of selected districts.
+  - Kailali and Kanchanpur are terai districts in farwestern region. They both lie bordering with India through Uttar Pradesh state. Both districts have huge chunks of land annually allocated to Wheat production (How much in total ???, what percentage of total wheat cultivated area ???). Both the districts are closely related socio-culturally, as the farmer segment comprises mainly of Tharu community.
+  - Parsa and Bara are districts of central region. They border with India through Bihar state. Both districts cultivate Wheat in large volume (areawise how much ???). These two districts are likewise related socio-culturally, in terms of residence of Madhesi community. 
+
+
+```{r}
+knitr::include_graphics("https://github.com/DeependraD/plotting_geographical_features/raw/master/outputs/npl_top_wheat_growing_districts_productionwise.png")
 ```
 
 

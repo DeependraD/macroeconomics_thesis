@@ -655,14 +655,14 @@ Rupandehi & constant & 0.157 & 0.070 & 2.259 & 0.025\\
 
 Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality (Granger \protect\hyperlink{ref-granger1988causality}{1988}) inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is \emph{granger-caused} by the second one.
 
-The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption {[}\^{}{[}1{]}(\url{https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html}){]}. Papana et al. (\protect\hyperlink{ref-papana2014identifying}{2014}) state that GC test can only to applied if both the series are stationary{[}\footnote{Mindy Mallory's blog article also suggests that series be stationary}(\url{http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/}){]}. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption\footnote{\url{https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html}}. Papana et al. (\protect\hyperlink{ref-papana2014identifying}{2014}) state that GC test can only to applied if both the series are stationary\footnote{\href{http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/}{Mindy Mallory's blog article also suggests that series be stationary}}. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
 
 Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals.
 
 \hypertarget{case-i-gc-test-on-undifferenced-logprice-series}{%
 \subsubsection{Case I: GC test on undifferenced log(price) series}\label{case-i-gc-test-on-undifferenced-logprice-series}}
 
-\begin{table}
+\begin{table}[H]
 
 \caption{\label{tab:gc-test-undifferenced-series}Granger causality test of multivariate (7 market series) var models of Rice log(price) series}
 \centering
@@ -682,7 +682,7 @@ statistic & p.value & parameter & method\\
 \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
 
 \caption{\label{tab:gc-test-undifferenced-series}Granger causality test of multivariate (7 market series) var models of Wheat log(price) series}
 \centering
@@ -705,7 +705,7 @@ statistic & p.value & parameter & method\\
 \hypertarget{case-ii-gc-test-on-differenced-logprice-series}{%
 \subsubsection{Case II: GC test on differenced log(price) series}\label{case-ii-gc-test-on-differenced-logprice-series}}
 
-\begin{table}
+\begin{table}[H]
 
 \caption{\label{tab:gc-test-differenced-series}Granger causality test of multivariate (7 market series) var models of Rice first order differenced log(price) series}
 \centering
@@ -725,7 +725,7 @@ statistic & p.value & parameter & method\\
 \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[H]
 
 \caption{\label{tab:gc-test-differenced-series}Granger causality test of multivariate (7 market series) var models of Wheat first order differenced log(price) series}
 \centering
