@@ -38,7 +38,7 @@ require(urca)
 # require(rebus)
 require(lubridate)
 # install.packages("imputeTS") # useful for imputation
-
+require(tsDyn)
 theme_set(theme_bw())
 
 knitr::opts_chunk$set(tidy = FALSE, echo = FALSE, cache = TRUE, message = F, warning = F)
@@ -99,323 +99,6 @@ named_group_split <- function(.tbl, ...) {
 - ???Some of the food market features of Kathmandu and Surkhet districts???
 - Treatment of isolated markets into arbitrary category of consumer and producer districts will provide a more complete picture of the situation of region they represent -- Farwestern terai, Western-central terai and Eastern-central terai regions, respectively. This form of classification is expected to improve interpretability and overall increase predictive accuray of model in the face of price shocks.
 
-<!-- ```{r} -->
-<!-- knitr::include_graphics("https://github.com/DeependraD/plotting_geographical_features/raw/master/outputs/npl_top_wheat_growing_districts_productionwise.png") -->
-<!-- ``` -->
-
-
-# Dependent variables
-
-## Retail price of wheat in major domestic markets
-
-Price series of domestic markets were selected for study. The data represent imbalanced series of following 5 districts:
-
-Kailali, Rupandehi, Parsa, Kathmandu, Chitwan
-
-```{r nepal-wheat-retail}
-
-# import data
-retail_pr_np_wfp <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>% 
-  # convenient date type to work with
-  mutate(date = yearmonth(date)) %>% 
-  # deselect unnecessary columns
-  select(-last_col(), -country, -currency, -adm1id, -catid, -cmid, -mktid, -ptid, -umid, -sn, -unit) %>% 
-  # include only food items (filter out fuel)
-  filter(cmname == 'Wheat - Retail') %>%
-  as_tsibble(index = date, key = c(cmname, mktname)) %>% 
-  # just to remove bloating columns, perfrom group_by and summarize
-  group_by(admname, mktname) %>%
-  summarise(price = mean(price, na.rm = T)) %>%
-  ungroup() %>% 
-  mutate(cmname = "Wheat")
-
-# subset the data for some districtwise market series only
-retail_mhub <- retail_pr_np_wfp %>% 
-  filter(mktname %in% c("Kailali", "Rupandehi", "Parsa", "Kathmandu", "Chitwan"))
-```
-
-
-```{r weather-nepal-districts}
-# weather data
-
-## obtain precipitation data from NASA
-# parameters list is available form
-# nasapower::parameters
-
-# # `par = PRECTOT` (Precipitation total)
-# # define coordinates of various districts
-# latlong_chitwan = c(27.452831, 83.940157, 27.870032, 84.663882)
-# latlong_kathmandu = c(27.673692, 85.277209, 27.749526, 85.367674)
-# latlong_parsa = c(27.016707, 84.470661, 27.421539, 85.001438)
-# latlong_kailali = c(28.426580, 80.49756, 28.96625, 81.25836)
-# latlong_rupandehi = c(27.353300, 83.167320, 27.669970, 83.641100)
-
-# import data
-weather_address <- list.files("./data/weather_nepal", full.names = T)
-
-weather_markets_df <- map_dfr(weather_address, ~read_csv(.x, na = "-99", skip = 11), .id = "mktname") %>% 
-  mutate(mktname = fct_recode(mktname, "Parsa" = "1", "Kathmandu" = "2", 
-                              "Rupandehi" = "3", "Chitwan" = "4", 
-                              "Kailali" = "5")) %>%
-  mutate(date = yearmonth(strptime(paste(YEAR, DOY, sep = "-"), format = "%Y-%j", tz = "Asia/Kathmandu"))) %>% 
-  select(-YEAR, -DOY) %>% 
-  group_by(date, mktname) %>% 
-  summarise(PRECTOT = mean(PRECTOT, na.rm = TRUE)) %>% 
-  mutate(country = "Nepal", 
-         currency = "NPR", 
-         cmname = "Wheat")
-```
-
-
-```{r foreign-exchange-data}
-# foreign exchange data
-# forex_json <- rjson::fromJSON(file = "~/../Desktop/exportForexJSON.php.json", simplify = F)
-# forex_df <- forex_json[[1]][[1]] %>% bind_rows()
-# write_csv(forex_df, "./data/forex_data_npl.csv", "")
-
-forex_df <- readxl::read_xlsx("./data/forex_data_npl.xlsx", sheet = "forex_data_npl")
-forex_ts <- forex_df %>% 
-  mutate(Date = as_date(Date)) %>% 
-  distinct(Date, BaseCurrency, TargetCurrency, .keep_all = T) %>% 
-  as_tsibble(index = Date, key = c(BaseCurrency, TargetCurrency)) %>% 
-  fill_gaps()
-
-forex_ts <- forex_ts %>% 
-    mutate(TargetBuy = na_if(TargetBuy, 0), 
-         TargetSell = na_if(TargetSell, 0)) %>% 
-  mutate(TargetBuy = if_else(is.nan(TargetBuy), NA_real_, TargetBuy), 
-         TargetSell = if_else(is.nan(TargetSell), NA_real_, TargetSell)) %>% 
-  group_by(BaseCurrency, TargetCurrency) %>% 
-  index_by(date_yrmon = yearmonth(Date)) %>% 
-  summarise_at(c("BaseValue", "TargetBuy", "TargetSell"), list(~mean(., na.rm = T))) %>% 
-  ungroup()
-
-
-forex_ts %>%
-  filter(!is.nan(TargetBuy) & !is.nan(TargetSell)) %>%
-  filter(BaseCurrency %in% c("EUR", "USD")) %>% 
-  ggplot() +
-  geom_line(aes(x = date_yrmon, y = TargetBuy, color = BaseCurrency))
-
-# require(rvest)
-# forex_currency_codes <- ("https://en.wikipedia.org/wiki/ISO_4217")
-# forex_currency_codes_df <- read_html(forex_currency_codes) %>% 
-#   html_nodes(xpath = '//*[@id="mw-content-text"]/div/table[2]') %>% 
-#   .[[1]] %>%
-#   html_table() %>% 
-#   as_tibble() %>% 
-#   select(Code, Currency)
-# forex_currency_codes_df %>% write_csv("./data/forex_currency_codes.csv", "")
-# forex_currency_codes_df <- read_csv("./data/forex_currency_codes.csv")
-
-# forex season plot
-# forex_ts %>% 
-#   left_join(forex_currency_codes_df, by = c("BaseCurrency"="Code")) %>% 
-#   filter(!is.nan(TargetBuy) & !is.nan(TargetSell)) %>%
-#   filter(!BaseCurrency %in% c("INR", "JPY")) %>% # INR and JPY are consistent
-#   # distinct(Currency, BaseCurrency)
-#   filter(BaseCurrency %in% c("EUR", "USD")) %>% 
-#   feasts::gg_season(y = TargetBuy)
-
-```
-
-
-```{r fuel-annual-nepal}
-# annual/biannual series of fuel prices
-fuel_biannual_series <- readxl::read_xls("./data/worldbank_diesel_retail.xls", sheet = "Data", skip = 3) %>% 
-  filter(`Country Name` %in% c("Nepal", "India", "Canada")) %>% 
-  select(-`Indicator Name`, -`Indicator Code`, country = `Country Name`, country_code = `Country Code`) %>% 
-  pivot_longer(cols = `1960`:`2019`, names_to = "date", values_to = "price_usd") %>% 
-  filter(!is.na(price_usd)) %>% 
-  mutate(date = yearmonth(date)) %>% 
-  as_tsibble(index = date, key = c(country)) %>% 
-  left_join(forex_ts %>%
-  filter(BaseCurrency == "USD") %>% 
-  rename(date = date_yrmon) %>% 
-  select(-TargetCurrency, -BaseCurrency, -BaseValue)) %>% 
-  mutate(price = price_usd * (TargetBuy+TargetSell)/2) %>% 
-  select(-TargetBuy, -TargetSell, -price_usd) %>% 
-  filter(country == "Nepal")
-
-
-fuel_npl_1719 <- readxl::read_xlsx("./data/npl_fuel_retail_2017-2020.xlsx", 
-                                   skip = 1) %>% 
-  mutate(`effective Date` = str_squish(str_extract(`effective Date`, ".*(?=\\()"))) %>% 
-  mutate(date = ymd(`effective Date`)) %>% 
-  select(date, diesel) %>% 
-  mutate(date = yearmonth(date)) %>% 
-  group_by(date) %>% 
-  summarise(price = mean(diesel, na.rm = TRUE)) %>% 
-  as_tsibble() %>% 
-  fill_gaps()
-
-fuel_npl_1415 <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>%
-  filter(category == "non-food", cmname == "Fuel (diesel) - Retail") %>% 
-  select(date, price, country, mktname) %>% 
-  mutate(date = yearmonth(date)) %>% 
-  filter(mktname %in% c("Kathmandu", "Kailali", "Rupandehi", "Parsa", "Chitwan")) %>% 
-  group_by(country, date) %>% 
-  summarise(price = mean(price, na.rm = TRUE)) %>% 
-  as_tsibble(index = date)
-
-fuel_price_ts <- fuel_biannual_series %>% 
-  filter(date >= 2000) %>% 
-  full_join(fuel_npl_1415) %>%
-  full_join(fuel_npl_1719) %>% 
-  select(-country_code) %>% 
-  filter(date >= ymd("2000-01-01")) %>% 
-  fill_gaps() %>% 
-  mutate(price = imputeTS::na_interpolation(price))
-```
-
-
-```{r wheat-india-canada-us}
-# monthly price series of wheat price canada
-# wholesale_canada_usd <- readxl::read_xlsx("./data/wheat_canada_usd_metric_tons.xlsx", skip = 1)
-# wholesale_canada_usd <- wholesale_canada_usd %>% 
-#   transmute(date = yearmonth(Month), 
-#          price = Price / 1000, 
-#          country = "Canada", 
-#          currency = "NRS", # series is converted 
-#          cmname = "Wheat")
-
-# the series is given for inflation adjusted currency rate
-# the dollars per bushel value is in USD
-# the adjustment is made for the date: Dec 31, 2019
-# buying: 113.81 and selling: 114.41
-wheat_canada_df <- readxl::read_xlsx("./data/wheat_canada_historical_bushel.xlsx", skip = 9) %>% 
-  transmute(date = yearmonth(date), 
-            price = value*50/1000*113.81) %>% # price converted to NRS
-  group_by(date) %>% 
-  summarise(price = mean(price, na.rm = T)) %>% 
-  mutate(country = "Canada", 
-            currency = "CAD",
-            cmname = "Wheat")
-
-# monthly retail price of wheat india (uttar pradesh and bihar)
-retail_up <- readxl::read_xlsx("./data/wheat_retail_india_up_bihar.xlsx", "uttar_pradesh") %>% 
-  transmute(date = yearmonth(date), cmname, price, currency, country, mktname)
-  
-retail_bihar <- readxl::read_xlsx("./data/wheat_retail_india_up_bihar.xlsx", "bihar") %>% 
-  transmute(date = yearmonth(date), cmname, price, currency, country, mktname)
-retail_up_bihar <- full_join(retail_up, retail_bihar) %>% 
-  mutate(cmname = "Wheat", 
-         date = yearmonth(date),
-         price = price * 1.6)
-
-```
-
-
-```{r cost-of-production}
-# annual cost of production series (producer prices), nepal and canada
-cost_of_production_np_ca <- read_csv("./data/producer_price_all_crops_global_1991-2017.csv") %>% 
-  filter(Area %in% c("Nepal", "Canada")) %>% 
-  filter(Item %in% c("Wheat"))
-
-cost_of_production_np_ca <- cost_of_production_np_ca %>%
-  select(country = Area, cmname = Item, Element, Unit, Y1991:Y2017F)
-
-cost_of_production_np_ca %>% 
-  mutate_at(vars(Y1991:Y2017F), as.numeric) %>% 
-  pivot_longer(cols = Y1991:Y2017F, names_prefix = "Y", names_to = c("Year_obs", "Year_forecast"), names_pattern = "(\\d*)([[:alpha:]]?)", values_to = c("Price_obs", "Price_forecast")) %>% 
-  filter(Unit == "USD") %>% 
-  filter(!is.na(Price_obs)) %>% 
-  select(date = Year_obs, price = Price_obs, cmname, country) %>% 
-  mutate(date = as.integer(date)) %>% 
-  as_tsibble(index = date, key = c(country, cmname)) %>% 
-  autoplot(.vars = price)
-```
-
-
-```{r wholesale-price}
-# annual wholesale price, nepal (per kg of grain)
-wheat_wholesale_np <- wheat_wholesale_nepal <- readxl::read_xlsx("./data/prices_nepal/cereal_wholesale_nepal.xlsx", skip = 1) %>% 
-  filter(Item == "Wheat") %>% 
-  select(-SN, date = `Year Code`, cmname = Item, price = Value) %>% 
-  mutate(price = price/1000) # per kg
-```
-
-
-## Combined series
-
-```{r price-series-all}
-
-# price ts long format for plotting
-price_ts <- retail_mhub %>% 
-  mutate(country = "Nepal", 
-         currency = "NPR") %>% 
-  full_join(retail_up_bihar) %>% 
-  full_join(wheat_canada_df) %>% 
-  full_join(weather_markets_df) %>% 
-  as_tsibble(index = `date`, key = c(`mktname`, `country`)) %>% 
-  fill_gaps() %>% 
-  mutate(country = fct_recode(country, "Five districts" = "Nepal")) %>% 
-  # as_tibble() %>%
-  group_by(country) %>% 
-  summarise(price = mean(price, na.rm = T)) %>% 
-  ungroup() %>%
-  full_join(retail_pr_np_wfp %>% 
-              summarise_at("price", 
-                           list(~mean(., na.rm = T))) %>% 
-              mutate(country = "Nepal")) %>% 
-  # pivot_wider(names_from = country, values_from = price)
-  filter(date > ymd("2000-01-01"))
-
-# price and precipitation ts wide format for modeling
-price_precipitaion_ts <- retail_mhub %>% 
-  mutate(country = "Nepal", 
-         currency = "NPR") %>% 
-  full_join(retail_up_bihar) %>% 
-  full_join(wheat_canada_df) %>% 
-  full_join(weather_markets_df) %>% 
-  as_tsibble(index = `date`, key = c(`mktname`, `country`)) %>% 
-  filter(date > ymd("1995-01-01")) %>% 
-  fill_gaps() %>% 
-  # mutate(country = fct_recode(country, "Five districts" = "Nepal")) %>% 
-  mutate(market = case_when(mktname %in% c("Chitwan", "Kathmandu") ~ "Nepal (Chitwan and Kathmandu)",
-                            mktname %in% c("Kailali", "Rupandehi", "Parsa") ~ "Nepal (Kailali, Rupandehi, Parsa)", 
-                            TRUE ~ country, 
-                            is.na(mktname) ~ country)) %>%
-  group_by(market) %>% 
-  summarise(price = mean(price, na.rm = T), 
-            precipitation_total = mean(PRECTOT, na.rm = T)) %>% 
-  pivot_wider(names_from = market, values_from = c(price, precipitation_total)) %>% 
-  mutate_if(is.numeric, list(~ifelse(is.nan(.), NA, .))) %>% 
-  select(-precipitation_total_Canada, -precipitation_total_India) %>% 
-  filter(date >= ymd("2001-Apr-01")) %>% 
-  as_tsibble(index = date)
-
-price_precipitaion_ts %>% 
-  autoplot(.var = `precipitation_total_Nepal (Kailali, Rupandehi, Parsa)`)
-price_precipitaion_ts %>% 
-  autoplot(.var = `precipitation_total_Nepal (Chitwan and Kathmandu)`)
-
-price_precipitation_fuel_ts <- price_precipitaion_ts %>% 
-  full_join(fuel_price_ts %>% select(fuel_price = price)) %>% 
-  janitor::clean_names()
-```
-
-
-```{r india-nepal-canada-price-series}
-price_series_gg <- price_ts %>% 
-  ggplot(aes(x = date, y = price, color = country)) +
-  geom_line(size = 1.1) +
-  scale_color_viridis_d(labels = c("Canada (average)", "Five districts (Kailali, \nRupandehi, Chitwan, Kathmandu, Parsa)", "Bordering Indian states (Uttar \npradesh, Bihar)", "Nepal (average)")) +
-  # scale_color_discrete(labels = c("Canada (average)", "Five districts (Kailali, \nRupandehi, Chitwan, Kathmandu, Parsa)", "Bordering Indian states (Uttar \npradesh, Bihar)", "Nepal (average)")) +
-  scale_x_date(date_breaks = "2 years", date_labels = "%Y", minor_breaks = NULL) +
-  labs(x = "Date", y = "Mean price (Rs)") +
-  ggtitle(label = "Mean price of wheat", 
-          subtitle = "Aggregated over selected districts compared to national average, aggregated Indian bordering states (Uttar Pradesh and Bihar) and international dominant producer (Canada)")
-
-# save price series graph
-# ggsave("price_series_all_we_have.png", price_series_gg, 
-#        device = "png", width = 14, 
-#        height = 8, units = "in", dpi = 200)
-
-```
-
-
-# Geographical context of study districts
 
 ## Study districts and market centres
 
@@ -471,41 +154,342 @@ five_districts_gg
 ```
 
 
-## Aggregate series summary
+<!-- ```{r} -->
+<!-- knitr::include_graphics("https://github.com/DeependraD/plotting_geographical_features/raw/master/outputs/npl_top_wheat_growing_districts_productionwise.png") -->
+<!-- ``` -->
 
-Joint time series plot of rice and wheat retail prices aggregated over selected districtwise markets and comparison to national average price.
+
+# Study variables
+
+## Retail price of wheat in major domestic markets
+
+Price series of domestic markets were selected for study. The data represent imbalanced series of following 5 districts: Kailali, Rupandehi, Parsa, Kathmandu, Chitwan.
+
+```{r nepal-wheat-retail}
+
+# import data
+retail_pr_np_wfp <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>% 
+  # convenient date type to work with
+  mutate(date = yearmonth(date)) %>% 
+  # deselect unnecessary columns
+  select(-last_col(), -country, -currency, -adm1id, -catid, -cmid, -mktid, -ptid, -umid, -sn, -unit) %>% 
+  # include only food items (filter out fuel)
+  filter(cmname == 'Wheat - Retail') %>%
+  as_tsibble(index = date, key = c(cmname, mktname)) %>% 
+  # just to remove bloating columns, perfrom group_by and summarize
+  group_by(admname, mktname) %>%
+  summarise(price = mean(price, na.rm = T)) %>%
+  ungroup() %>% 
+  mutate(cmname = "Wheat")
+
+# subset the data for some districtwise market series only
+retail_mhub <- retail_pr_np_wfp %>% 
+  filter(mktname %in% c("Kailali", "Rupandehi", "Parsa", "Kathmandu", "Chitwan"))
+```
+
+## Precipitation of Nepalese district markets
+
+```{r weather-nepal-districts}
+# weather data
+
+## obtain precipitation data from NASA
+# parameters list is available form
+# nasapower::parameters
+
+# # `par = PRECTOT` (Precipitation total)
+# # define coordinates of various districts
+# latlong_chitwan = c(27.452831, 83.940157, 27.870032, 84.663882)
+# latlong_kathmandu = c(27.673692, 85.277209, 27.749526, 85.367674)
+# latlong_parsa = c(27.016707, 84.470661, 27.421539, 85.001438)
+# latlong_kailali = c(28.426580, 80.49756, 28.96625, 81.25836)
+# latlong_rupandehi = c(27.353300, 83.167320, 27.669970, 83.641100)
+
+# import data
+weather_address <- list.files("./data/weather_nepal", full.names = T)
+
+weather_markets_df <- map_dfr(weather_address, ~read_csv(.x, na = "-99", skip = 11), .id = "mktname") %>% 
+  mutate(mktname = fct_recode(mktname, "Parsa" = "1", "Kathmandu" = "2", 
+                              "Rupandehi" = "3", "Chitwan" = "4", 
+                              "Kailali" = "5")) %>%
+  mutate(date = yearmonth(strptime(paste(YEAR, DOY, sep = "-"), format = "%Y-%j", tz = "Asia/Kathmandu"))) %>% 
+  select(-YEAR, -DOY) %>% 
+  group_by(date, mktname) %>% 
+  summarise(PRECTOT = mean(PRECTOT, na.rm = TRUE)) %>% 
+  mutate(country = "Nepal", 
+         currency = "NPR", 
+         cmname = "Wheat")
+```
+
+## Foreign exchange
+
+```{r foreign-exchange-data}
+# foreign exchange data
+# forex_json <- rjson::fromJSON(file = "~/../Desktop/exportForexJSON.php.json", simplify = F)
+# forex_df <- forex_json[[1]][[1]] %>% bind_rows()
+# write_csv(forex_df, "./data/forex_data_npl.csv", "")
+
+forex_df <- readxl::read_xlsx("./data/forex_data_npl.xlsx", sheet = "forex_data_npl")
+forex_ts <- forex_df %>% 
+  mutate(Date = as_date(Date)) %>% 
+  distinct(Date, BaseCurrency, TargetCurrency, .keep_all = T) %>% 
+  as_tsibble(index = Date, key = c(BaseCurrency, TargetCurrency)) %>% 
+  fill_gaps()
+
+forex_ts <- forex_ts %>% 
+    mutate(TargetBuy = na_if(TargetBuy, 0), 
+         TargetSell = na_if(TargetSell, 0)) %>% 
+  mutate(TargetBuy = if_else(is.nan(TargetBuy), NA_real_, TargetBuy), 
+         TargetSell = if_else(is.nan(TargetSell), NA_real_, TargetSell)) %>% 
+  group_by(BaseCurrency, TargetCurrency) %>% 
+  index_by(date_yrmon = yearmonth(Date)) %>% 
+  summarise_at(c("BaseValue", "TargetBuy", "TargetSell"), list(~mean(., na.rm = T))) %>% 
+  ungroup()
+
+
+forex_ts %>%
+  filter(!is.nan(TargetBuy) & !is.nan(TargetSell)) %>%
+  filter(BaseCurrency %in% c("EUR", "USD")) %>% 
+  ggplot() +
+  geom_line(aes(x = date_yrmon, y = TargetBuy, color = BaseCurrency))
+
+# require(rvest)
+# forex_currency_codes <- ("https://en.wikipedia.org/wiki/ISO_4217")
+# forex_currency_codes_df <- read_html(forex_currency_codes) %>% 
+#   html_nodes(xpath = '//*[@id="mw-content-text"]/div/table[2]') %>% 
+#   .[[1]] %>%
+#   html_table() %>% 
+#   as_tibble() %>% 
+#   select(Code, Currency)
+# forex_currency_codes_df %>% write_csv("./data/forex_currency_codes.csv", "")
+# forex_currency_codes_df <- read_csv("./data/forex_currency_codes.csv")
+
+# forex season plot
+# forex_ts %>% 
+#   left_join(forex_currency_codes_df, by = c("BaseCurrency"="Code")) %>% 
+#   filter(!is.nan(TargetBuy) & !is.nan(TargetSell)) %>%
+#   filter(!BaseCurrency %in% c("INR", "JPY")) %>% # INR and JPY are consistent
+#   # distinct(Currency, BaseCurrency)
+#   filter(BaseCurrency %in% c("EUR", "USD")) %>% 
+#   feasts::gg_season(y = TargetBuy)
+
+```
+
+## Fuel prices
+
+```{r fuel-annual-nepal}
+# annual/biannual series of fuel prices
+fuel_biannual_series <- readxl::read_xls("./data/worldbank_diesel_retail.xls", sheet = "Data", skip = 3) %>% 
+  filter(`Country Name` %in% c("Nepal", "India", "Canada")) %>% 
+  select(-`Indicator Name`, -`Indicator Code`, country = `Country Name`, country_code = `Country Code`) %>% 
+  pivot_longer(cols = `1960`:`2019`, names_to = "date", values_to = "price_usd") %>% 
+  filter(!is.na(price_usd)) %>% 
+  mutate(date = yearmonth(date)) %>% 
+  as_tsibble(index = date, key = c(country)) %>% 
+  left_join(forex_ts %>%
+  filter(BaseCurrency == "USD") %>% 
+  rename(date = date_yrmon) %>% 
+  select(-TargetCurrency, -BaseCurrency, -BaseValue)) %>% 
+  mutate(price = price_usd * (TargetBuy+TargetSell)/2) %>% 
+  select(-TargetBuy, -TargetSell, -price_usd) %>% 
+  filter(country == "Nepal")
+
+
+fuel_npl_1719 <- readxl::read_xlsx("./data/npl_fuel_retail_2017-2020.xlsx", 
+                                   skip = 1) %>% 
+  mutate(`effective Date` = str_squish(str_extract(`effective Date`, ".*(?=\\()"))) %>% 
+  mutate(date = ymd(`effective Date`)) %>% 
+  select(date, diesel) %>% 
+  mutate(date = yearmonth(date)) %>% 
+  group_by(date) %>% 
+  summarise(price = mean(diesel, na.rm = TRUE)) %>% 
+  as_tsibble() %>% 
+  fill_gaps()
+
+fuel_npl_1415 <- read_csv("./data/prices_nepal/wfp_food_prices_nepal_markethubwise_nepal_2005-2019.csv", skip = 1) %>%
+  filter(category == "non-food", cmname == "Fuel (diesel) - Retail") %>% 
+  select(date, price, country, mktname) %>% 
+  mutate(date = yearmonth(date)) %>% 
+  filter(mktname %in% c("Kathmandu", "Kailali", "Rupandehi", "Parsa", "Chitwan")) %>% 
+  group_by(country, date) %>% 
+  summarise(price = mean(price, na.rm = TRUE)) %>% 
+  as_tsibble(index = date)
+
+fuel_price_ts <- fuel_biannual_series %>% 
+  filter(date >= 2000) %>% 
+  full_join(fuel_npl_1415) %>%
+  full_join(fuel_npl_1719) %>% 
+  select(-country_code) %>% 
+  filter(date >= ymd("2000-01-01")) %>% 
+  fill_gaps() %>% 
+  mutate(price = imputeTS::na_interpolation(price))
+```
+
+## International and India's bordering region prices
+
+```{r wheat-india-canada-us}
+# monthly price series of wheat price canada
+# wholesale_canada_usd <- readxl::read_xlsx("./data/wheat_canada_usd_metric_tons.xlsx", skip = 1)
+# wholesale_canada_usd <- wholesale_canada_usd %>% 
+#   transmute(date = yearmonth(Month), 
+#          price = Price / 1000, 
+#          country = "Canada", 
+#          currency = "NRS", # series is converted 
+#          cmname = "Wheat")
+
+# the series is given for inflation adjusted currency rate
+# the dollars per bushel value is in USD
+# the adjustment is made for the date: Dec 31, 2019
+# buying: 113.81 and selling: 114.41
+wheat_canada_df <- readxl::read_xlsx("./data/wheat_canada_historical_bushel.xlsx", skip = 9) %>% 
+  transmute(date = yearmonth(date), 
+            price = value*50/1000*113.81) %>% # price converted to NRS
+  group_by(date) %>% 
+  summarise(price = mean(price, na.rm = T)) %>% 
+  mutate(country = "Canada", 
+            currency = "CAD",
+            cmname = "Wheat")
+
+# monthly retail price of wheat india (uttar pradesh and bihar)
+retail_up <- readxl::read_xlsx("./data/wheat_retail_india_up_bihar.xlsx", "uttar_pradesh") %>% 
+  transmute(date = yearmonth(date), cmname, price, currency, country, mktname)
+  
+retail_bihar <- readxl::read_xlsx("./data/wheat_retail_india_up_bihar.xlsx", "bihar") %>% 
+  transmute(date = yearmonth(date), cmname, price, currency, country, mktname)
+retail_up_bihar <- full_join(retail_up, retail_bihar) %>% 
+  mutate(cmname = "Wheat", 
+         date = yearmonth(date),
+         price = price * 1.6)
+
+```
+
+## Cost of production
+
+```{r cost-of-production}
+# annual cost of production series (producer prices), nepal and canada
+cost_of_production_np_ca <- read_csv("./data/producer_price_all_crops_global_1991-2017.csv") %>% 
+  filter(Area %in% c("Nepal", "Canada")) %>% 
+  filter(Item %in% c("Wheat"))
+
+cost_of_production_np_ca <- cost_of_production_np_ca %>%
+  select(country = Area, cmname = Item, Element, Unit, Y1991:Y2017F)
+
+cost_of_production_np_ca %>% 
+  mutate_at(vars(Y1991:Y2017F), as.numeric) %>% 
+  pivot_longer(cols = Y1991:Y2017F, names_prefix = "Y", names_to = c("Year_obs", "Year_forecast"), names_pattern = "(\\d*)([[:alpha:]]?)", values_to = c("Price_obs", "Price_forecast")) %>% 
+  filter(Unit == "USD") %>% 
+  filter(!is.na(Price_obs)) %>% 
+  select(date = Year_obs, price = Price_obs, cmname, country) %>% 
+  mutate(date = as.integer(date)) %>% 
+  as_tsibble(index = date, key = c(country, cmname)) %>% 
+  autoplot(.vars = price)
+```
+
+## Wholesale price
+
+```{r wholesale-price}
+# annual wholesale price, nepal (per kg of grain)
+wheat_wholesale_np <- wheat_wholesale_nepal <- readxl::read_xlsx("./data/prices_nepal/cereal_wholesale_nepal.xlsx", skip = 1) %>% 
+  filter(Item == "Wheat") %>% 
+  select(-SN, date = `Year Code`, cmname = Item, price = Value) %>% 
+  mutate(price = price/1000) # per kg
+```
+
+
+## Combined series
+
+```{r price-series-all}
+
+# # price ts long format for 
+# # PLOTTING
+p_ts_long <- retail_mhub %>% 
+  mutate(country = "Nepal", 
+         currency = "NPR") %>% 
+  full_join(retail_up_bihar) %>% 
+  full_join(wheat_canada_df) %>% 
+  full_join(weather_markets_df) %>% 
+  as_tsibble(index = `date`, key = c(`mktname`, `country`)) %>% 
+  fill_gaps() %>% 
+  mutate(country = fct_recode(country, "Five districts" = "Nepal")) %>% 
+  # as_tibble() %>%
+  group_by(country) %>% 
+  summarise(price = mean(price, na.rm = T)) %>% 
+  ungroup() %>%
+  full_join(retail_pr_np_wfp %>% 
+              summarise_at("price", 
+                           list(~mean(., na.rm = T))) %>% 
+              mutate(country = "Nepal")) %>% 
+  # pivot_wider(names_from = country, values_from = price)
+  filter(date > ymd("2000-01-01"))
+
+# # price and precipitation ts wide format for
+# # MODELING
+# tidy
+ppf_ts_wide <- retail_mhub %>% 
+  mutate(country = "Nepal", 
+         currency = "NPR") %>% 
+  full_join(retail_up_bihar) %>% 
+  full_join(wheat_canada_df) %>% 
+  full_join(weather_markets_df) %>% 
+  as_tsibble(index = `date`, key = c(`mktname`, `country`)) %>% 
+  filter(date > ymd("1995-01-01")) %>% 
+  fill_gaps() %>% 
+  # mutate(country = fct_recode(country, "Five districts" = "Nepal")) %>% 
+  mutate(market = case_when(mktname %in% c("Chitwan", "Kathmandu") ~ "Nepal (Chitwan and Kathmandu)",
+                            mktname %in% c("Kailali", "Rupandehi", "Parsa") ~ "Nepal (Kailali, Rupandehi, Parsa)", 
+                            TRUE ~ country, 
+                            is.na(mktname) ~ country)) %>%
+  group_by(market) %>% 
+  summarise(price = mean(price, na.rm = T), 
+            precipitation_total = mean(PRECTOT, na.rm = T)) %>% 
+  pivot_wider(names_from = market, values_from = c(price, precipitation_total)) %>% 
+  mutate_if(is.numeric, list(~ifelse(is.nan(.), NA, .))) %>% 
+  select(-precipitation_total_Canada, -precipitation_total_India) %>% 
+  filter(date >= ymd("2001-Apr-01")) %>% 
+  as_tsibble(index = date) %>% 
+  full_join(fuel_price_ts %>% select(fuel_price = price)) %>% 
+  janitor::clean_names() %>% 
+  magrittr::set_colnames(c("date", "p_canada", "p_india", "p_npl_ck", "p_npl_krp", "precip_npl_ck", "precip_npl_krp", "p_fuel")) %>% 
+  fill_gaps() %>%
+  imputeTS::na_interpolation() %>% 
+  mutate(lp_canada = log(p_canada), 
+         lp_india = log(p_india), 
+         lp_npl_ck = log(p_npl_ck), 
+         lp_npl_krp = log(p_npl_krp), 
+         lp_fuel = log(p_fuel))
+
+# untidy
+ppf_ts_box <- tsbox::ts_ts(ppf_ts_wide)
+
+```
+
+
+## Descriptive time series summary
+
+Plot of wheat retail price series of nepal and international (canada and bordering indian region) markets, in comparison to national average price.
+
+```{r india-nepal-canada-price-series}
+price_series_gg <- p_ts_long %>% 
+  ggplot(aes(x = date, y = price, color = country)) +
+  geom_line(size = 1.1) +
+  scale_color_viridis_d(labels = c("Canada (average)", "Five districts (Kailali, \nRupandehi, Chitwan, Kathmandu, Parsa)", "Bordering Indian states (Uttar \npradesh, Bihar)", "Nepal (average)")) +
+  # scale_color_discrete(labels = c("Canada (average)", "Five districts (Kailali, \nRupandehi, Chitwan, Kathmandu, Parsa)", "Bordering Indian states (Uttar \npradesh, Bihar)", "Nepal (average)")) +
+  scale_x_date(date_breaks = "2 years", date_labels = "%Y", minor_breaks = NULL) +
+  labs(x = "Date", y = "Mean price (Rs)") +
+  ggtitle(label = "Mean price of wheat", 
+          subtitle = "Aggregated over selected districts compared to national average, aggregated Indian bordering states (Uttar Pradesh and Bihar) and international dominant producer (Canada)")
+
+price_series_gg
+
+# save price series graph
+# ggsave("price_series_all_we_have.png", price_series_gg, 
+#        device = "png", width = 14, 
+#        height = 8, units = "in", dpi = 200)
+
+```
+
 
 ```{r price-series-line-acf-plots, fig.cap="Time series plots of wheat retail price series for different markets. Progression of price series with time (Top). Autocorrelation plot for forward lags(Lower left). Seasonal trend plot over several years (Lower right)"}
 
-# # line plot of single price series
-# ggplot(retail_mhub %>% filter(mktname == "Chitwan"), 
-#        aes(x = date, y = price)) + 
-#   geom_line() + 
-#   geom_point()
-# 
-# # ACF of price series (classical way)
-# retail_acf <- retail_mhub %>%
-#   select(-lprice) %>% 
-#   named_group_split(mktname) %>%
-#   map(~.x %>% fill_gaps(.full = FALSE)) %>%
-#   map(~.x %>% tidyr::fill(price, .direction = "down")) %>%
-#   map(~tsbox::ts_ts(.x)) %>%
-#   map(~.x %>% na.omit()) %>%
-#   map(~acf(.x, plot = F))
-# # data is highly autocorrelated, hence it needs differencing to remove the trend.
-#
-# map2(.x = retail_acf, 
-#       .y = names(retail_acf),
-#       .f = ~.x %>% 
-#         feasts::autoplot() +
-#         ggtitle(paste("ACF of ", .y)))
-# 
-# # lag plots for single series
-# feasts::gg_lag(retail_mhub %>% filter(mktname == "Chitwan"), y = price)
-# 
-# # season plot for single series
-# feasts::gg_season(retail_mhub %>% filter(mktname == "Chitwan"), y = price)
-# 
 # # subseries of single series (accepts faceting, but no missing allowed)
 # feasts::gg_subseries(retail_mhub %>% filter(mktname == "Chitwan"), y = price)
 # # feasts::ACF() is analogous to stats::acf for autocorrelation diagnostics
@@ -520,12 +504,20 @@ Joint time series plot of rice and wheat retail prices aggregated over selected 
 #   feasts::PACF(price) %>% 
 #   autoplot() # plots on all series
 
-retail_mhub_acf <- map(.x = unique(retail_mhub$mktname), 
-    .f = ~retail_mhub %>% 
-      filter(mktname == .x) %>% 
-      tsibble::fill_gaps() %>% 
-      feasts::gg_tsdisplay() +
-      ggtitle( .x))
+# c("Price (Canada)", "Price (India)", 
+#   "Price (Nepal -- Chitwan and Kathmandu)",
+#   "Price (Nepal -- Kapilvastu, Rupandehi and Parsa)",
+#   "Precipitation (Nepal -- Chitwan and Kathmandu)",
+#   "Precipitation (Nepal -- Kapilvastu, Rupandehi and Parsa)",
+#   "Price (Fuel)")
+
+feasts::gg_tsdisplay(ppf_ts_wide, y = p_canada, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = p_india, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = p_npl_ck, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = p_npl_krp, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = precip_npl_ck, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = precip_npl_krp, plot_type = c("season"))
+feasts::gg_tsdisplay(ppf_ts_wide, y = p_fuel, plot_type = c("season"))
 
 # autocorrelation plots
 # walk2(.x = map(retail_mhub_acf, 2), 
@@ -539,29 +531,49 @@ Time series plot of wheat retail price series is presented in above figures with
 
 # Linear regression model formulation for price series
 
-```{r lm1-without-time}
+```{r lm1-without-time-producer}
 # fit a lm as it is
-price_lm1 <- lm(data = price_precipitation_fuel_ts, formula = price_nepal_kailali_rupandehi_parsa ~ 
+price_lm11 <- lm(data = ppf_ts_wide, formula = lp_npl_krp ~ 
                  # date + 
-                 price_canada +
-                 price_india +
-                 price_nepal_chitwan_and_kathmandu +
-                 precipitation_total_nepal_chitwan_and_kathmandu +
-                 precipitation_total_nepal_kailali_rupandehi_parsa +
-                 fuel_price
+                 lp_canada +
+                 lp_india +
+                 lp_npl_ck +
+                 precip_npl_ck +
+                 precip_npl_krp +
+                 lp_fuel
                  )
 
-anova(price_lm1) %>% 
+anova(price_lm11) %>% 
   broom::tidy() %>% 
   mutate(term = stringr::str_replace_all(term, "_", " ")) %>% 
-  knitr::kable(caption = "ANOVA of regression between price of producer districts (as dependent variable) and 6 regressor variables (price of wheat in international market, price of wheat in indian bordering states, price of wheat in consumer districts, precipitation of consumer districts, precipitation of producer districts)", booktabs = TRUE, digits = 3) %>% 
+  knitr::kable(caption = "ANOVA of regression between log(price) of producer districts (as dependent variable) and 6 regressor variables (log(price) of wheat in international market, log(price) of wheat in indian bordering states, log(price) of wheat in consumer districts, precipitation of consumer districts, precipitation of producer districts and log(price) of fuel)", booktabs = TRUE, digits = 3) %>% 
   kableExtra::kable_styling(latex_options = "HOLD_position") %>% 
   kableExtra::column_spec(column = 1, width = "7em")
   
-
 ```
 
-The regression above (Table \@ref(tab:lm1-without-time)) is obtained on fitting the model Equation \@ref(eqn:lm1).
+
+```{r lm1-without-time-consumer}
+# fit a lm as it is
+price_lm12 <- lm(data = ppf_ts_wide, formula = lp_npl_ck ~ 
+                  lp_canada +
+                  lp_india +
+                  lp_npl_krp +
+                  precip_npl_ck +
+                  precip_npl_krp +
+                  lp_fuel
+)
+
+anova(price_lm12) %>% 
+  broom::tidy() %>% 
+  mutate(term = stringr::str_replace_all(term, "_", " ")) %>% 
+  knitr::kable(caption = "ANOVA of regression between log(price) of consumer districts (as dependent variable) and 6 regressor variables (log(price) of wheat in international market, log(price) of wheat in indian bordering states, log(price) of wheat in producer districts, precipitation of consumer districts, precipitation of producer districts and log(price) of fuel)", booktabs = TRUE, digits = 3) %>% 
+  kableExtra::kable_styling(latex_options = "HOLD_position") %>% 
+  kableExtra::column_spec(column = 1, width = "7em")
+```
+
+
+The regression above (Table \@ref(tab:lm1-without-time-consumer) and \@ref(tab:lm1-without-time-producer)) is obtained on fitting the model Equation \@ref(eqn:lm1).
 
 \begin{equation}
 \label{eqn:lm1}
@@ -574,10 +586,11 @@ precipitation_{\textrm{consumer districts}} + fuel~price_{\textrm{national avera
 \end{aligned}
 \end{equation}
 
-This presents a typical case of spurious relationship among variables, where variables having times series attributes show exceptionally high association among them. For example, all three aggregated wheat price series we consider in the regression (price in Canada, price in India, and price in Nepalese consumer markets) which show highly significant association. This is problematic and misleading, because without accounting for linear time trend they show very unstable variance, which increases at extremes (more recent time period). The phenomena of possible presence of heteroskedasticity is shown in the residual-vs-fit plot in Figure \@ref(fig:lm1-residual-vs-fit-plot).
+This presents a typical case of spurious relationship among variables, where variables having times series attributes show exceptionally high association among them. For example, all three aggregated wheat price series we consider in the regression (price in Canada, price in India, and price in Nepalese consumer markets) which show highly significant association. This is problematic and misleading, because without accounting for linear time trend they show very unstable variance, which increases at extremes (more recent time period). The phenomena of possible presence of heteroskedasticity is shown in the residual-vs-fit plot in Figure \@ref(fig:lm1-residual-vs-fit-plot1).
 
 ```{r lm1-residual-vs-fit-plot, fig.cap="Residual (pearsons') versus fit plot of the linear regression without accounting for time attributes of the series", fig.align='center'}
-car::residualPlot(price_lm1)
+car::residualPlot(price_lm11, main = "Producer districts")
+car::residualPlot(price_lm12, main = "Consumer districts")
 ```
 
 Simply after incorporating linear trend of time in the regression model (Equation \@ref(eqn:lm1)), we get a different statistic. 
@@ -593,32 +606,35 @@ precipitation_{\textrm{consumer districts}} + fuel~price_{\textrm{national avera
 \end{aligned}
 \end{equation}
 
-However, even then there is likely presence of biased variance, as shown in Figure \@ref(fig:lm2-residual-vs-fit-plot) which uses Equation \@ref(eqn:lm2) for model fitting. 
+However, even then there is likely presence of biased variance, as shown in Figure \@ref(fig:lm2-residual-vs-fit-plot2) which uses Equation \@ref(eqn:lm2) for model fitting. 
 
 ```{r lm2-with-time}
 # fit a lm as it is with 
-price_lm2 <- lm(data = price_precipitation_fuel_ts, formula = price_nepal_kailali_rupandehi_parsa ~ 
+price_lm21 <- lm(data = ppf_ts_wide, formula = lp_npl_krp ~ 
                  date +
-                 price_canada +
-                 price_india +
-                 price_nepal_chitwan_and_kathmandu +
-                 precipitation_total_nepal_chitwan_and_kathmandu +
-                 precipitation_total_nepal_kailali_rupandehi_parsa +
-                 fuel_price)
+                 lp_canada +
+                 lp_india +
+                 lp_npl_ck +
+                 precip_npl_ck +
+                 precip_npl_krp +
+                 lp_fuel
+                 )
 
-price_lm2_consumer <- lm(data = price_precipitation_fuel_ts, formula = price_nepal_chitwan_and_kathmandu ~ 
-                           date +
-                           price_canada +
-                           price_india +
-                           price_nepal_kailali_rupandehi_parsa +
-                           precipitation_total_nepal_chitwan_and_kathmandu +
-                           precipitation_total_nepal_kailali_rupandehi_parsa +
-                           fuel_price)
+price_lm22 <- lm(data = ppf_ts_wide, formula = lp_npl_ck ~ 
+                 date +
+                 lp_canada +
+                 lp_india +
+                 lp_npl_krp +
+                 precip_npl_ck +
+                 precip_npl_krp +
+                 lp_fuel
+                 )
 ```
 
 
 ```{r lm2-residual-vs-fit-plot, fig.cap="Residual (pearsons') versus fit plot of the linear regression after incorporating linear time trend of the price series", fig.align='center'}
-car::residualPlot(price_lm2)
+car::residualPlot(price_lm21, main = "Producer districts")
+car::residualPlot(price_lm22, main = "Consumer districts")
 ```
 
 ## Testing for heteroskedasticity
@@ -628,10 +644,11 @@ Below we test the linear model (Equation \@ref(eqn:lm2) and its counterpart with
 Breusch pagan test uses the null hypothesis of Homoscadesticity while testing studentized residuals. Hence, if the null hypothesis is rejected (p < 0.05), there is possible presence of heteroskedasticity.
 
 ```{r lm2-bptest}
-map_dfr(list(price_lm2, price_lm2_consumer), 
+map_dfr(list(price_lm21, price_lm22), 
         ~lmtest::bptest(.x) %>% 
           tidy()) %>% 
-  knitr::kable(caption = "Breusch-Pagan test for heteroskedasticity of price series, modeled by the regression Equation \ref(eqn:lm2) for two domestic price series (producers districts and consumer districts)", booktabs = TRUE)
+  knitr::kable(caption = "Breusch-Pagan test for heteroskedasticity of price series, modeled by the regression Equation \\ref(eqn:lm2) for two domestic price series (producers districts and consumer districts)", 
+               booktabs = TRUE)
 ```
 
 
@@ -653,15 +670,13 @@ The ADF, available in the function `adf.test()` (in the package `tseries`) imple
 The null is therefore that x has a unit root. If only x has a non-unit root, then the x is stationary (rejection of null hypothesis).
 
 ```{r adf-kpss-test-retail, results='asis'}
-# price series are log transformed to stabilize the variance
-ppf_ts_log <- price_precipitation_fuel_ts %>% 
-  mutate_at(vars(contains("price")), list(~(log(.))))
 
 # adf test for major citywise series
-stationary_series <- ppf_ts_log %>% 
+stationary_series <- ppf_ts_wide %>% 
   as_tibble() %>% # doesn't work with tsibble
-  summarise_at(vars(contains("price")), list(adf = ~list(tseries::adf.test(na.omit(.))), 
-                                             kpss = ~list(tseries::kpss.test(na.omit(.))))) %>% 
+  summarise_at(vars(contains("lp")), 
+               list(adf = ~list(tseries::adf.test(na.omit(.))), 
+                    kpss = ~list(tseries::kpss.test(na.omit(.))))) %>% 
   pivot_longer(cols = everything(), 
                names_pattern = "(.*)_(adf|kpss)", 
                names_to = c("series", "test"), 
@@ -736,50 +751,56 @@ Applying the difference to a random walk, the most simple and widely used time s
 
 We use an implementation of time series differencing based on optimal lag length in order to render series stationary. The first lag order differenced log(price) series (derived based on "kpss" test statistic) is shown in Figure \@ref(fig:differenced-series-kpss-lag). The kpss test, however, determined the precipitation series to be integrated of order null. This is due to insensitivity of test (model) to seasonal lag component, which is infact nicely captured by addtive or multiplicative trend decomposition (discussed ahead).
 
-```{r old-multivariate-price-series}
-# multivariate price series
-ppf_ts_log_box <- tsbox::ts_ts(ppf_ts_log)
-colnames(ppf_ts_log_box) <- c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "precip_npl_ck", "precip_npl_krp", "lp_fuel")
-# ppf_ts_log_box %>% plot()
-```
-
-
 ```{r differenced-series-kpss-lag, fig.cap="Plot of differenced time series for various lag length determined by kpss statistic."}
 
-diff(ppf_ts_log_box[, c(1:4,7)], lag = ndiffs(ppf_ts_log_box, test = "kpss", type = "trend")) %>% 
+diff(ppf_ts_box[, c(8, 9, 10, 11, 5, 6, 12)], lag = ndiffs(ppf_ts_box[, c(8, 9, 10, 11, 5, 6, 12)], 
+                                                           test = "kpss", type = "trend")) %>% 
   plot()
 ```
 
 The first order differencing of price renders series stationary. However, precipitation series shows distinct components. Here, a linear model is fitted to the trend component, decomposed (into seasonal and trend components) from two precipitation series (producer and consumer districts), along with other terms of Equation \@ref(eqn:lm2) and the ANOVA output is presented.
 
+### Detrending precipitation
+
 ```{r lm3-seasonality-removal-precipitation}
 # remove seasonality of precipitation and fit model
-precipitation_total_krp_trend <- decompose(price_precipitation_fuel_ts %>%
-            select(precipitation_total_nepal_kailali_rupandehi_parsa) %>%
+precip_npl_krp_trend <- decompose(ppf_ts_wide %>%
+            select(precip_npl_krp) %>%
             tsbox::ts_ts(), type = "multiplicative") %>%
   .[["trend"]]
 
-precipitation_total_ck_trend <- decompose(price_precipitation_fuel_ts %>%
-            select(precipitation_total_nepal_chitwan_and_kathmandu) %>%
+precip_npl_ck_trend <- decompose(ppf_ts_wide %>%
+            select(precip_npl_ck) %>%
             tsbox::ts_ts(), type = "multiplicative") %>%
   .[["trend"]]
+
+
+# rebuild tsibble with trend variable
+ppf_ts_wide <- ppf_ts_wide %>%
+  bind_cols(precip_npl_krp_trend = precip_npl_krp_trend,
+            precip_npl_ck_trend = precip_npl_ck_trend)
 
 ```
 
-```{r anova-producer-market}
 
-lm(data = price_precipitation_fuel_ts %>%
-                  bind_cols(precipitation_total_krp_trend = precipitation_total_krp_trend,
-                            precipitation_total_ck_trend = precipitation_total_ck_trend),
-                formula = price_nepal_kailali_rupandehi_parsa ~
+Here linear model is fitted with trend component only that of precipitation.
+
+```{r lm3-producer-market}
+
+price_lm31 <- lm(data = ppf_ts_wide,
+                formula = lp_npl_krp ~
                  date +
-                 price_canada +
-                 price_india +
-                 price_nepal_chitwan_and_kathmandu +
-                 precipitation_total_ck_trend +
-                 precipitation_total_krp_trend +
-                 fuel_price
-                 ) %>% 
+                 lp_canada +
+                 lp_india +
+                 lp_npl_ck +
+                 precip_npl_ck_trend +
+                 precip_npl_krp_trend +
+                 lp_fuel
+                 )
+```
+
+```{r lm3-anova-producer-market-tab}
+price_lm31 %>% 
   anova() %>% 
   broom::tidy() %>% 
   knitr::kable(caption = "ANOVA of linear model fit with trend component of precipitation series with price(producer market) as dependent variable.", booktabs = TRUE, digits = 2)
@@ -787,18 +808,22 @@ lm(data = price_precipitation_fuel_ts %>%
 ```
 
 
-```{r anova-consumer-market}
-lm(data = price_precipitation_fuel_ts %>%
-     bind_cols(precipitation_total_krp_trend = precipitation_total_krp_trend,
-               precipitation_total_ck_trend = precipitation_total_ck_trend),
-   formula = price_nepal_chitwan_and_kathmandu ~
-     date +
-     price_canada +
-     price_india + price_nepal_kailali_rupandehi_parsa +
-     precipitation_total_ck_trend +
-     precipitation_total_krp_trend +
-     fuel_price
-) %>% 
+```{r lm3-consumer-market}
+price_lm32 <- lm(data = ppf_ts_wide,
+                formula = lp_npl_ck ~
+                 date +
+                 lp_canada +
+                 lp_india +
+                 lp_npl_krp +
+                 precip_npl_ck_trend +
+                 precip_npl_krp_trend +
+                 lp_fuel
+                 )
+```
+
+
+```{r lm3-anova-consumer-market-tab}
+price_lm32 %>% 
   anova() %>% 
   broom::tidy() %>% 
   knitr::kable(caption = "ANOVA of linear model fit with trend component of precipitation series with price(consumer market) as dependent variable.", booktabs = TRUE, digits = 2)
@@ -945,72 +970,11 @@ with $\widehat{\Sigma}_u$ denoting the estimate of the $k \times k$ covariance m
 
 As for univariate distributed lag models, one should think carefully about variables to include in a VAR, as adding unrelated variables reduces the forecast accuracy by increasing the estimation error. This is particularly important because the number of parameters to be estimated grows qudratically to the number of variables modeled by the VAR.
 
-<!-- ```{r retail-var-fitt-oldstyle} -->
-
-<!-- # # # Multivariate VAR (with 7 variables, i.e., markets) with lag order 1 -->
-<!-- # rice -->
-<!-- retail_mhub_var_rice <- retail_mhub_filled %>%  -->
-<!--   select(cmname:lprice, -price, -admname) %>% -->
-<!--   filter(cmname == "Rice - Retail") %>%  -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
-
-<!-- # wheat -->
-<!-- retail_mhub_var_wheat <- retail_mhub_filled %>%  -->
-<!--   select(cmname:lprice, -price, -admname) %>% -->
-<!--   filter(cmname == "Wheat - Retail") %>%  -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
-<!-- ``` -->
-
-<!-- ```{r retail-var-summary-old-style} -->
-
-<!-- # rice summary -->
-<!-- retail_mhub_var_rice %>% -->
-<!--   summary() -->
-<!-- # districtwise residual vs fit plots with acf and pacf -->
-<!-- # plot(retail_mhub_var_rice) -->
-
-<!-- # wheat summary -->
-<!-- retail_mhub_var_wheat %>% -->
-<!--   summary() -->
-<!-- # districtwise residual vs fit plot with acf and pacf -->
-<!-- # plot(retail_mhub_var_wheat) -->
-
-<!-- # # # model dissection -->
-<!-- # each var model is a list of linear model objects -->
-
-<!-- # inspect individual model and check terms for significant effects -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Kathmandu %>% broom::tidy() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Kathmandu %>% coefplot::coefplot() -->
-<!-- # this suggests that retail price of rice in kathmandu are strongly associated with its retail price in the same district during previous month. -->
-
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Parsa %>% coefplot::coefplot() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Morang %>% coefplot::coefplot() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Kailali %>% coefplot::coefplot() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Banke %>% coefplot::coefplot() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Kaski %>% coefplot::coefplot() -->
-<!-- retail_mhub_var_rice$varresult$Rice...Retail_Rupandehi %>% coefplot::coefplot() -->
-<!-- ``` -->
-
-
 ```{r retail-var-fit-tidy, results='asis'}
-# # # # tidy VAR model fitting
-
-ppf_ts_log <- ppf_ts_log %>% 
-  rename(lp_canada = price_canada, lp_india = price_india, 
-         lp_npl_ck = price_nepal_chitwan_and_kathmandu, 
-         lp_npl_krp = price_nepal_kailali_rupandehi_parsa, 
-         precip_npl_ck = precipitation_total_nepal_chitwan_and_kathmandu, 
-         precip_npl_krp = precipitation_total_nepal_kailali_rupandehi_parsa, 
-         lp_fuel = fuel_price)
-
-  
-ppf_ar1_var_fit <- ppf_ts_log %>%
-  fill_gaps() %>%
-  imputeTS::na_interpolation() %>% 
+# # tidy VAR model fitting
+# beware that seasonal decomposition introduces NAs
+ppf_ar1_var_fit <- ppf_ts_wide %>%
+  filter(!is.na(precip_npl_ck_trend) | !is.na(precip_npl_krp_trend)) %>% 
   model(var_fit = VAR(vars(lp_npl_ck, lp_npl_krp) ~ AR(p = 1) + 
                         lp_canada + 
                         lp_india + 
@@ -1018,9 +982,10 @@ ppf_ar1_var_fit <- ppf_ts_log %>%
                         precip_npl_krp +
                         lp_fuel)) # fit AR1 model
   
-# map(ppf_ar1_var_fit$var_fit, ~.x %>% glance()) %>% 
-#   map_dfr(bind_rows) %>% 
-#   knitr::kable(caption = "Model performance indicators of VAR(AR(1)) model for wheat log(price) series with two domestic (producer and consumer) markets as endogeneous variables and other price series, precipitation and fuel series as exogeneous regressors.", booktabs = TRUE, longtable = TRUE, digits = 3)
+map(ppf_ar1_var_fit$var_fit, ~.x %>% glance()) %>% 
+  .[[1]] %>% 
+  select(-sigma2) %>% 
+  knitr::kable(caption = "Model performance indicators of VAR(AR(1)) model for wheat log(price) series with two domestic (producer and consumer) markets as endogeneous variables and other price series, precipitation and fuel series as exogeneous regressors.", booktabs = TRUE, longtable = TRUE, digits = 3)
   
 ppf_ar1_var_fit$var_fit[[1]] %>% 
   broom::tidy() %>% 
@@ -1028,12 +993,6 @@ ppf_ar1_var_fit$var_fit[[1]] %>%
 
 ```
 
-
-<!-- ## Tidy VAR fitting -->
-
-<!-- ```{r} -->
-<!-- cbind(mdeaths, fdeaths) %>% as_tsibble(pivot_longer = F) %>% model(VAR(vars(log(mdeaths), fdeaths)~AR(3))) %>% report() -->
-<!-- ``` -->
 
 <!-- # Annual wholesale price of major food commodities -->
 
@@ -1084,480 +1043,422 @@ ppf_ar1_var_fit$var_fit[[1]] %>%
 
 <!-- ``` -->
 
-<!-- ## Causality test -->
+## Causality test
 
-<!-- Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality [@granger1988causality] inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is *granger-caused* by the second one. -->
+Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality [@granger1988causality] inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is *granger-caused* by the second one.
 
-<!-- The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption^[https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html]. @papana2014identifying state that GC test can only to applied if both the series are stationary^[[Mindy Mallory's blog article also suggests that series be stationary](http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/)]. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data. -->
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption^[https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html]. @papana2014identifying state that GC test can only to applied if both the series are stationary^[[Mindy Mallory's blog article also suggests that series be stationary](http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/)]. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
 
-<!-- Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals. -->
+Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals.
 
-<!-- ### Case I: GC test on undifferenced log(price) series -->
+## VAR based GC test
 
-<!-- ```{r gc-test-undifferenced-series} -->
+```{r gc-test-undifferenced-series}
 
-<!-- # # # Multivariate VAR (with 7 variables, i.e., markets) with lag order 1 --> -->
-<!-- # rice -->
-<!-- retail_mhub_var_rice_data <- retail_mhub_filled %>%  -->
-<!--   select(cmname:lprice, -price, -admname) %>% -->
-<!--   filter(cmname == "Rice - Retail") %>% -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() -->
+# # # Multivariate VAR (with 2 variables, i.e., markets) with lag order 1 -->
+ppf_ts_box <- ppf_ts_wide %>%
+  tsbox::ts_ts() %>% 
+  na.omit()
 
-<!-- colnames(retail_mhub_var_rice_data) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi") -->
+ppf_ts_box_var <- vars::VAR(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+                                        p = 1, ic = "SC", type = "const", lag.max = 2, 
+                                        exogen = ppf_ts_box[,c("precip_npl_krp_trend", "precip_npl_ck_trend")])
 
-<!-- retail_mhub_var_rice <- retail_mhub_var_rice_data %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
+# # Wheat
+# Does log(price) of respective markets Granger-cause log(price) change of other markets
+gc_boot_wheat <- map_df(.x = c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel"),
+                        .f = ~vars::causality(ppf_ts_box_var, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy()
+)
 
-<!-- # wheat -->
-<!-- retail_mhub_var_wheat_data <- retail_mhub_filled %>% -->
-<!--   select(cmname:lprice, -price, -admname) %>% -->
-<!--   filter(cmname == "Wheat - Retail") %>%  -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() -->
+gc_boot_wheat %>%
+  knitr::kable(caption = "Granger causality test of multivariate (5 equation) VAR system of Wheat log(price) series (Precipitation trend was used as exogeneous regressor).", 
+               booktabs = T, digits = 3) %>%
+  kableExtra::kable_styling(latex_options = "HOLD_position") %>%
+  kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em"))
 
-<!-- colnames(retail_mhub_var_wheat_data) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi") -->
+```
 
-<!-- retail_mhub_var_wheat <- retail_mhub_var_wheat_data %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
 
-<!-- # # Rice -->
-<!-- # Does log(price) of respective markets Granger-cause log(price) change of other markets -->
-<!-- gc_boot_rice   <- map_df(.x = colnames(retail_mhub_var_rice_data), -->
-<!--                     .f = ~vars::causality(retail_mhub_var_rice, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy() -->
-<!-- ) -->
 
-<!-- gc_boot_rice %>%  -->
-<!--   knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Rice log(price) series", booktabs = T, digits = 3) %>% -->
-<!--   kableExtra::kable_styling(latex_options = "HOLD_position") %>%  -->
-<!--   kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em")) -->
+# Cointegration
 
-<!-- # # Wheat -->
-<!-- # Does log(price) of respective markets Granger-cause log(price) change of other markets -->
-<!-- gc_boot_wheat   <- map_df(.x = colnames(retail_mhub_var_wheat_data), -->
-<!--                     .f = ~vars::causality(retail_mhub_var_wheat, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy() -->
-<!-- ) -->
+## Residual based
 
-<!-- gc_boot_wheat %>%  -->
-<!--   knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Wheat log(price) series", booktabs = T, digits = 3) %>% -->
-<!--   kableExtra::kable_styling(latex_options = "HOLD_position") %>%  -->
-<!--   kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em")) -->
+Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series).
 
-<!-- ``` -->
+A two step method proposed by @hylleberg1990seasonal can be used to test for cointegration.
 
+The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after @phillips1990asymptotic. Specifically, `po.test()` performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance.
 
-<!-- ### Case II: GC test on differenced log(price) series -->
+The test computes the Phillips-Ouliaris test for the null hypothesis that series is not cointegrated [@R-tseries].
 
-<!-- ```{r gc-test-differenced-series} -->
 
-<!-- # # # Multivariate VAR (with 7 variables, i.e., markets) with lag order 1 --> -->
-<!-- # rice -->
-<!-- retail_mhub_var_rice_data_diff <- retail_mhub_filled %>%  -->
-<!--   select(cmname, mktname, date, lprice_diff) %>% -->
-<!--   filter(cmname == "Rice - Retail") %>% -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() -->
+```{r pairwise-phillips-cointegration}
+# need to perform pairwise cointegration tests
+# philip-oularis test
+# we map to simultaneously test in wheat commodity
+pairwise_series_name <- combn(c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel"), 2) %>%
+  t()
 
-<!-- colnames(retail_mhub_var_rice_data_diff) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi") -->
+pairwise_series_name <- pairwise_series_name %>% 
+  as_tibble()
+  
+# wheat series
+wheat_series_combination <- map2(pairwise_series_name[,1, drop = TRUE],
+     pairwise_series_name[,2, drop = T],
+    ~tsbox::ts_ts(select(ppf_ts_wide, .x, .y)))
 
-<!-- retail_mhub_var_rice_diff <- retail_mhub_var_rice_data_diff %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
+# # note that po test results aren't symmetric for same series done in different order
+wheat_series_combination_po_test <- map(wheat_series_combination, ~tseries::po.test(.x[, 1:2])) %>%
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
 
-<!-- # wheat -->
-<!-- retail_mhub_var_wheat_data_diff <- retail_mhub_filled %>% -->
-<!--   select(cmname, mktname, date, lprice_diff) %>% -->
-<!--   filter(cmname == "Wheat - Retail") %>%  -->
-<!--   tsbox::ts_ts() %>%  -->
-<!--   na.omit() -->
+wheat_cointegration_pair <- wheat_series_combination_po_test %>% map_df(~ list(p_value = .x[["p.value"]],
+                                                  statistic = .x[["statistic"]]), .id = "combination")
 
-<!-- colnames(retail_mhub_var_wheat_data_diff) <- c("kathmandu", "parsa", "morang", "kailali", "banke", "kaski", "rupandehi") -->
+wheat_cointegration_pair %>%
+  knitr::kable(caption = "Phillips-Ouliaris cointegration test for Wheat log(price) series of selected district markethubs", booktabs = T, longtable = T, digits = 3)
+```
 
-<!-- retail_mhub_var_wheat_diff <- retail_mhub_var_wheat_data_diff %>%  -->
-<!--   vars::VAR(p = 1, ic = "SC", type = "const", lag.max = 2) -->
+Note `po.test` does not handle missing values, so we fix them through imputation. It is implemented through `tidyr::fill(..., .direction = "down")`.
 
-<!-- # # Rice -->
-<!-- # Does log(price) of respective markets Granger-cause log(price) change of other markets -->
-<!-- gc_boot_rice_diff   <- map_df(.x = colnames(retail_mhub_var_rice_data_diff), -->
-<!--                     .f = ~vars::causality(retail_mhub_var_rice_diff, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy() -->
-<!-- ) -->
+The test suggests that all series (Both that of wheat and rice) are cointegrated for selected pairwise combination of district markets.
 
-<!-- gc_boot_rice_diff %>%  -->
-<!--   knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Rice first order differenced log(price) series", booktabs = T, digits = 3) %>% -->
-<!--   kableExtra::kable_styling(latex_options = "HOLD_position") %>%  -->
-<!--   kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em")) -->
+The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric.
 
-<!-- # # Wheat -->
-<!-- # Does log(price) of respective markets Granger-cause log(price) change of other markets -->
-<!-- gc_boot_wheat_diff   <- map_df(.x = colnames(retail_mhub_var_wheat_data_diff), -->
-<!--                     .f = ~vars::causality(retail_mhub_var_wheat_diff, cause = .x, boot = TRUE, boot.runs = 5000)$Granger %>% tidy() -->
-<!-- ) -->
+The po.test() function is testing the cointegration with Phillip’s Z_alpha test, which is the second residual-based test described by @phillips1990asymptotic. Because the po.test() will use the series at the first position to derive the residual used in the test, results would be determined by the series on the most left-hand side^[https://www.r-craft.org/r-news/phillips-ouliaris-test-for-cointegration/].
 
-<!-- gc_boot_wheat_diff %>%  -->
-<!--   knitr::kable(caption = "Granger causality test of multivariate (7 market series) var models of Wheat first order differenced log(price) series", booktabs = T, digits = 3) %>% -->
-<!--   kableExtra::kable_styling(latex_options = "HOLD_position") %>%  -->
-<!--   kableExtra::column_spec(1:4, width = c("3em", "3em", "3em", "20em")) -->
+The Phillips-Ouliaris test implemented in the `ca.po()` function from the urca package is different. In the `ca.po()` function, there are two cointegration tests implemented, namely “Pu” and “Pz” tests. Although both the `ca.po()` function and the po.test() function are supposed to do the Phillips-Ouliaris test，outcomes from both functions are completely different.
 
-<!-- ``` -->
+Similar to Phillip’s Z_alpha test, the Pu test also is not invariant to the position of each series and therefore would give different outcomes based upon the series on the most left-hand side. On the contrary, the multivariate trace statistic of Pz test has its appeal in that the outcome won’t change by the position of each series.
 
+## VAR based
 
-<!-- # Cointegration -->
+The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach [@johansen1991estimation].
 
-<!-- ## Residual based -->
+A general vector autoregressive model is similar to the AR(p) model except that each quantity is vector valued and matrices are used as the coefficients. The general form of the VAR(p) model, without drift, is given by:
 
-<!-- Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series). -->
+\begin{equation}
+\label{eqn:var-general}
+{\bf y_t} = {\bf \mu} + A_1 {\bf y_{t-1}} + \ldots + A_j {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
 
-<!-- A two step method proposed by @hylleberg1990seasonal can be used to test for cointegration. -->
+Where ${\bf \mu}$ is the vector-valued mean of the series, $A_i$ are the coefficient matrices for each lag and ${\bf \varepsilon_t}$ is a multivariate Gaussian noise term with mean zero.
 
-<!-- The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after @phillips1990asymptotic. Specifically, `po.test()` performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance. -->
+At this stage we can form a Vector Error Correction Model (VECM) by differencing the series (Equation \@ref(eqn:vecm-differenced)).
 
-<!-- The test computes the Phillips-Ouliaris test for the null hypothesis that series is not cointegrated [@R-tseries]. -->
+\begin{equation}
+\label{eqn:vecm-differenced}
+\Delta {\bf y_t} = {\bf \mu} + A {\bf y_{t-1}} + \Gamma_1 \Delta {\bf y_{t-1}} + \ldots + \Gamma_j \Delta {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
 
-<!-- We check the rice retail price series for all combination major districtwise markets. -->
+Where $\Delta {\bf y_t} = {\bf y_t} - {\bf y_{t-1}}$ is the differencing operator, $A$ is the coefficient matrix for the first lag and $\Gamma_i$ are the matrices for each differenced lag.
 
-<!-- ```{r series-mktname-wise-cname} -->
-<!-- retail_mhub_cmwise <- retail_pr_np_wfp %>%  -->
-<!--   group_by(cmname, mktname) %>%  -->
-<!--   summarise(lprice = log(mean(price, na.rm = T))) %>%  -->
-<!--   ungroup() %>%  -->
-<!--   group_split(cmname) %>%  -->
-<!--   set_names(c("rice", "wheat")) %>%  -->
-<!--   map(~fill_gaps(.x, .full = FALSE) %>%  -->
-<!--         tidyr::fill(lprice, .direction = "down")) -->
-<!-- ``` -->
+For a $p^{th}$ -order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components; both no intercept or trend in either cointegrating equation or test var), we may rewrite the VAR in the form of Equation \@ref(eqn:johansens) [@johansen1991estimation].
 
+<!-- For more information refer to:  -->
+<!-- - [Eviews documentation](./literatures/johansen_cointegration_eviews.pdf)  -->
+<!-- - [Quantstart post](./literatures/johansen_cointegration_quantstart.pdf) -->
+<!-- - [Kevin kotze's post](./literatures/johansen_cointegration_kevin_kotze.pdf) -->
 
-<!-- ```{r pairwise-phillips-cointegration} -->
-<!-- # need to perform pairwise cointegration tests -->
-<!-- # philip-oularis test -->
-<!-- # we map to simultaneously test in different commodities (rice and wheat) -->
-<!-- pairwise_series_name <- combn(c("Morang", "Parsa", "Kathmandu", "Kaski", "Rupandehi", "Banke", "Kailali"), 2) %>%  -->
-<!--   t() -->
+<!-- equation labeling trick: https://stackoverflow.com/questions/55923290/consistent-math-equation-numbering-in-bookdown-across-pdf-docx-html-output -->
 
-<!-- # rice series -->
-<!-- rice_series_combination <- map2(pairwise_series_name[,1], -->
-<!--      pairwise_series_name[,2], -->
-<!--     ~tsbox::ts_ts(filter(retail_mhub_cmwise[[1]], mktname %in% c(.x, .y)))) -->
+\begin{equation}
+\label{eqn:johansens}
+\Delta y_t = \Pi y_{t-1} + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t
+\end{equation}
 
-<!-- # # po test results aren't symmetric for same series done in different order -->
-<!-- rice_series_combination_po_test <- map(rice_series_combination, ~tseries::po.test(.x[, 1:2])) %>%  -->
-<!--   set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`) -->
+Where,
 
-<!-- # wheat series -->
-<!-- wheat_series_combination <- map2(pairwise_series_name[,1], -->
-<!--      pairwise_series_name[,2], -->
-<!--     ~tsbox::ts_ts(filter(retail_mhub_cmwise[[2]], mktname %in% c(.x, .y)))) -->
+$$
+\Pi = \sum^{p}_{i = 1}{A_{i}-I}; \Gamma = -\sum^{p}_{j = i + 1}{j}
+$$
 
-<!-- # # po test results aren't symmetric for same series done in different order -->
-<!-- wheat_series_combination_po_test <- map(wheat_series_combination, ~tseries::po.test(.x[, 1:2])) %>%  -->
-<!--   set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`) -->
+(Although, for simplicity sake, we assume absence of deterministic trends, there are five popular scenarios of including such trends in a cointegration test. All of these are described in [@johansen1995identifying].)
 
-<!-- rice_cointegration_pair <- rice_series_combination_po_test %>% map_df(~ list(p_value = .x[["p.value"]],  -->
-<!--                                                   statistic = .x[["statistic"]]), .id = "combination") -->
-<!-- wheat_cointegration_pair <- wheat_series_combination_po_test %>% map_df(~ list(p_value = .x[["p.value"]],  -->
-<!--                                                   statistic = .x[["statistic"]]), .id = "combination") -->
+Granger's representation theorem asserts that if the coefficient matrix $\Pi$ has reduced rank $r < k$, then there exist $kxr$ matrices $\alpha$ and $\beta$ each with rank $k$ such that $\Pi = \alpha \beta^{\prime}$ and $\beta^{\prime}y_t$ is $I(0)$.
 
-<!-- rice_cointegration_pair %>% -->
-<!--   knitr::kable(caption = "Phillips-Ouliaris cointegration test for Rice log(price) series of selected district markethubs", booktabs = T, longtable = T, digits = 3) -->
+To achieve this an eigenvalue decomposition of $A$ is carried out. The rank of the matrix $A$ is given by $r$ and the Johansen test sequentially tests whether this rank $r$ is equal to zero, equal to one, through to $r=n-1$, where $n$ is the number of time series under test.
 
-<!-- wheat_cointegration_pair %>%  -->
-<!--   knitr::kable(caption = "Phillips-Ouliaris cointegration test for Wheat log(price) series of selected district markethubs", booktabs = T, longtable = T, digits = 3) -->
-<!-- ``` -->
+The null hypothesis of $r=0$ means that there is no cointegration at all. A rank $r > 0$ implies a cointegrating relationship between two or possibly more time series.
 
-<!-- Note `po.test` does not handle missing values, so we fix them through imputation. It is implemented through `tidyr::fill(..., .direction = "down")`. -->
+The eigenvalue decomposition results in a set of eigenvectors. The components of the largest eigenvector admits the important property of forming the coefficients of a linear combination of time series to produce a stationary portfolio. Notice how this differs from the CADF test (often known as the Engle-Granger procedure) where it is necessary to ascertain the linear combination a priori via linear regression and ordinary least squares (OLS).
 
-<!-- The test suggests that all series (Both that of wheat and rice) are cointegrated for selected pairwise combination of district markets. -->
+In summary, the test checks for the situation of no cointegration, which occurs when the matrix $A=0$. So, starting with the base value of $r$ (i.e., $r=0$), if the test statistic is greater than critical values of at the 10%, 5% and 1% levels, this would imply that we are **able** to reject the null of no cointegration. For the case r<=1, we if the calculated test statistic is below the critical values of, we are **unable** to reject the null, and the number of cointegrating vectors is between 0 and 1. The relevant tests are available in the function `urca::ca.jo()`. The basic version considers the eigenvalues of the matrix $\Pi$ in the preceding equation.
 
-<!-- The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric. -->
+Here, we employ the trace statistic -- the maximum eigenvalue, or "lambdamax" test is available as well -- in an equation amended by a constant term (specified by ecdet = "const"), yielding:
 
-<!-- The po.test() function is testing the cointegration with Phillip’s Z_alpha test, which is the second residual-based test described by @phillips1990asymptotic. Because the po.test() will use the series at the first position to derive the residual used in the test, results would be determined by the series on the most left-hand side^[https://www.r-craft.org/r-news/phillips-ouliaris-test-for-cointegration/]. -->
 
-<!-- The Phillips-Ouliaris test implemented in the `ca.po()` function from the urca package is different. In the `ca.po()` function, there are two cointegration tests implemented, namely “Pu” and “Pz” tests. Although both the `ca.po()` function and the po.test() function are supposed to do the Phillips-Ouliaris test，outcomes from both functions are completely different. -->
+```{r wheat-cajo-test-pairwise, fig.width=6, out.width="90%", results='asis'}
+# # pairwise johansens cointegration test
+# output is later used in plotting (dont delete)
+wheat_series_combination_cajo_test <- map(wheat_series_combination,
+                                          ~urca::ca.jo(log(.x), ecdet = "const", type = "trace")) %>%
+  set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`)
+
+
+# wheat_series_combination_cajo_test_tidy <- map(wheat_series_combination_cajo_test, ~summary(.x)) %>%
+#   # .[1] %>%
+#   map(.f = function(x){
+#     map(.x = c("model", "type", "teststat", "cval", "lambda", "V", "W"), .f = function(y)slot(x, y))
+#     })
+# 
+# # test statistic and confidence interval summary of log(price)
+# wheat_series_combination_cajo_test_statcval <- map(wheat_series_combination_cajo_test_tidy,
+#                                                    ~cbind(test_stat = .x[[3]], conf_val = .x[[4]]) %>%
+#                                                      as_tibble(rownames = "gamma")) %>%
+#   map2(.y = names(.),
+#        .f = ~.x %>%
+#          knitr::kable(caption = paste("Johansen cointegration test summary for", .y), booktabs = TRUE, longtable = TRUE))
+# 
+# walk(wheat_series_combination_cajo_test_statcval, print)
 
-<!-- Similar to Phillip’s Z_alpha test, the Pu test also is not invariant to the position of each series and therefore would give different outcomes based upon the series on the most left-hand side. On the contrary, the multivariate trace statistic of Pz test has its appeal in that the outcome won’t change by the position of each series. -->
+```
 
-<!-- ## VAR based -->
 
-<!-- The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach [@johansen1991estimation]. -->
-
-<!-- A general vector autoregressive model is similar to the AR(p) model except that each quantity is vector valued and matrices are used as the coefficients. The general form of the VAR(p) model, without drift, is given by: -->
-
-<!-- \begin{equation} -->
-<!-- \label{eqn:var-general} -->
-<!-- {\bf y_t} = {\bf \mu} + A_1 {\bf y_{t-1}} + \ldots + A_j {\bf y_{t-j}} + {\bf \varepsilon_t}  -->
-<!-- \end{equation} -->
-
-<!-- Where ${\bf \mu}$ is the vector-valued mean of the series, $A_i$ are the coefficient matrices for each lag and ${\bf \varepsilon_t}$ is a multivariate Gaussian noise term with mean zero. -->
-
-<!-- At this stage we can form a Vector Error Correction Model (VECM) by differencing the series (Equation \@ref(eqn:vecm-differenced)). -->
-
-<!-- \begin{equation} -->
-<!-- \label{eqn:vecm-differenced} -->
-<!-- \Delta {\bf y_t} = {\bf \mu} + A {\bf y_{t-1}} + \Gamma_1 \Delta {\bf y_{t-1}} + \ldots + \Gamma_j \Delta {\bf y_{t-j}} + {\bf \varepsilon_t}  -->
-<!-- \end{equation} -->
-
-<!-- Where $\Delta {\bf y_t} = {\bf y_t} - {\bf y_{t-1}}$ is the differencing operator, $A$ is the coefficient matrix for the first lag and $\Gamma_i$ are the matrices for each differenced lag. -->
-
-<!-- For a $p^{th}$ -order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components; both no intercept or trend in either cointegrating equation or test var), we may rewrite the VAR in the form of Equation \@ref(eqn:johansens) [@johansen1991estimation]. -->
-
-<!-- <!-- For more information refer to:  --> -->
-<!-- <!-- - [Eviews documentation](./literatures/johansen_cointegration_eviews.pdf)  --> -->
-<!-- <!-- - [Quantstart post](./literatures/johansen_cointegration_quantstart.pdf) --> -->
-<!-- <!-- - [Kevin kotze's post](./literatures/johansen_cointegration_kevin_kotze.pdf) --> -->
-
-<!-- <!-- equation labeling trick: https://stackoverflow.com/questions/55923290/consistent-math-equation-numbering-in-bookdown-across-pdf-docx-html-output --> -->
-
-<!-- \begin{equation} -->
-<!-- \label{eqn:johansens} -->
-<!-- \Delta y_t = \Pi y_{t-1} + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t -->
-<!-- \end{equation} -->
-
-<!-- Where, -->
-
-<!-- $$ -->
-<!-- \Pi = \sum^{p}_{i = 1}{A_{i}-I}; \Gamma = -\sum^{p}_{j = i + 1}{j} -->
-<!-- $$ -->
-
-<!-- (Although, for simplicity sake, we assume absence of deterministic trends, there are five popular scenarios of including such trends in a cointegration test. All of these are described in [@johansen1995identifying].) -->
-
-<!-- Granger's representation theorem asserts that if the coefficient matrix $\Pi$ has reduced rank $r < k$, then there exist $kxr$ matrices $\alpha$ and $\beta$ each with rank $k$ such that $\Pi = \alpha \beta^{\prime}$ and $\beta^{\prime}y_t$ is $I(0)$. -->
-
-<!-- To achieve this an eigenvalue decomposition of $A$ is carried out. The rank of the matrix $A$ is given by $r$ and the Johansen test sequentially tests whether this rank $r$ is equal to zero, equal to one, through to $r=n-1$, where $n$ is the number of time series under test. -->
-
-<!-- The null hypothesis of $r=0$ means that there is no cointegration at all. A rank $r > 0$ implies a cointegrating relationship between two or possibly more time series. -->
-
-<!-- The eigenvalue decomposition results in a set of eigenvectors. The components of the largest eigenvector admits the important property of forming the coefficients of a linear combination of time series to produce a stationary portfolio. Notice how this differs from the CADF test (often known as the Engle-Granger procedure) where it is necessary to ascertain the linear combination a priori via linear regression and ordinary least squares (OLS). -->
-
-<!-- In summary, the test checks for the situation of no cointegration, which occurs when the matrix $A=0$. So, starting with the base value of $r$ (i.e., $r=0$), if the test statistic is greater than critical values of at the 10%, 5% and 1% levels, this would imply that we are **able** to reject the null of no cointegration. For the case r<=1, we if the calculated test statistic is below the critical values of, we are **unable** to reject the null, and the number of cointegrating vectors is between 0 and 1. The relevant tests are available in the function `urca::ca.jo()`. The basic version considers the eigenvalues of the matrix $\Pi$ in the preceding equation. -->
-
-<!-- Here, we employ the trace statistic -- the maximum eigenvalue, or "lambdamax" test is available as well -- in an equation amended by a constant term (specified by ecdet = "const"), yielding: -->
-
-<!-- ```{r cajo-test-procedure} -->
-
-<!-- # # Johansens cointegration test -->
-<!-- # # data -->
-<!-- # retail_mhub_cmwise # (generated in code chunk 'series-mktname-wise-cname') -->
-<!-- # pairwise_series_name # (generated in code chunk 'pairwise-phillips-cointegration') -->
-
-<!-- # rice_series_combination # (generated in code chunk 'series-mktname-wise-cname') -->
-<!-- # wheat_series_combination # (generated in code chunk 'series-mktname-wise-cname') -->
-
-<!-- # # ca.jo test -->
-<!-- rice_series_combination_cajo_test <- map(rice_series_combination, ~urca::ca.jo(log(.x), ecdet = "const", type = "trace")) %>%  -->
-<!--   set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`) -->
-
-<!-- wheat_series_combination_cajo_test <- map(wheat_series_combination, ~urca::ca.jo(log(.x), ecdet = "const", type = "trace")) %>%  -->
-<!--   set_names(unite(as_tibble(pairwise_series_name), col = "single_col", sep = "-")$`single_col`) -->
-
-<!-- ``` -->
-
-<!-- Johansen cointegration test summary and time series plots for rice (district marketwise) -->
-
-<!-- ```{r rice-cajo-test, fig.width=6, out.width="90%", results='asis'} -->
-<!-- rice_series_combination_cajo_test_tidy <- map(rice_series_combination_cajo_test, ~summary(.x)) %>%  -->
-<!--   # .[1] %>%  -->
-<!--   map(.f = function(x){ -->
-<!--     map(.x = c("model", "type", "teststat", "cval", "lambda", "V", "W"), .f = function(y)slot(x, y)) -->
-<!--     }) -->
-
-
-<!-- # test statistic and confidence interval summary of log(price) -->
-<!-- rice_series_combination_cajo_test_statcval <- map(rice_series_combination_cajo_test_tidy, ~cbind(test_stat = .x[[3]], conf_val = .x[[4]]) %>%  -->
-<!--                                                      as_tibble(rownames = "gamma")) %>%  -->
-<!--   map2(.y = names(.),  -->
-<!--        .f = ~.x %>%  -->
-<!--          knitr::kable(caption = paste("Johansen cointegration test summary for", .y), booktabs = TRUE, longtable = TRUE)) -->
-<!-- walk(rice_series_combination_cajo_test_statcval, print) -->
-
-<!-- # map(rice_series_combination_cajo_test, ~plot(.x)) -->
-<!-- ``` -->
-
-
-<!-- Johansen cointegration test summary and time series plots for wheat (district marketwise) -->
-
-<!-- ```{r wheat-cajo-test, fig.width=6, out.width="90%", results='asis'} -->
-<!-- wheat_series_combination_cajo_test_tidy <- map(wheat_series_combination_cajo_test, ~summary(.x)) %>%  -->
-<!--   # .[1] %>%  -->
-<!--   map(.f = function(x){ -->
-<!--     map(.x = c("model", "type", "teststat", "cval", "lambda", "V", "W"), .f = function(y)slot(x, y)) -->
-<!--     }) -->
-
-<!-- # test statistic and confidence interval summary of log(price) -->
-<!-- wheat_series_combination_cajo_test_statcval <- map(wheat_series_combination_cajo_test_tidy, ~cbind(test_stat = .x[[3]], conf_val = .x[[4]]) %>%  -->
-<!--                                                      as_tibble(rownames = "gamma")) %>%  -->
-<!--   map2(.y = names(.),  -->
-<!--        .f = ~.x %>%  -->
-<!--          knitr::kable(caption = paste("Johansen cointegration test summary for", .y), booktabs = TRUE, longtable = TRUE)) -->
-<!-- walk(wheat_series_combination_cajo_test_statcval, print) -->
-
-<!-- # map(wheat_series_combination_cajo_test, ~plot(.x, type = "single")) -->
-<!-- ``` -->
-
-
-<!-- ```{r wheat-rice-ci-out-bind} -->
-
-<!-- wheat_series_combination_cajo_test_ci_out <- map(wheat_series_combination_cajo_test,  -->
-<!--     ~.x@x %*% .x@V[-(.x@P + 1), ]) -->
-<!-- rice_series_combination_cajo_test_ci_out <- map(rice_series_combination_cajo_test,  -->
-<!--     ~.x@x %*% .x@V[-(.x@P + 1), ]) -->
-
-<!-- ``` -->
-
-
-<!-- ```{r grid-arrange-share-legend} -->
-<!-- grid_arrange_share_legend_m <- function(..., nrow = 1, ncol = length(list(...)), position = c("bottom", "right")) { -->
-<!--   plots <- list(...) -->
-<!--   position <- match.arg(position) -->
-<!--   g <- ggplot2::ggplotGrob(plots[[1]] + ggplot2::theme(legend.position = position))$grobs -->
-<!--   legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]] -->
-<!--   lheight <- sum(legend$height) -->
-<!--   lwidth <- sum(legend$width) -->
-<!--   gl <- lapply(plots, function(x) x + theme(legend.position = "none")) -->
-<!--   gl <- c(gl, nrow = nrow, ncol = ncol) -->
-
-<!--   combined <- switch(position, -->
-<!--                      "bottom" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl), -->
-<!--                                                        legend, -->
-<!--                                                        ncol = 1, -->
-<!--                                                        heights = grid::unit.c(unit(1, "npc") - lheight, lheight)), -->
-<!--                      "right" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl), -->
-<!--                                                       legend, -->
-<!--                                                       ncol = 2, -->
-<!--                                                       widths = grid::unit.c(unit(1, "npc") - lwidth, lwidth))) -->
-<!--   return(combined) -->
-<!-- } -->
-<!-- ``` -->
-
-<!-- Wheat series and cointegration plots -->
-
-<!-- ```{r wheat-coint-plots, fig.width=10, fig.height=6, out.width="100%", fig.show='hold', fig.align='center'} -->
-<!-- # first variable series -->
-<!-- wheat_series_ci_df1 <- map2(wheat_series_combination_cajo_test,  -->
-<!--                             wheat_series_combination_cajo_test_ci_out, -->
-<!--                             ~.x@x[, 1] %>%  -->
-<!--                               as_tsibble() %>%  -->
-<!--                               mutate(ci_test = .y[, 1])) -->
-
-<!-- wheat_series_ci_df1_bind <- wheat_series_ci_df1 %>%  -->
-<!--   map_dfr(c, .id = "which_pair") %>%  -->
-<!--   as_tsibble(index = "index", key = which_pair) -->
-
-<!-- wheat_series_df1_bind_var_gg <- wheat_series_ci_df1_bind %>% -->
-<!--   ggplot(aes(x = index, y = value, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of time series plot of y1 variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- wheat_series_ci_df1_bind_var_gg <- wheat_series_ci_df1_bind %>%  -->
-<!--   ggplot(aes(x = index, y = ci_test, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of cointegration relation of 1st variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- # second variable series -->
-<!-- wheat_series_ci_df2 <- map2(wheat_series_combination_cajo_test,  -->
-<!--                             wheat_series_combination_cajo_test_ci_out, -->
-<!--                             ~.x@x[, 2] %>%  -->
-<!--                               as_tsibble() %>%  -->
-<!--                               mutate(ci_test = .y[, 2])) -->
-
-<!-- wheat_series_ci_df2_bind <- wheat_series_ci_df2 %>%  -->
-<!--   map_dfr(c, .id = "which_pair") %>%  -->
-<!--   as_tsibble(index = "index", key = which_pair) -->
-
-<!-- wheat_series_df2_bind_var_gg <- wheat_series_ci_df2_bind %>% -->
-<!--   ggplot(aes(x = index, y = value, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of time series plot of y2 variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- wheat_series_ci_df2_bind_var_gg <- wheat_series_ci_df2_bind %>%  -->
-<!--   ggplot(aes(x = index, y = ci_test, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   # scale_color_discrete(name = "Market region") + -->
-<!--   ggtitle("Pairs of cointegration relation of 2nd variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- wheat_lprice_series_gg <- grid_arrange_share_legend_m(wheat_series_df1_bind_var_gg, wheat_series_df2_bind_var_gg, ncol = 2, position = "bottom") -->
-<!-- wheat_ci_series_gg <- grid_arrange_share_legend_m(wheat_series_ci_df1_bind_var_gg, wheat_series_ci_df2_bind_var_gg, ncol = 2, position = "bottom") -->
-
-<!-- plot(wheat_lprice_series_gg) -->
-<!-- plot(wheat_ci_series_gg) -->
-
-<!-- # walk2(c("./output/wheat_lprice_series_gg.png", "./output/wheat_ci_series_gg.png"), -->
-<!-- #      list(wheat_lprice_series_gg, wheat_ci_series_gg), -->
-<!-- #      ~ggsave(.x, .y, device = "png", width = 12, height = 8, units = "in", dpi = 280)) -->
-
-<!-- ``` -->
-
-<!-- Rice series and cointegration plots -->
-
-<!-- ```{r rice-coint-plots, fig.width=10, fig.height=6, out.width="100%", fig.show='hold', fig.align='center'} -->
-<!-- # first variable series -->
-<!-- rice_series_ci_df1 <- map2(rice_series_combination_cajo_test,  -->
-<!--                             rice_series_combination_cajo_test_ci_out, -->
-<!--                             ~.x@x[, 1] %>%  -->
-<!--                               as_tsibble() %>%  -->
-<!--                               mutate(ci_test = .y[, 1])) -->
-
-<!-- rice_series_ci_df1_bind <- rice_series_ci_df1 %>%  -->
-<!--   map_dfr(c, .id = "which_pair") %>%  -->
-<!--   as_tsibble(index = "index", key = which_pair) -->
-
-<!-- rice_series_df1_bind_var_gg <- rice_series_ci_df1_bind %>% -->
-<!--   ggplot(aes(x = index, y = value, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of time series plot of y1 variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- rice_series_ci_df1_bind_var_gg <- rice_series_ci_df1_bind %>%  -->
-<!--   ggplot(aes(x = index, y = ci_test, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of cointegration relation of 1st variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- # second variable series -->
-<!-- rice_series_ci_df2 <- map2(rice_series_combination_cajo_test,  -->
-<!--                             rice_series_combination_cajo_test_ci_out, -->
-<!--                             ~.x@x[, 2] %>%  -->
-<!--                               as_tsibble() %>%  -->
-<!--                               mutate(ci_test = .y[, 2])) -->
-
-<!-- rice_series_ci_df2_bind <- rice_series_ci_df2 %>%  -->
-<!--   map_dfr(c, .id = "which_pair") %>%  -->
-<!--   as_tsibble(index = "index", key = which_pair) -->
-
-<!-- rice_series_df2_bind_var_gg <- rice_series_ci_df2_bind %>% -->
-<!--   ggplot(aes(x = index, y = value, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   ggtitle("Pairs of time series plot of y2 variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- rice_series_ci_df2_bind_var_gg <- rice_series_ci_df2_bind %>%  -->
-<!--   ggplot(aes(x = index, y = ci_test, color = which_pair)) + -->
-<!--   geom_line() + -->
-<!--   # scale_color_discrete(name = "Market region") + -->
-<!--   ggtitle("Pairs of cointegration relation of 2nd variable") + -->
-<!--   guides(color = guide_legend(title = "Market region")) + -->
-<!--   labs(x = "Date", y = NULL) -->
-
-<!-- rice_lprice_series_gg <- grid_arrange_share_legend_m(rice_series_df1_bind_var_gg, rice_series_df2_bind_var_gg, ncol = 2, position = "bottom") -->
-<!-- rice_ci_series_gg <- grid_arrange_share_legend_m(rice_series_ci_df1_bind_var_gg, rice_series_ci_df2_bind_var_gg, ncol = 2, position = "bottom") -->
-
-<!-- plot(rice_lprice_series_gg) -->
-<!-- plot(rice_ci_series_gg) -->
-
-<!-- # walk2(c("./output/rice_lprice_series_gg.png", "./output/rice_ci_series_gg.png"), -->
-<!-- #      list(rice_lprice_series_gg, rice_ci_series_gg), -->
-<!-- #      ~ggsave(.x, .y, device = "png", width = 12, height = 8, units = "in", dpi = 280)) -->
-
-<!-- ``` -->
+Results of cointegration test of the Equation \@ref(eqn:vecm-noex-none):
+
+```{r wheat-cajo-test, fig.width=6, out.width="90%", results='asis'}
+
+# including "both" types of deterministic regressors in VECM part may be better than "trend" only.
+# because using "both" gives stronger beta coefficients in first cointegrating eigenvector, principally
+# verify that with inference.
+ca.jo(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")],
+              K=2, spec="transitory",
+              type = "trace",
+              ecdet = "trend" # "trend" type determinsitic regressor only
+              ) %>% 
+  summary() %>% 
+  slot("cval") %>% 
+  as_tibble(rownames = "Cointegration relationships") %>% 
+  knitr::kable(booktabs = TRUE, caption = "Cointegration test of log(price) series of representing national and international Wheat markets.")
+
+```
+
+
+```{r wheat-cajo-test-without-ex, results='asis'}
+# use data subsetted for values without NA
+# # fit using urca::ca.jo
+# map2(.x = c("const", "trend"), 
+#      .y = c("longrun", "transitory"),
+#     ~urca::ca.jo(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], type = "trace", 
+#             ecdet = .x, K = 2, spec = .y, 
+#             season = 12, 
+#             dumvar = ppf_ts_box[,c("precip_npl_krp_trend", "precip_npl_ck_trend")])) %>% 
+#   .[[1]] %>% 
+#   summary()
+
+# both longrun and transitory give similar result 
+
+# r = number of cointegrating vector. It is best kept at 2 for ease of intrepretation. greater the number of 
+# cointegrating vectors there are, difference between "transitory" and "longrun" relationships are more pronounced
+
+ppf_ts_vecm_noex_both <- VECM(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+     lag=1, estim="ML", r=2, 
+     # Type of deterministic regressors. "trend" and "both" types cannot be fitted (result in singularity) 
+     # by default `ca.jo()` procedure fits "constant" type deterministic regressors
+     # setting include = "none" gives different values
+     include = "const",
+     LRinclude = "both" # "both" trend and "constant" type deterministic regressors to included in the long-term relationship. 
+     )
+
+# coeffecients
+ppf_ts_vecm_noex_both$model.specific$beta %>% 
+  as_tibble(rownames = "terms") %>% 
+  knitr::kable(booktab = TRUE, caption = 'ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1 and "both" (trend and constant) type deterministic regressors included in the long-term relationship.')
+
+```
+
+\blandscape
+
+```{r wheat-cajo-test-without-ex-vecm, results='asis'}
+
+# # including "both" types of deterministic regressors in VECM part may be better than "trend" only.
+# # because using "both" gives stronger beta coefficients in first cointegrating eigenvector, principally
+# # verify that with inference. 
+# cajorls(ca.jo(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+#               K=2, spec="transitory", 
+#               type = "trace", 
+#               ecdet = "trend" # "trend" type determinsitic regressor only  
+#               ), r=2)$beta %>% 
+#   as_tibble(rownames = "terms")
+
+##export to Latex
+ppf_ts_vecm_noex_none_latex <- VECM(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+     lag=1, estim="ML", r=2, 
+     # Type of deterministic regressors. "trend" and "both" types cannot be fitted (result in singularity) 
+     # by default `ca.jo()` procedure fits "constant" type deterministic regressors
+     # setting include = "none" gives different values
+     include = "const",
+     LRinclude = "none" # "both" trend and "constant" type deterministic regressors to included in the long-term relationship. 
+     )
+cat(toLatex(ppf_ts_vecm_noex_none_latex, label = "eqn:vecm-noex-none", digits = 2)[-c(1:4)], sep = "\n") # plus a trend term both trend and constant term in obtain results
+# toLatex(summary(ppf_ts_vecm_noex_none_latex))
+options("show.signif.stars"=FALSE)
+cat(toLatex(summary(ppf_ts_vecm_noex_none_latex), parenthese="Pvalue", digits = 2)[-c(1:4)], sep = "\n")
+
+# options("show.signif.stars"=TRUE)
+
+```
+
+
+
+```{r wheat-cajo-test-withex-vecm, results='asis'}
+# lp_canada.l1 and lp_india.l1 have different beta values with the two tests (VECM and ca.jo), more so if r >= 3.
+# "longrun" estimates of `ca.jo()` are near `VECM()` estimates than the "transitory" estimates, when r is large
+# "transitory" estimates of `ca.jo()` are near `VECM()` estimates than the "longrun" estimates, when r is small.
+
+# # including exogenous regressors with trend type deterministic term.
+# for the sake of easy comparison we use "trend" type
+# exogeneous regressors -- precip_npl_ck_trend and precip_npl_krp_trend
+ppf_ts_vecm_ex_trend <- VECM(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+     lag=1, estim="ML", r=2, 
+     # Type of deterministic regressors. "trend" and "both" types cannot be fitted (result in singularity) 
+     # by default `ca.jo()` procedure fits "constant" type deterministic regressors
+     # setting include = "none" gives different values
+     include = "const",
+     exogen = ppf_ts_box[,c("precip_npl_krp_trend", "precip_npl_ck_trend")],
+     LRinclude = "trend" # type of deterministic regressors to include in the long-term relationship. 
+)
+
+ppf_ts_vecm_ex_trend$model.specific$beta %>% 
+  as_tibble(rownames = "terms") %>% 
+  knitr::kable(booktab = TRUE, caption = 'ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1, with exogeneous regressors and "trend" type deterministic regressors included in the long-term relationship.')
+
+##export to Latex
+ppf_ts_vecm_ex_none_latex <- VECM(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+     lag=1, estim="ML", r=2, 
+     # Type of deterministic regressors. "trend" and "both" types cannot be fitted (result in singularity) 
+     # by default `ca.jo()` procedure fits "constant" type deterministic regressors
+     # setting include = "none" gives different values
+     include = "const",
+     exogen = ppf_ts_box[,c("precip_npl_krp_trend", "precip_npl_ck_trend")],
+     LRinclude = "none" # type of deterministic regressors to include in the long-term relationship. 
+)
+cat(toLatex(ppf_ts_vecm_ex_none_latex, label = "eqn:vecm-ex-none", digits = 2)[-c(1:4)], sep = "\n")
+# toLatex(summary(ppf_ts_vecm_ex_none_latex))
+options("show.signif.stars"=FALSE)
+cat(toLatex(summary(ppf_ts_vecm_ex_none_latex), parenthese="Pvalue", digits = 2)[-c(1:4)], sep = "\n")
+
+# # including exogenous regressors with both type determinstic term
+ppf_ts_vecm_ex_both <- VECM(ppf_ts_box[,c("lp_canada", "lp_india", "lp_npl_ck", "lp_npl_krp", "lp_fuel")], 
+                             lag=1, estim="ML", r=2, 
+                             # Type of deterministic regressors. "trend" and "both" types cannot be fitted (result in singularity) 
+                             # by default `ca.jo()` procedure fits "constant" type deterministic regressors
+                             # setting include = "none" gives different values
+                             include = "const",
+                             exogen = ppf_ts_box[,c("precip_npl_krp_trend", "precip_npl_ck_trend")],
+                             LRinclude = "both" # type of deterministic regressors to include in the long-term relationship. 
+)
+
+```
+
+\elandscape
+
+```{r wheat-cajo-test-withex-summary, results='asis'}
+ppf_ts_vecm_ex_both$model.specific$beta %>% 
+  as_tibble(rownames = "terms") %>%
+  knitr::kable(booktab = TRUE, caption = 'ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1, with exogeneous regressors and with "both" (trend and constant) type deterministic regressors included in the long-term relationship.')
+
+```
+
+
+
+```{r wheat-ci-out-bind}
+
+wheat_series_combination_cajo_test_ci_out <- map(wheat_series_combination_cajo_test,
+    ~.x@x %*% .x@V[-(.x@P + 1), ])
+```
+
+
+```{r grid-arrange-share-legend}
+grid_arrange_share_legend_m <- function(..., nrow = 1, ncol = length(list(...)), position = c("bottom", "right")) {
+  plots <- list(...)
+  position <- match.arg(position)
+  g <- ggplot2::ggplotGrob(plots[[1]] + ggplot2::theme(legend.position = position))$grobs
+  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+  lheight <- sum(legend$height)
+  lwidth <- sum(legend$width)
+  gl <- lapply(plots, function(x) x + theme(legend.position = "none"))
+  gl <- c(gl, nrow = nrow, ncol = ncol)
+
+  combined <- switch(position,
+                     "bottom" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl),
+                                                       legend,
+                                                       ncol = 1,
+                                                       heights = grid::unit.c(unit(1, "npc") - lheight, lheight)),
+                     "right" = gridExtra::arrangeGrob(do.call(gridExtra::arrangeGrob, gl),
+                                                      legend,
+                                                      ncol = 2,
+                                                      widths = grid::unit.c(unit(1, "npc") - lwidth, lwidth)))
+  return(combined)
+}
+```
+
+Wheat series and cointegration plots
+
+```{r wheat-coint-plots, fig.width=10, fig.height=6, out.width="100%", fig.show='hold', fig.align='center'}
+# first variable series
+wheat_series_ci_df1 <- map2(wheat_series_combination_cajo_test,
+                            wheat_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 1] %>%
+                              as_tsibble() %>%
+                              mutate(ci_test = .y[, 1]))
+
+wheat_series_ci_df1_bind <- wheat_series_ci_df1 %>%
+  map_dfr(c, .id = "which_pair") %>%
+  as_tsibble(index = "index", key = which_pair)
+
+wheat_series_df1_bind_var_gg <- wheat_series_ci_df1_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y1 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_series_ci_df1_bind_var_gg <- wheat_series_ci_df1_bind %>%
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of cointegration relation of 1st variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+# second variable series
+wheat_series_ci_df2 <- map2(wheat_series_combination_cajo_test,
+                            wheat_series_combination_cajo_test_ci_out,
+                            ~.x@x[, 2] %>%
+                              as_tsibble() %>%
+                              mutate(ci_test = .y[, 2]))
+
+wheat_series_ci_df2_bind <- wheat_series_ci_df2 %>%
+  map_dfr(c, .id = "which_pair") %>%
+  as_tsibble(index = "index", key = which_pair)
+
+wheat_series_df2_bind_var_gg <- wheat_series_ci_df2_bind %>%
+  ggplot(aes(x = index, y = value, color = which_pair)) +
+  geom_line() +
+  ggtitle("Pairs of time series plot of y2 variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_series_ci_df2_bind_var_gg <- wheat_series_ci_df2_bind %>%
+  ggplot(aes(x = index, y = ci_test, color = which_pair)) +
+  geom_line() +
+  # scale_color_discrete(name = "Market region") +
+  ggtitle("Pairs of cointegration relation of 2nd variable") +
+  guides(color = guide_legend(title = "Market region")) +
+  labs(x = "Date", y = NULL)
+
+wheat_lprice_series_gg <- grid_arrange_share_legend_m(wheat_series_df1_bind_var_gg, wheat_series_df2_bind_var_gg, ncol = 2, position = "bottom")
+wheat_ci_series_gg <- grid_arrange_share_legend_m(wheat_series_ci_df1_bind_var_gg, wheat_series_ci_df2_bind_var_gg, ncol = 2, position = "bottom")
+
+plot(wheat_lprice_series_gg)
+plot(wheat_ci_series_gg)
+
+# walk2(c("./output/wheat_lprice_series_gg.png", "./output/wheat_ci_series_gg.png"),
+#      list(wheat_lprice_series_gg, wheat_ci_series_gg),
+#      ~ggsave(.x, .y, device = "png", width = 12, height = 8, units = "in", dpi = 280))
+
+```
 
 
 # Bibliography

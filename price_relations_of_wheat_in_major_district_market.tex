@@ -1,4 +1,5 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 %
@@ -7,19 +8,18 @@
 ]{article}
 \usepackage{lmodern}
 \usepackage{setspace}
-\setstretch{1}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{% use microtype if available
   \usepackage[]{microtype}
@@ -46,14 +46,19 @@
   filecolor=Maroon,
   citecolor=DodgerBlue4,
   urlcolor=Blue,
-  breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
 \usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-\usepackage{graphicx,grffile}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -62,25 +67,14 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-  \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-  \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[L]{Samita Paudel}
@@ -106,6 +100,17 @@
 \usetikzlibrary{arrows,shapes}
 \newcommand{\coffa}{\cofeAm{1}{1.0}{0}{5.5cm}{3cm}}
 \newcommand{\coffb}{\cofeBm{1}{1.2}{83}{2cm}{1cm}}
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+% \usepackage{amsmath} \newenvironment{smatrix}{\begin{pmatrix}}{\end{pmatrix}} %USUAL
+\usepackage{amsmath} \newenvironment{smatrix}{\left(\begin{smallmatrix}}{\end{smallmatrix}\right)} %SMALL
+% \usepackage{nccmath} \newenvironment{smatrix}{\left(\begin{mmatrix}}{\end{mmatrix}\right)} %MEDIUM
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
 
 \title{Price relations wheat in major domestic and international markets}
 \author{Samita Paudel}
@@ -114,6 +119,7 @@
 \begin{document}
 \maketitle
 
+\setstretch{1}
 \hypertarget{notes}{%
 \section{Notes}\label{notes}}
 
@@ -122,7 +128,7 @@
 \item
   Formulate simple linear regression
 \item
-  Multicollinearlity check\ldots{}refer to Variance Inflation Factor
+  Multicollinearlity check\ldots refer to Variance Inflation Factor
 \item
   Plot time series
 \item
@@ -209,28 +215,6 @@
   Treatment of isolated markets into arbitrary category of consumer and producer districts will provide a more complete picture of the situation of region they represent -- Farwestern terai, Western-central terai and Eastern-central terai regions, respectively. This form of classification is expected to improve interpretability and overall increase predictive accuray of model in the face of price shocks.
 \end{itemize}
 
-\hypertarget{dependent-variables}{%
-\section{Dependent variables}\label{dependent-variables}}
-
-\hypertarget{retail-price-of-wheat-in-major-domestic-markets}{%
-\subsection{Retail price of wheat in major domestic markets}\label{retail-price-of-wheat-in-major-domestic-markets}}
-
-Price series of domestic markets were selected for study. The data represent imbalanced series of following 5 districts:
-
-Kailali, Rupandehi, Parsa, Kathmandu, Chitwan
-
-\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/foreign-exchange-data-1.pdf}
-
-\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/cost-of-production-1.pdf}
-
-\hypertarget{combined-series}{%
-\subsection{Combined series}\label{combined-series}}
-
-\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-all-1.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-all-2.pdf}
-
-\hypertarget{geographical-context-of-study-districts}{%
-\section{Geographical context of study districts}\label{geographical-context-of-study-districts}}
-
 \hypertarget{study-districts-and-market-centres}{%
 \subsection{Study districts and market centres}\label{study-districts-and-market-centres}}
 
@@ -240,12 +224,47 @@ A map of study districts.
 \includegraphics[width=0.95\linewidth]{price_relations_of_wheat_in_major_district_market_files/figure-latex/study-districts-1} \caption{Geographical context of selected district markets}\label{fig:study-districts}
 \end{figure}
 
-\hypertarget{aggregate-series-summary}{%
-\subsection{Aggregate series summary}\label{aggregate-series-summary}}
+\hypertarget{study-variables}{%
+\section{Study variables}\label{study-variables}}
 
-Joint time series plot of rice and wheat retail prices aggregated over selected districtwise markets and comparison to national average price.
+\hypertarget{retail-price-of-wheat-in-major-domestic-markets}{%
+\subsection{Retail price of wheat in major domestic markets}\label{retail-price-of-wheat-in-major-domestic-markets}}
 
-\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-1.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-2.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-3.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-4.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-5.pdf}
+Price series of domestic markets were selected for study. The data represent imbalanced series of following 5 districts: Kailali, Rupandehi, Parsa, Kathmandu, Chitwan.
+
+\hypertarget{precipitation-of-nepalese-district-markets}{%
+\subsection{Precipitation of Nepalese district markets}\label{precipitation-of-nepalese-district-markets}}
+
+\hypertarget{foreign-exchange}{%
+\subsection{Foreign exchange}\label{foreign-exchange}}
+
+\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/foreign-exchange-data-1.pdf}
+
+\hypertarget{fuel-prices}{%
+\subsection{Fuel prices}\label{fuel-prices}}
+
+\hypertarget{international-and-indias-bordering-region-prices}{%
+\subsection{International and India's bordering region prices}\label{international-and-indias-bordering-region-prices}}
+
+\hypertarget{cost-of-production}{%
+\subsection{Cost of production}\label{cost-of-production}}
+
+\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/cost-of-production-1.pdf}
+
+\hypertarget{wholesale-price}{%
+\subsection{Wholesale price}\label{wholesale-price}}
+
+\hypertarget{combined-series}{%
+\subsection{Combined series}\label{combined-series}}
+
+\hypertarget{descriptive-time-series-summary}{%
+\subsection{Descriptive time series summary}\label{descriptive-time-series-summary}}
+
+Plot of wheat retail price series of nepal and international (canada and bordering indian region) markets, in comparison to national average price.
+
+\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/india-nepal-canada-price-series-1.pdf}
+
+\includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-1.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-2.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-3.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-4.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-5.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-6.pdf} \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/price-series-line-acf-plots-7.pdf}
 
 Time series plot of wheat retail price series is presented in above figures with some diagnostic plot alongside. The lineplot shows that there exist some time gaps at random periods. Autocorrelation of consecutive first order differenced lags is similarly shown.
 
@@ -254,25 +273,45 @@ Time series plot of wheat retail price series is presented in above figures with
 
 \begin{table}[H]
 
-\caption{\label{tab:lm1-without-time}ANOVA of regression between price of producer districts (as dependent variable) and 6 regressor variables (price of wheat in international market, price of wheat in indian bordering states, price of wheat in consumer districts, precipitation of consumer districts, precipitation of producer districts)}
+\caption{\label{tab:lm1-without-time-producer}ANOVA of regression between log(price) of producer districts (as dependent variable) and 6 regressor variables (log(price) of wheat in international market, log(price) of wheat in indian bordering states, log(price) of wheat in consumer districts, precipitation of consumer districts, precipitation of producer districts and log(price) of fuel)}
 \centering
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{7em}rrrrr}
 \toprule
 term & df & sumsq & meansq & statistic & p.value\\
 \midrule
-price canada & 1 & 736.012 & 736.012 & 196.169 & 0.000\\
-price india & 1 & 7604.395 & 7604.395 & 2026.798 & 0.000\\
-price nepal chitwan and kathmandu & 1 & 607.508 & 607.508 & 161.919 & 0.000\\
-precipitation total nepal chitwan and kathmandu & 1 & 0.070 & 0.070 & 0.019 & 0.891\\
-precipitation total nepal kailali rupandehi parsa & 1 & 0.001 & 0.001 & 0.000 & 0.990\\
+lp canada & 1 & 18.986 & 18.986 & 2957.318 & 0.000\\
+lp india & 1 & 23.281 & 23.281 & 3626.404 & 0.000\\
+lp npl ck & 1 & 0.270 & 0.270 & 42.071 & 0.000\\
+precip npl ck & 1 & 0.060 & 0.060 & 9.376 & 0.002\\
+precip npl krp & 1 & 0.023 & 0.023 & 3.567 & 0.060\\
 \addlinespace
-fuel price & 1 & 139.376 & 139.376 & 37.148 & 0.000\\
-Residuals & 150 & 562.789 & 3.752 & NA & NA\\
+lp fuel & 1 & 0.741 & 0.741 & 115.371 & 0.000\\
+Residuals & 234 & 1.502 & 0.006 & NA & NA\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The regression above (Table \ref{tab:lm1-without-time}) is obtained on fitting the model Equation \ref{eqn:lm1}.
+\begin{table}[H]
+
+\caption{\label{tab:lm1-without-time-consumer}ANOVA of regression between log(price) of consumer districts (as dependent variable) and 6 regressor variables (log(price) of wheat in international market, log(price) of wheat in indian bordering states, log(price) of wheat in producer districts, precipitation of consumer districts, precipitation of producer districts and log(price) of fuel)}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{7em}rrrrr}
+\toprule
+term & df & sumsq & meansq & statistic & p.value\\
+\midrule
+lp canada & 1 & 11.312 & 11.312 & 1076.770 & 0.000\\
+lp india & 1 & 21.523 & 21.523 & 2048.625 & 0.000\\
+lp npl krp & 1 & 0.298 & 0.298 & 28.335 & 0.000\\
+precip npl ck & 1 & 0.035 & 0.035 & 3.363 & 0.068\\
+precip npl krp & 1 & 0.019 & 0.019 & 1.779 & 0.184\\
+\addlinespace
+lp fuel & 1 & 0.051 & 0.051 & 4.877 & 0.028\\
+Residuals & 234 & 2.458 & 0.011 & NA & NA\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The regression above (Table \ref{tab:lm1-without-time-consumer} and \ref{tab:lm1-without-time-producer}) is obtained on fitting the model Equation \ref{eqn:lm1}.
 
 \begin{equation}
 \label{eqn:lm1}
@@ -285,7 +324,7 @@ precipitation_{\textrm{consumer districts}} + fuel~price_{\textrm{national avera
 \end{aligned}
 \end{equation}
 
-This presents a typical case of spurious relationship among variables, where variables having times series attributes show exceptionally high association among them. For example, all three aggregated wheat price series we consider in the regression (price in Canada, price in India, and price in Nepalese consumer markets) which show highly significant association. This is problematic and misleading, because without accounting for linear time trend they show very unstable variance, which increases at extremes (more recent time period). The phenomena of possible presence of heteroskedasticity is shown in the residual-vs-fit plot in Figure \ref{fig:lm1-residual-vs-fit-plot}.
+This presents a typical case of spurious relationship among variables, where variables having times series attributes show exceptionally high association among them. For example, all three aggregated wheat price series we consider in the regression (price in Canada, price in India, and price in Nepalese consumer markets) which show highly significant association. This is problematic and misleading, because without accounting for linear time trend they show very unstable variance, which increases at extremes (more recent time period). The phenomena of possible presence of heteroskedasticity is shown in the residual-vs-fit plot in Figure \ref{fig:lm1-residual-vs-fit-plot1}.
 
 \begin{figure}
 
@@ -293,7 +332,15 @@ This presents a typical case of spurious relationship among variables, where var
 
 }
 
-\caption{Residual (pearsons') versus fit plot of the linear regression without accounting for time attributes of the series}\label{fig:lm1-residual-vs-fit-plot}
+\caption{Residual (pearsons') versus fit plot of the linear regression without accounting for time attributes of the series}\label{fig:lm1-residual-vs-fit-plot1}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/lm1-residual-vs-fit-plot-2} 
+
+}
+
+\caption{Residual (pearsons') versus fit plot of the linear regression without accounting for time attributes of the series}\label{fig:lm1-residual-vs-fit-plot2}
 \end{figure}
 
 Simply after incorporating linear trend of time in the regression model (Equation \ref{eqn:lm1}), we get a different statistic.
@@ -309,7 +356,7 @@ precipitation_{\textrm{consumer districts}} + fuel~price_{\textrm{national avera
 \end{aligned}
 \end{equation}
 
-However, even then there is likely presence of biased variance, as shown in Figure \ref{fig:lm2-residual-vs-fit-plot} which uses Equation \ref{eqn:lm2} for model fitting.
+However, even then there is likely presence of biased variance, as shown in Figure \ref{fig:lm2-residual-vs-fit-plot2} which uses Equation \ref{eqn:lm2} for model fitting.
 
 \begin{figure}
 
@@ -317,7 +364,15 @@ However, even then there is likely presence of biased variance, as shown in Figu
 
 }
 
-\caption{Residual (pearsons') versus fit plot of the linear regression after incorporating linear time trend of the price series}\label{fig:lm2-residual-vs-fit-plot}
+\caption{Residual (pearsons') versus fit plot of the linear regression after incorporating linear time trend of the price series}\label{fig:lm2-residual-vs-fit-plot1}
+\end{figure}
+\begin{figure}
+
+{\centering \includegraphics{price_relations_of_wheat_in_major_district_market_files/figure-latex/lm2-residual-vs-fit-plot-2} 
+
+}
+
+\caption{Residual (pearsons') versus fit plot of the linear regression after incorporating linear time trend of the price series}\label{fig:lm2-residual-vs-fit-plot2}
 \end{figure}
 
 \hypertarget{testing-for-heteroskedasticity}{%
@@ -329,14 +384,14 @@ Breusch pagan test uses the null hypothesis of Homoscadesticity while testing st
 
 \begin{table}
 
-\caption{\label{tab:lm2-bptest}Breusch-Pagan test for heteroskedasticity of price series, modeled by the regression Equation ef(eqn:lm2) for two domestic price series (producers districts and consumer districts)}
+\caption{\label{tab:lm2-bptest}Breusch-Pagan test for heteroskedasticity of price series, modeled by the regression Equation \ref(eqn:lm2) for two domestic price series (producers districts and consumer districts)}
 \centering
 \begin{tabular}[t]{rrrl}
 \toprule
 statistic & p.value & parameter & method\\
 \midrule
-19.65260 & 0.0063710 & 7 & studentized Breusch-Pagan test\\
-26.73769 & 0.0003715 & 7 & studentized Breusch-Pagan test\\
+4.477515 & 0.7234231 & 7 & studentized Breusch-Pagan test\\
+8.230593 & 0.3127004 & 7 & studentized Breusch-Pagan test\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -368,17 +423,17 @@ The null is therefore that x has a unit root. If only x has a non-unit root, the
 \toprule
 series & test & lprice pvalue & lprice tstatistic & lprice null accepted\\
 \midrule
-price canada & adf & 0.42 & -2.37 & TRUE\\
-price india & adf & 0.16 & -3.00 & TRUE\\
-price nepal chitwan and kathmandu & adf & 0.44 & -2.32 & TRUE\\
-price nepal kailali rupandehi parsa & adf & 0.26 & -2.75 & TRUE\\
-fuel price & adf & 0.09 & -3.16 & TRUE\\
+lp canada & adf & 0.45 & -2.29 & TRUE\\
+lp india & adf & 0.08 & -3.23 & TRUE\\
+lp npl ck & adf & 0.27 & -2.73 & TRUE\\
+lp npl krp & adf & 0.48 & -2.22 & TRUE\\
+lp fuel & adf & 0.64 & -1.86 & TRUE\\
 \addlinespace
-price canada & kpss & 0.01 & 1.60 & FALSE\\
-price india & kpss & 0.01 & 4.29 & FALSE\\
-price nepal chitwan and kathmandu & kpss & 0.01 & 3.47 & FALSE\\
-price nepal kailali rupandehi parsa & kpss & 0.01 & 4.03 & FALSE\\
-fuel price & kpss & 0.01 & 2.01 & FALSE\\
+lp canada & kpss & 0.01 & 2.16 & FALSE\\
+lp india & kpss & 0.01 & 4.79 & FALSE\\
+lp npl ck & kpss & 0.01 & 4.80 & FALSE\\
+lp npl krp & kpss & 0.01 & 4.74 & FALSE\\
+lp fuel & kpss & 0.01 & 4.28 & FALSE\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -449,44 +504,49 @@ We use an implementation of time series differencing based on optimal lag length
 
 The first order differencing of price renders series stationary. However, precipitation series shows distinct components. Here, a linear model is fitted to the trend component, decomposed (into seasonal and trend components) from two precipitation series (producer and consumer districts), along with other terms of Equation \ref{eqn:lm2} and the ANOVA output is presented.
 
+\hypertarget{detrending-precipitation}{%
+\subsubsection{Detrending precipitation}\label{detrending-precipitation}}
+
+Here linear model is fitted with trend component only that of precipitation.
+
 \begin{table}
 
-\caption{\label{tab:anova-producer-market}ANOVA of linear model fit with trend component of precipitation series with price(producer market) as dependent variable.}
+\caption{\label{tab:lm3-anova-producer-market-tab}ANOVA of linear model fit with trend component of precipitation series with price(producer market) as dependent variable.}
 \centering
 \begin{tabular}[t]{lrrrrr}
 \toprule
 term & df & sumsq & meansq & statistic & p.value\\
 \midrule
-date & 1 & 8810.50 & 8810.50 & 2463.40 & 0.00\\
-price\_canada & 1 & 16.17 & 16.17 & 4.52 & 0.04\\
-price\_india & 1 & 12.83 & 12.83 & 3.59 & 0.06\\
-price\_nepal\_chitwan\_and\_kathmandu & 1 & 145.70 & 145.70 & 40.74 & 0.00\\
-precipitation\_total\_ck\_trend & 1 & 10.54 & 10.54 & 2.95 & 0.09\\
+date & 1 & 36.65 & 36.65 & 8847.11 & 0.00\\
+lp\_canada & 1 & 0.72 & 0.72 & 174.54 & 0.00\\
+lp\_india & 1 & 0.04 & 0.04 & 8.67 & 0.00\\
+lp\_npl\_ck & 1 & 0.01 & 0.01 & 1.55 & 0.21\\
+precip\_npl\_ck\_trend & 1 & 0.39 & 0.39 & 93.38 & 0.00\\
 \addlinespace
-precipitation\_total\_krp\_trend & 1 & 33.17 & 33.17 & 9.27 & 0.00\\
-fuel\_price & 1 & 88.33 & 88.33 & 24.70 & 0.00\\
-Residuals & 149 & 532.91 & 3.58 & NA & NA\\
+precip\_npl\_krp\_trend & 1 & 0.00 & 0.00 & 0.01 & 0.91\\
+lp\_fuel & 1 & 0.15 & 0.15 & 37.18 & 0.00\\
+Residuals & 221 & 0.92 & 0.00 & NA & NA\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}
 
-\caption{\label{tab:anova-consumer-market}ANOVA of linear model fit with trend component of precipitation series with price(consumer market) as dependent variable.}
+\caption{\label{tab:lm3-anova-consumer-market-tab}ANOVA of linear model fit with trend component of precipitation series with price(consumer market) as dependent variable.}
 \centering
 \begin{tabular}[t]{lrrrrr}
 \toprule
 term & df & sumsq & meansq & statistic & p.value\\
 \midrule
-date & 1 & 14695.17 & 14695.17 & 2146.39 & 0.00\\
-price\_canada & 1 & 0.41 & 0.41 & 0.06 & 0.81\\
-price\_india & 1 & 50.51 & 50.51 & 7.38 & 0.01\\
-price\_nepal\_kailali\_rupandehi\_parsa & 1 & 243.06 & 243.06 & 35.50 & 0.00\\
-precipitation\_total\_ck\_trend & 1 & 0.45 & 0.45 & 0.07 & 0.80\\
+date & 1 & 30.29 & 30.29 & 3966.52 & 0.00\\
+lp\_canada & 1 & 0.06 & 0.06 & 7.90 & 0.01\\
+lp\_india & 1 & 0.09 & 0.09 & 11.81 & 0.00\\
+lp\_npl\_krp & 1 & 0.01 & 0.01 & 1.23 & 0.27\\
+precip\_npl\_ck\_trend & 1 & 0.14 & 0.14 & 17.72 & 0.00\\
 \addlinespace
-precipitation\_total\_krp\_trend & 1 & 72.78 & 72.78 & 10.63 & 0.00\\
-fuel\_price & 1 & 15.89 & 15.89 & 2.32 & 0.13\\
-Residuals & 149 & 1020.12 & 6.85 & NA & NA\\
+precip\_npl\_krp\_trend & 1 & 0.27 & 0.27 & 34.74 & 0.00\\
+lp\_fuel & 1 & 0.03 & 0.03 & 4.08 & 0.04\\
+Residuals & 221 & 1.69 & 0.01 & NA & NA\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -589,53 +649,386 @@ with \(\widehat{\Sigma}_u\) denoting the estimate of the \(k \times k\) covarian
 
 As for univariate distributed lag models, one should think carefully about variables to include in a VAR, as adding unrelated variables reduces the forecast accuracy by increasing the estimation error. This is particularly important because the number of parameters to be estimated grows qudratically to the number of variables modeled by the VAR.
 
+\begin{longtable}[t]{rrrr}
+\caption{\label{tab:retail-var-fit-tidy}Model performance indicators of VAR(AR(1)) model for wheat log(price) series with two domestic (producer and consumer) markets as endogeneous variables and other price series, precipitation and fuel series as exogeneous regressors.}\\
+\toprule
+log\_lik & AIC & AICc & BIC\\
+\midrule
+727.44 & -1414.88 & -1410.822 & -1346.293\\
+\bottomrule
+\end{longtable}
+
 \begin{longtable}[t]{llrrrr}
 \caption{\label{tab:retail-var-fit-tidy}Model coefficients of VAR(AR(1)) model for for wheat log(price) series with two domestic (producer and consumer) markets as endogeneous variables and other price series, precipitation and fuel series as exogeneous regressors.}\\
 \toprule
 term & .response & estimate & std.error & statistic & p.value\\
 \midrule
-lag(lp\_npl\_ck,1) & lp\_npl\_ck & 0.848 & 0.032 & 26.572 & 0.000\\
-lag(lp\_npl\_krp,1) & lp\_npl\_ck & 0.055 & 0.041 & 1.356 & 0.176\\
-constant & lp\_npl\_ck & 0.110 & 0.044 & 2.502 & 0.013\\
-lp\_canada & lp\_npl\_ck & -0.003 & 0.015 & -0.231 & 0.818\\
-lp\_india & lp\_npl\_ck & 0.096 & 0.037 & 2.578 & 0.011\\
+lag(lp\_npl\_ck,1) & lp\_npl\_ck & 0.843 & 0.033 & 25.449 & 0.000\\
+lag(lp\_npl\_krp,1) & lp\_npl\_ck & 0.066 & 0.043 & 1.534 & 0.127\\
+constant & lp\_npl\_ck & 0.105 & 0.045 & 2.328 & 0.021\\
+lp\_canada & lp\_npl\_ck & -0.003 & 0.015 & -0.226 & 0.821\\
+lp\_india & lp\_npl\_ck & 0.094 & 0.038 & 2.468 & 0.014\\
 \addlinespace
-precip\_npl\_ck & lp\_npl\_ck & -0.002 & 0.004 & -0.520 & 0.604\\
-precip\_npl\_krp & lp\_npl\_ck & 0.003 & 0.004 & 0.761 & 0.447\\
-lp\_fuel & lp\_npl\_ck & -0.011 & 0.027 & -0.415 & 0.679\\
-lag(lp\_npl\_ck,1) & lp\_npl\_krp & 0.033 & 0.030 & 1.100 & 0.273\\
-lag(lp\_npl\_krp,1) & lp\_npl\_krp & 0.792 & 0.039 & 20.530 & 0.000\\
+precip\_npl\_ck & lp\_npl\_ck & -0.002 & 0.004 & -0.501 & 0.617\\
+precip\_npl\_krp & lp\_npl\_ck & 0.003 & 0.004 & 0.749 & 0.454\\
+lp\_fuel & lp\_npl\_ck & -0.013 & 0.027 & -0.469 & 0.639\\
+lag(lp\_npl\_ck,1) & lp\_npl\_krp & 0.044 & 0.031 & 1.390 & 0.166\\
+lag(lp\_npl\_krp,1) & lp\_npl\_krp & 0.774 & 0.041 & 19.034 & 0.000\\
 \addlinespace
-constant & lp\_npl\_krp & -0.060 & 0.042 & -1.438 & 0.152\\
-lp\_canada & lp\_npl\_krp & -0.003 & 0.014 & -0.205 & 0.838\\
-lp\_india & lp\_npl\_krp & 0.102 & 0.035 & 2.914 & 0.004\\
-precip\_npl\_ck & lp\_npl\_krp & -0.002 & 0.004 & -0.457 & 0.648\\
-precip\_npl\_krp & lp\_npl\_krp & 0.002 & 0.003 & 0.700 & 0.485\\
+constant & lp\_npl\_krp & -0.053 & 0.043 & -1.244 & 0.215\\
+lp\_canada & lp\_npl\_krp & -0.004 & 0.014 & -0.253 & 0.800\\
+lp\_india & lp\_npl\_krp & 0.106 & 0.036 & 2.961 & 0.003\\
+precip\_npl\_ck & lp\_npl\_krp & -0.002 & 0.004 & -0.428 & 0.669\\
+precip\_npl\_krp & lp\_npl\_krp & 0.002 & 0.003 & 0.657 & 0.512\\
 \addlinespace
-lp\_fuel & lp\_npl\_krp & 0.079 & 0.025 & 3.175 & 0.002\\
+lp\_fuel & lp\_npl\_krp & 0.080 & 0.026 & 3.141 & 0.002\\
 \bottomrule
 \end{longtable}
 
---\textgreater{}
+\hypertarget{causality-test}{%
+\subsection{Causality test}\label{causality-test}}
 
---\textgreater{}
+Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality (Granger \protect\hyperlink{ref-granger1988causality}{1988}) inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is \emph{granger-caused} by the second one.
 
---\textgreater{}
---\textgreater{}
---\textgreater{}
---\textgreater{}
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption\footnote{\url{https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html}}. Papana et al. (\protect\hyperlink{ref-papana2014identifying}{2014}) state that GC test can only to applied if both the series are stationary\footnote{\href{http://blog.mindymallory.com/2018/02/basic-time-series-analysis-the-var-model-explained/}{Mindy Mallory's blog article also suggests that series be stationary}}. Same paper also cautioned that VAR(1) models of cointegrated endogenous series will fail to capture long-run relationships. Therefore, the authors suggest surplus lag Granger-causality test be used if the series are a nonstationary data.
 
---\textgreater{}
+Below are the results of GC test showing consequences of using both stationarity and non stationary data, with bootstrapped confidence intervals.
+
+\hypertarget{var-based-gc-test}{%
+\subsection{VAR based GC test}\label{var-based-gc-test}}
+
+\begin{table}[H]
+
+\caption{\label{tab:gc-test-undifferenced-series}Granger causality test of multivariate (5 equation) VAR system of Wheat log(price) series (Precipitation trend was used as exogeneous regressor).}
+\centering
+\begin{tabular}[t]{>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{3em}>{\raggedleft\arraybackslash}p{20em}}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+1.784 & 0.062 & 5000 & Granger causality H0: lp\_canada do not Granger-cause lp\_india lp\_npl\_ck lp\_npl\_krp lp\_fuel\\
+2.918 & 0.006 & 5000 & Granger causality H0: lp\_india do not Granger-cause lp\_canada lp\_npl\_ck lp\_npl\_krp lp\_fuel\\
+0.499 & 0.793 & 5000 & Granger causality H0: lp\_npl\_ck do not Granger-cause lp\_canada lp\_india lp\_npl\_krp lp\_fuel\\
+0.580 & 0.629 & 5000 & Granger causality H0: lp\_npl\_krp do not Granger-cause lp\_canada lp\_india lp\_npl\_ck lp\_fuel\\
+1.468 & 0.217 & 5000 & Granger causality H0: lp\_fuel do not Granger-cause lp\_canada lp\_india lp\_npl\_ck lp\_npl\_krp\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{cointegration}{%
+\section{Cointegration}\label{cointegration}}
+
+\hypertarget{residual-based}{%
+\subsection{Residual based}\label{residual-based}}
+
+Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series).
+
+A two step method proposed by Hylleberg et al. (\protect\hyperlink{ref-hylleberg1990seasonal}{1990}) can be used to test for cointegration.
+
+The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after Phillips, Ouliaris, and others (\protect\hyperlink{ref-phillips1990asymptotic}{1990}). Specifically, \texttt{po.test()} performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance.
+
+The test computes the Phillips-Ouliaris test for the null hypothesis that series is not cointegrated (Trapletti and Hornik \protect\hyperlink{ref-R-tseries}{2019}).
+
+\begin{longtable}[t]{lrr}
+\caption{\label{tab:pairwise-phillips-cointegration}Phillips-Ouliaris cointegration test for Wheat log(price) series of selected district markethubs}\\
+\toprule
+combination & p\_value & statistic\\
+\midrule
+lp\_canada-lp\_india & 0.150 & -8.995\\
+lp\_canada-lp\_npl\_ck & 0.150 & -8.875\\
+lp\_canada-lp\_npl\_krp & 0.150 & -10.423\\
+lp\_canada-lp\_fuel & 0.150 & -12.222\\
+lp\_india-lp\_npl\_ck & 0.010 & -39.607\\
+\addlinespace
+lp\_india-lp\_npl\_krp & 0.010 & -43.446\\
+lp\_india-lp\_fuel & 0.150 & -8.948\\
+lp\_npl\_ck-lp\_npl\_krp & 0.016 & -26.619\\
+lp\_npl\_ck-lp\_fuel & 0.150 & -6.692\\
+lp\_npl\_krp-lp\_fuel & 0.150 & -11.204\\
+\bottomrule
+\end{longtable}
+
+Note \texttt{po.test} does not handle missing values, so we fix them through imputation. It is implemented through \texttt{tidyr::fill(...,\ .direction\ =\ "down")}.
+
+The test suggests that all series (Both that of wheat and rice) are cointegrated for selected pairwise combination of district markets.
+
+The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric.
+
+The po.test() function is testing the cointegration with Phillip's Z\_alpha test, which is the second residual-based test described by Phillips, Ouliaris, and others (\protect\hyperlink{ref-phillips1990asymptotic}{1990}). Because the po.test() will use the series at the first position to derive the residual used in the test, results would be determined by the series on the most left-hand side\footnote{\url{https://www.r-craft.org/r-news/phillips-ouliaris-test-for-cointegration/}}.
+
+The Phillips-Ouliaris test implemented in the \texttt{ca.po()} function from the urca package is different. In the \texttt{ca.po()} function, there are two cointegration tests implemented, namely ``Pu'' and ``Pz'' tests. Although both the \texttt{ca.po()} function and the po.test() function are supposed to do the Phillips-Ouliaris test，outcomes from both functions are completely different.
+
+Similar to Phillip's Z\_alpha test, the Pu test also is not invariant to the position of each series and therefore would give different outcomes based upon the series on the most left-hand side. On the contrary, the multivariate trace statistic of Pz test has its appeal in that the outcome won't change by the position of each series.
+
+\hypertarget{var-based}{%
+\subsection{VAR based}\label{var-based}}
+
+The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach (Johansen \protect\hyperlink{ref-johansen1991estimation}{1991}).
+
+A general vector autoregressive model is similar to the AR(p) model except that each quantity is vector valued and matrices are used as the coefficients. The general form of the VAR(p) model, without drift, is given by:
+
+\begin{equation}
+\label{eqn:var-general}
+{\bf y_t} = {\bf \mu} + A_1 {\bf y_{t-1}} + \ldots + A_j {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
+
+Where \({\bf \mu}\) is the vector-valued mean of the series, \(A_i\) are the coefficient matrices for each lag and \({\bf \varepsilon_t}\) is a multivariate Gaussian noise term with mean zero.
+
+At this stage we can form a Vector Error Correction Model (VECM) by differencing the series (Equation \ref{eqn:vecm-differenced}).
+
+\begin{equation}
+\label{eqn:vecm-differenced}
+\Delta {\bf y_t} = {\bf \mu} + A {\bf y_{t-1}} + \Gamma_1 \Delta {\bf y_{t-1}} + \ldots + \Gamma_j \Delta {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
+
+Where \(\Delta {\bf y_t} = {\bf y_t} - {\bf y_{t-1}}\) is the differencing operator, \(A\) is the coefficient matrix for the first lag and \(\Gamma_i\) are the matrices for each differenced lag.
+
+For a \(p^{th}\) -order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components; both no intercept or trend in either cointegrating equation or test var), we may rewrite the VAR in the form of Equation \ref{eqn:johansens} (Johansen \protect\hyperlink{ref-johansen1991estimation}{1991}).
+
+\begin{equation}
+\label{eqn:johansens}
+\Delta y_t = \Pi y_{t-1} + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t
+\end{equation}
+
+Where,
+
+\[
+\Pi = \sum^{p}_{i = 1}{A_{i}-I}; \Gamma = -\sum^{p}_{j = i + 1}{j}
+\]
+
+(Although, for simplicity sake, we assume absence of deterministic trends, there are five popular scenarios of including such trends in a cointegration test. All of these are described in (Johansen \protect\hyperlink{ref-johansen1995identifying}{1995}).)
+
+Granger's representation theorem asserts that if the coefficient matrix \(\Pi\) has reduced rank \(r < k\), then there exist \(kxr\) matrices \(\alpha\) and \(\beta\) each with rank \(k\) such that \(\Pi = \alpha \beta^{\prime}\) and \(\beta^{\prime}y_t\) is \(I(0)\).
+
+To achieve this an eigenvalue decomposition of \(A\) is carried out. The rank of the matrix \(A\) is given by \(r\) and the Johansen test sequentially tests whether this rank \(r\) is equal to zero, equal to one, through to \(r=n-1\), where \(n\) is the number of time series under test.
+
+The null hypothesis of \(r=0\) means that there is no cointegration at all. A rank \(r > 0\) implies a cointegrating relationship between two or possibly more time series.
+
+The eigenvalue decomposition results in a set of eigenvectors. The components of the largest eigenvector admits the important property of forming the coefficients of a linear combination of time series to produce a stationary portfolio. Notice how this differs from the CADF test (often known as the Engle-Granger procedure) where it is necessary to ascertain the linear combination a priori via linear regression and ordinary least squares (OLS).
+
+In summary, the test checks for the situation of no cointegration, which occurs when the matrix \(A=0\). So, starting with the base value of \(r\) (i.e., \(r=0\)), if the test statistic is greater than critical values of at the 10\%, 5\% and 1\% levels, this would imply that we are \textbf{able} to reject the null of no cointegration. For the case r\textless=1, we if the calculated test statistic is below the critical values of, we are \textbf{unable} to reject the null, and the number of cointegrating vectors is between 0 and 1. The relevant tests are available in the function \texttt{urca::ca.jo()}. The basic version considers the eigenvalues of the matrix \(\Pi\) in the preceding equation.
+
+Here, we employ the trace statistic -- the maximum eigenvalue, or ``lambdamax'' test is available as well -- in an equation amended by a constant term (specified by ecdet = ``const''), yielding:
+
+Results of cointegration test of the Equation \ref{eqn:vecm-noex-none}:
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-test}Cointegration test of log(price) series of representing national and international Wheat markets.}
+\centering
+\begin{tabular}[t]{lrrr}
+\toprule
+Cointegration relationships & 10pct & 5pct & 1pct\\
+\midrule
+r <= 4 | & 10.49 & 12.25 & 16.26\\
+r <= 3 | & 22.76 & 25.32 & 30.45\\
+r <= 2 | & 39.06 & 42.44 & 48.45\\
+r <= 1 | & 59.14 & 62.99 & 70.05\\
+r = 0  | & 83.20 & 87.31 & 96.58\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-test-without-ex}ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1 and "both" (trend and constant) type deterministic regressors included in the long-term relationship.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+terms & r1 & r2\\
+\midrule
+lp\_canada & 1.0000000 & 0.0000000\\
+lp\_india & 0.0000000 & 1.0000000\\
+lp\_npl\_ck & -2.9616586 & -0.3020436\\
+lp\_npl\_krp & -4.0969864 & -0.6007681\\
+lp\_fuel & 0.4077752 & 0.1070312\\
+\addlinespace
+const & 14.7780063 & -0.2717388\\
+trend & 0.0338064 & -0.0013949\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\blandscape
+
+\begin{equation}\label{eqn:vecm-noex-none}
+\begin{smatrix} %explained vector
+\Delta X_{t}^{1} \\ \Delta X_{t}^{2} \\ \Delta X_{t}^{3} \\ \Delta X_{t}^{4} \\ \Delta X_{t}^{5}
+\end{smatrix}=
++\begin{smatrix}  %ECT
+-2.0\text{e-03} & 0.03 \\
+-5.6\text{e-03} & -0.09 \\
+-3.2\text{e-03} & 0.09 \\
+0.01 & 0.12 \\
+ 9.1\text{e-05} &  7.5\text{e-03} 
+\end{smatrix}ECT_{-1}
+\begin{smatrix}     %const
+0.05 \\ -0.01 \\ 0.11 \\ -0.01 \\  7.3\text{e-03}
+\end{smatrix}
++\begin{smatrix}      %Lag1
+0.14 & -0.05 & 0.02 & -0.11 & 0.24 \\
+0.13 & 0.02 & 0.03 & -0.02 & 0.04 \\
+0.01 & 0.02 & -0.29 & -0.01 & -0.29 \\
+-0.07 &  8.9\text{e-03} & 0.02 & -0.26 & 0.07 \\
+-2.7\text{e-03} & -0.03 &  3.3\text{e-03} & -1.3\text{e-03} & 0.66 
+\end{smatrix}
+\begin{smatrix}
+\Delta X_{t-1}^{1} \\ \Delta X_{t-1}^{2} \\ \Delta X_{t-1}^{3} \\ \Delta X_{t-1}^{4} \\ \Delta X_{t-1}^{5}
+\end{smatrix}
+\end{equation}
+\begin{equation}
+\begin{smatrix} %explained vector
+\Delta X_{t}^{1} \\ \Delta X_{t}^{2} \\ \Delta X_{t}^{3} \\ \Delta X_{t}^{4} \\ \Delta X_{t}^{5}
+\end{smatrix}=
++\begin{smatrix}  %ECT
+-2.0\text{e-03}(0.62) & 0.03(0.53) \\
+-5.6\text{e-03}(0.04) & -0.09(6.2\text{e-03}) \\
+-3.2\text{e-03}(0.26) & 0.09(0.01) \\
+0.01(2.9\text{e-05}) & 0.12(3.6\text{e-04}) \\
+ 9.1\text{e-05}(0.87) &  7.5\text{e-03}(0.29) 
+\end{smatrix}ECT_{-1}
+\begin{smatrix}     %const
+0.05(0.21) \\ -0.01(0.62) \\ 0.11(6.0\text{e-05}) \\ -0.01(0.64) \\  7.3\text{e-03}(0.18)
+\end{smatrix}
++\begin{smatrix}      %Lag1
+0.14(0.04) & -0.05(0.66) & 0.02(0.86) & -0.11(0.25) & 0.24(0.53) \\
+0.13(4.0\text{e-03}) & 0.02(0.80) & 0.03(0.56) & -0.02(0.71) & 0.04(0.88) \\
+0.01(0.79) & 0.02(0.74) & -0.29(7.2\text{e-06}) & -0.01(0.87) & -0.29(0.26) \\
+-0.07(0.15) &  8.9\text{e-03}(0.90) & 0.02(0.70) & -0.26(5.5\text{e-05}) & 0.07(0.77) \\
+-2.7\text{e-03}(0.77) & -0.03(0.06) &  3.3\text{e-03}(0.79) & -1.3\text{e-03}(0.92) & 0.66(2.8\text{e-28}) 
+\end{smatrix}
+\begin{smatrix}
+\Delta X_{t-1}^{1} \\ \Delta X_{t-1}^{2} \\ \Delta X_{t-1}^{3} \\ \Delta X_{t-1}^{4} \\ \Delta X_{t-1}^{5}
+\end{smatrix}
+\end{equation}
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-test-withex-vecm}ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1, with exogeneous regressors and "trend" type deterministic regressors included in the long-term relationship.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+terms & r1 & r2\\
+\midrule
+lp\_canada & 1.0000000 & 0.0000000\\
+lp\_india & 0.0000000 & 1.0000000\\
+lp\_npl\_ck & -1.2447300 & 0.0389444\\
+lp\_npl\_krp & -5.0396882 & -0.2652294\\
+lp\_fuel & 0.5542184 & 0.0593170\\
+\addlinespace
+trend & 0.0284343 & -0.0051257\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{equation}\label{eqn:vecm-ex-none}
+\begin{smatrix} %explained vector
+\Delta X_{t}^{1} \\ \Delta X_{t}^{2} \\ \Delta X_{t}^{3} \\ \Delta X_{t}^{4} \\ \Delta X_{t}^{5}
+\end{smatrix}=
++\begin{smatrix}  %ECT
+-8.5\text{e-03} & -3.9\text{e-03} \\
+-0.02 & -0.12 \\
+ 4.9\text{e-03} & 0.10 \\
+0.03 & 0.13 \\
+-1.7\text{e-04} &  2.2\text{e-03} 
+\end{smatrix}ECT_{-1}
+\begin{smatrix}     %const
+0.07 \\ -0.02 \\ 0.09 \\ -9.9\text{e-03} \\  8.3\text{e-03}
+\end{smatrix}
++\begin{smatrix}      %Lag1
+0.14 & -0.03 & 0.03 & -0.14 & 0.14 \\
+0.13 & 0.02 & 0.03 & -0.03 & -0.19 \\
+ 9.2\text{e-03} & 0.02 & -0.28 & -0.01 & -0.22 \\
+-0.06 & 0.01 & 0.02 & -0.25 & 0.28 \\
+-4.7\text{e-03} & -0.02 &  3.1\text{e-03} & -3.3\text{e-03} & 0.60 
+\end{smatrix}
+\begin{smatrix}
+\Delta X_{t-1}^{1} \\ \Delta X_{t-1}^{2} \\ \Delta X_{t-1}^{3} \\ \Delta X_{t-1}^{4} \\ \Delta X_{t-1}^{5}
+\end{smatrix}
+\end{equation}
+\begin{equation}
+\begin{smatrix} %explained vector
+\Delta X_{t}^{1} \\ \Delta X_{t}^{2} \\ \Delta X_{t}^{3} \\ \Delta X_{t}^{4} \\ \Delta X_{t}^{5}
+\end{smatrix}=
++\begin{smatrix}  %ECT
+-8.5\text{e-03}(0.33) & -3.9\text{e-03}(0.94) \\
+-0.02(9.9\text{e-04}) & -0.12(5.8\text{e-04}) \\
+ 4.9\text{e-03}(0.42) & 0.10(5.6\text{e-03}) \\
+0.03(7.4\text{e-07}) & 0.13(1.0\text{e-04}) \\
+-1.7\text{e-04}(0.88) &  2.2\text{e-03}(0.75) 
+\end{smatrix}ECT_{-1}
+\begin{smatrix}     %const
+0.07(0.09) \\ -0.02(0.41) \\ 0.09(2.0\text{e-03}) \\ -9.9\text{e-03}(0.72) \\  8.3\text{e-03}(0.14)
+\end{smatrix}
++\begin{smatrix}      %Lag1
+0.14(0.05) & -0.03(0.80) & 0.03(0.75) & -0.14(0.15) & 0.14(0.73) \\
+0.13(3.9\text{e-03}) & 0.02(0.73) & 0.03(0.65) & -0.03(0.67) & -0.19(0.47) \\
+ 9.2\text{e-03}(0.85) & 0.02(0.80) & -0.28(1.3\text{e-05}) & -0.01(0.85) & -0.22(0.44) \\
+-0.06(0.15) & 0.01(0.87) & 0.02(0.76) & -0.25(1.3\text{e-04}) & 0.28(0.29) \\
+-4.7\text{e-03}(0.61) & -0.02(0.08) &  3.1\text{e-03}(0.80) & -3.3\text{e-03}(0.80) & 0.60(8.8\text{e-23}) 
+\end{smatrix}
+\begin{smatrix}
+\Delta X_{t-1}^{1} \\ \Delta X_{t-1}^{2} \\ \Delta X_{t-1}^{3} \\ \Delta X_{t-1}^{4} \\ \Delta X_{t-1}^{5}
+\end{smatrix}
+\end{equation}
+
+\elandscape
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-test-withex-summary}ML estimation of VECM model coefficients with two cointegrating vectors, with lag order 1, with exogeneous regressors and with "both" (trend and constant) type deterministic regressors included in the long-term relationship.}
+\centering
+\begin{tabular}[t]{lrr}
+\toprule
+terms & r1 & r2\\
+\midrule
+lp\_canada & 1.0000000 & 0.0000000\\
+lp\_india & 0.0000000 & 1.0000000\\
+lp\_npl\_ck & -1.3703295 & 0.0483379\\
+lp\_npl\_krp & -5.5028961 & -0.2318990\\
+lp\_fuel & 0.6145345 & 0.0548494\\
+\addlinespace
+const & 12.7882176 & -2.0607114\\
+trend & 0.0312277 & -0.0053280\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Wheat series and cointegration plots
+
+\begin{center}\includegraphics[width=1\linewidth]{price_relations_of_wheat_in_major_district_market_files/figure-latex/wheat-coint-plots-1} \includegraphics[width=1\linewidth]{price_relations_of_wheat_in_major_district_market_files/figure-latex/wheat-coint-plots-2} \end{center}
 
 \hypertarget{bibliography}{%
 \section*{Bibliography}\label{bibliography}}
 \addcontentsline{toc}{section}{Bibliography}
 
 \hypertarget{refs}{}
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-granger1988causality}{}%
+Granger, Clive WJ. 1988. ``Causality, Cointegration, and Control.'' \emph{Journal of Economic Dynamics and Control} 12 (2-3): 551--59.
+
+\leavevmode\hypertarget{ref-hylleberg1990seasonal}{}%
+Hylleberg, Svend, Robert F Engle, Clive WJ Granger, and Byung Sam Yoo. 1990. ``Seasonal Integration and Cointegration.'' \emph{Journal of Econometrics} 44 (1-2): 215--38.
+
+\leavevmode\hypertarget{ref-johansen1991estimation}{}%
+Johansen, Søren. 1991. ``Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models.'' \emph{Econometrica: Journal of the Econometric Society}, 1551--80.
+
+\leavevmode\hypertarget{ref-johansen1995identifying}{}%
+---------. 1995. ``Identifying Restrictions of Linear Equations with Applications to Simultaneous Equations and Cointegration.'' \emph{Journal of Econometrics} 69 (1): 111--32.
+
 \leavevmode\hypertarget{ref-metcalfe2009introductory}{}%
 Metcalfe, Andrew V, and Paul SP Cowpertwait. 2009. \emph{Introductory Time Series with R}. Springer.
 
+\leavevmode\hypertarget{ref-papana2014identifying}{}%
+Papana, Angeliki, Catherine Kyrtsou, Dimitris Kugiumtzis, Cees Diks, and others. 2014. ``Identifying Causal Relationships in Case of Non-Stationary Time Series.'' \emph{Thessaloniki: Department of Economics of the University of Macedonia}.
+
+\leavevmode\hypertarget{ref-phillips1990asymptotic}{}%
+Phillips, Peter CB, Sam Ouliaris, and others. 1990. ``Asymptotic Properties of Residual Based Tests for Cointegration.'' \emph{Econometrica} 58 (1): 165--93.
+
+\leavevmode\hypertarget{ref-R-tseries}{}%
+Trapletti, Adrian, and Kurt Hornik. 2019. \emph{Tseries: Time Series Analysis and Computational Finance}. \url{https://CRAN.R-project.org/package=tseries}.
+
 \leavevmode\hypertarget{ref-woodward2017applied}{}%
 Woodward, Wayne A, Henry L Gray, and Alan C Elliott. 2017. \emph{Applied Time Series Analysis with R}. CRC press.
+\end{cslreferences}
 
 \end{document}
