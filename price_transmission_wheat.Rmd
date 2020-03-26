@@ -3,8 +3,6 @@ title: Price transmission of wheat in international and domestic markets of Nepa
 author: "Samita Paudel"
 date: "6/28/2019"
 output: 
-  word_document:
-    # reference_docx: draft_word_template.docx
   bookdown::pdf_document2:
     latex_engine: xelatex
     keep_tex: true
@@ -12,6 +10,8 @@ output:
     includes:
       in_header: template_header.tex
     number_sections: yes
+  word_document:
+    # reference_docx: draft_word_template.docx
   html_document:
     toc: true
 always_allow_html: true

@@ -1,0 +1,1100 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{setspace}
+\setstretch{1}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Price transmission of wheat in international and domestic markets of Nepal},
+            pdfauthor={Samita Paudel},
+            colorlinks=true,
+            linkcolor=Maroon,
+            filecolor=Maroon,
+            citecolor=DodgerBlue4,
+            urlcolor=Blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Samita Paudel}
+\fancyhead[R]{Price relations of food commodities in major district ...}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{coffee4}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+\newcommand{\coffa}{\cofeAm{1}{1.0}{0}{5.5cm}{3cm}}
+\newcommand{\coffb}{\cofeBm{1}{1.2}{83}{2cm}{1cm}}
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+% \usepackage{amsmath} \newenvironment{smatrix}{\begin{pmatrix}}{\end{pmatrix}} %USUAL
+\usepackage{amsmath} \newenvironment{smatrix}{\left(\begin{smallmatrix}}{\end{smallmatrix}\right)} %SMALL
+% \usepackage{nccmath} \newenvironment{smatrix}{\left(\begin{mmatrix}}{\end{mmatrix}\right)} %MEDIUM
+
+\title{Price transmission of wheat in international and domestic markets of Nepal}
+\author{Samita Paudel}
+\date{6/28/2019}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\hypertarget{background}{%
+\subsection{Background}\label{background}}
+
+Agriculture is the source of employment and livelihood for approximately 65.6\% of the population in Nepal (CBS, 2013/14). With 21 percent of total area under agricultural production, the sector contributes 27.1\% percent to the total GDP of the country (MOAD, 2018). There is the dominance of small farmers in Nepalese agriculture and most of them are still following traditional system of farming using indigenous technologies. The population growth of Nepal is at the rate of 1.35 \% per year (CBS, 2012). The increasing population along with decreasing amount of land utilization for agriculture purpose has led to food insufficiency in 12 districts of out of 75 in Nepal (MoAD, 2016). Increasing population coupled with declining agricultural land and stagnant productivity of major cereals has led to food and self-insufficiency in some districts of the country. Out of 75 districts 12 districts were reported to be experiencing food deficit (MoAD, 2016). The main staple food crops of Nepal are rice, maize and wheat in terms of production and productivity. These three crops are vital for maintaining food security in the country. Still 21.6 percent people (more than 6 million) are below the poverty line (MOF, 2018; economic survey 2017/18).
+
+Due to government lending special focus on priority commodities of agriculture sector in recent years, growth oriented agricultural transformation mechansism are on place. One of such reference document is the Agriculture Development Strategy (ADS), lauched for the period 2015-2035 AD. This strategy paper foresees country achieving independence in food and grain supply owing from domestic production (Agricultural Development \protect\hyperlink{ref-moadads2014}{2014}).
+
+After rice and maize wheat is the third most important food crop in Nepal in terms of production and productivity. The total area covered by wheat in Nepal during FY 2017/18 was 7,06,843 ha with a total production of 19,49,001 metric tons and yield of 2.07 metric tons/ha (MOAD, 2018). Wheat is grown in winter season in terai, mid hills and high hills of Nepal during the month of October to July (CIMMYT, 2001). The average per capita consumption of wheat was 24.5 kg per person in fiscal year 2016 (GoN and UNDP, 2016). Therefore, it plays an important role in national food security. Nepal imported goods of value NRs 1.245 trillion in the fiscal year 2017-18, with an stark deficit factor of 15.3 times than the value generated by exported items (MOAD, 2018). Impaling an impression of agricultural economy, most of the import were that of fuel and food products.
+
+The wheat supply in Nepal depends mainly on domestic supply and from import. The domestic production of cereal grains alone is unable to meet the demand of the country as a result large amount of food is imported from neighboring countries, especially from India.
+
+Wheat production is challenged by several factors like precipitation, incidence of disease, increase in mean maximum temperature and lack of improved technology. These are the main causes for production shortfalls that result in fluctuation in wheat supply.
+
+The topography of Nepal is harsh and some places are away from the physical infrastructure like electricity, water, transportation. So, fuel price is another factor that affects agricultural commodity prices. The prices of fertilizer, farm machinery, and transportation are all affected by the fuel price, which influences wheat production costs. Transportation costs have been found to be important contributors to agricultural input use (Qin and Zhang 2016), agricultural productivity (Gollin and Rogerson 2014), and food prices (Minten and Kyle 1999; Goletti 1994).
+
+Every year Nepal imports large amount of food crops from India to fulfil the demand of its increasing population and to stabilize domestic market price of food. In fiscal year 2017/18 the contribution of India alone in total import was 65.39 percent while 12.85 percent import was from China (MOAD, 2018). Out of total food import 99\% takes place from India (MOF/DoC, 2018) as a result Nepalese wheat market might get affected from supply shocks from neighboring markets of India. This makes wheat price inherently volatile.
+
+Price instability of wheat in Nepal is mostly attributable to factors such as weather condition (temperature, drought, rainfall) natural contingencies (flood, landslide, and soil erosion), production side factors (cost of production, socioeconomic status of farmer, institutional facilities), political atmosphere and disease and pest infestation. In addition, wheat markets face uncertainties due to changes in demand and supply condition (due to variation in production quantity, import and export situation) and distance from the market (geographical locations).
+
+Agricultural markets and market information are cardinal for effective participation of smallholder farmers in agricultural markets (Mawazo et al., 2014). Smallholder farmers have challenges to access market information such as the price of a commodity in the local markets (Ross and De Klerk, 2012). This affects the producers' capacity to participate in informed and profitable trade taking advantage of seasonal and spatial arbitrage.
+
+In the face of murky economic gain policy, with respect to agriculture, and impoverished market information system that does not adequately account for the spatial price transmission (the degree to which the geographically separated markets share a common long run relationships of a commodity market), a study utilizing already available, albeit scattered market price information and related variables to describe state of the wheat food economy has certain benefits for macroeconomic policy adjustment. The study of such relationships provides valuable information on how much sensitive or otherwise is the price adjustment/arbitrage mechanism is, in a small economy such as ours, to work food market. In this study the extent of wheat market integrations of Nepal with world wheat market, bordering Indian wheat markets and across the districts of Nepal will be studied using individual commodity prices.
+
+\hypertarget{statement-of-problems}{%
+\subsection{Statement of problems}\label{statement-of-problems}}
+
+Production and consumption side factors, weather conditions, and acess to international and cross border market are postulated as wide-reaching determinants of agricultural commodity prices. There is a possibility that price shocks in india have a pronounced impact in wheat price of Nepal.
+
+The other major drive known to impact on commodity prices, through operations cost in agriculture, is fuel. Mainly, periods of high volatility in diesel prices might be linked to food price, the direct impact of which remains unexplored in wheat for Nepalese socio-economic scenario.
+
+Moreover, price transmission of wheat markets is a scantly studied topic in reference to Nepal, and South East Asia generally, as much of the studies are focused in paddy/rice. Prevailing market information exchange system loosely accounts, if it does at all, for the cross border and international market prices mostly due to lack of formalized market integration model. Also for wheat, an appropriate demand-supply balancing model is yet to be identified for Nepal. Thus, the current study aims to fill the gap by evaluating the spatial integration and price transmission among geographically separated wheat markets in Nepal and with bordering markets of India and world wheat market.
+
+\hypertarget{rationale}{%
+\subsection{Rationale}\label{rationale}}
+
+Commodity price instability are important issues that have received considerable attention by many policy makers and economists for decades. An important question is whether increased exposure to Indian markets reduces the domestic price volatility and thereby improves the welfare of agricultural households. Evidence on this issue can have a profound impact on policy implications to the countries adopting market liberalization policies of the type initiated during the 1990's. India as the the largest trade partner having a prominent role in Nepalese food market seems is likely most important than with the world markets. This study further extends the research in price transmission by utilizing retail wheat market data across multiple -- import based and production based -- districts of Nepal, to major adjoining cities in India. In so doing, within-country transmission of price is also accounted for in current analysis framework.
+
+Market integration is important to make goods (e.g., food grain) available and to keep price stable, because well-integrated markets assume that prices of comparable goods do not behave independently. Moreover, in well-integrated markets, price changes in one location are consistently related to price changes in other locations, in which market agents are able to interact among different markets.
+
+The findings obtained from this study will go a long way in informing and facilitating development of better, meaningful and statistically significant economic model that will yield better estimates of the future behaviors of wheat prices. This will in effect shield the wheat grower farmers, farm workers, consumers and the nation at large from acute market downturns of the wheat price. Market integration model including well informed domestic and international price determinants will facilitate freer flow of wheat as well as allied cereal commodities in Nepal. It is expected that with the calibration of such model, it can be extended easily to other commodities as well -- given that reliable data are available.
+
+Additionally, policy tools that can mark various domestic districts and households for vulnerability to price volatilities can be generated through price transmission model. For a small economy country such as Nepal where market integration with world is defined poorly, insights on degree of price transmission might help reduce trade imbalance and potentially highlight investment schemes that can reduce the extent of price and production variability. More integrated domestic market through would further enhance farmers' access to resources and lead to higher integration with regional and world markets, and thereby reduce income instability.
+
+\hypertarget{objective-of-research}{%
+\subsection{Objective of research}\label{objective-of-research}}
+
+\hypertarget{literature-review}{%
+\section{Literature review}\label{literature-review}}
+
+Switching from an export to an import situation and vice versa always adds to the price volatility. High price volatility may lead to disbalances in the economy as a whole, low prices harm agricultural producers, thus discoraging grain production. While high prices threaten food security as about 16.4\% of population in Nepal live on less than 1 usd per day (UNDP, 2015) and are thus vulnerable to food price increases.
+
+\{Since the world market prices are usually not volatile, there should be mechanisms in place to prevent large fluctuation in Nepalese wheat market, i.e.~the Nepalese wheat market responds to world price changes as quickly and as fully as possible.
+
+This paper will focus on the integration of the Nepalese wheat market with regional (Border Indian) and world (Canada) wheat markets.\} --- included in introduction.
+
+Thapa (\protect\hyperlink{ref-sridharthapaspatial2019}{2019}) conducted an analysis of market integration for cereal (rice and wheat) and pulse (lentil) crops in South asia. Monthly price data taken for the period Jan 2006 to April 2014 was tested for correlated variables and the differenced series was modeled with a linear equation for estimation of effects. Results showed that Indian and Nepalese markets are more strongly integrated than the markets of India and Bangladesh. Further, author demonstrates that regional market integration is better for rice and lentil than wheat. Author suggests usage of more robust price models which can effectively quantify the relationship between endogeneous market price series, such as Vector Autoregression or Vector Error Correction Model.
+
+\hypertarget{wheat-market-in-nepal}{%
+\subsection{Wheat market in Nepal}\label{wheat-market-in-nepal}}
+
+\hypertarget{international-wheat-market}{%
+\subsection{International wheat market}\label{international-wheat-market}}
+
+Canada primarily produces a hard red spring wheat (Canadian Western Red Spring (CWRS)) and durum wheat. Average Canadian wheat production for the 2011-2015 period included 24.4 million tons of CWRS.
+The total wheat production in 2015 increased by 257\% in India and by 205\% in China compared to wheat production in the 1960s. The EU production increased by 193\%, but a large share of that was due to the addition of countries to the EU. The United States and Canada increased production by 33\% and 57\%, respectively.
+
+Until 1995, China had been the largest importer of wheat, followed by Brazil and Japan. However, China's wheat imports have been highly volatile, depending upon its domestic wheat production and import policies. China has reduced wheat imports substantially, and changed from importing 12.0 million tons in 1995 to importing 2.9 million metric tons of wheat in 2013 and 500 thousand metric tons in 2014.
+
+\hypertarget{price-transmission}{%
+\subsection{Price transmission}\label{price-transmission}}
+
+\hypertarget{factors-affecting-wheat-price-in-nepal}{%
+\subsection{Factors affecting wheat price in Nepal}\label{factors-affecting-wheat-price-in-nepal}}
+
+\hypertarget{precipitation}{%
+\subsubsection{Precipitation}\label{precipitation}}
+
+\hypertarget{supply-producer-side-and-demand-consumer-side-in-domestic-market}{%
+\subsubsection{Supply (producer side) and demand (consumer side) in domestic market}\label{supply-producer-side-and-demand-consumer-side-in-domestic-market}}
+
+\hypertarget{price-of-bordering-region-markets}{%
+\subsubsection{Price of bordering region markets}\label{price-of-bordering-region-markets}}
+
+\hypertarget{foreign-exchange-rates}{%
+\subsubsection{Foreign exchange rates}\label{foreign-exchange-rates}}
+
+\{The prices that producers receive once they are deflated into the currency of domestic producers may have a big impact on the prices at which they are prepared to sell. This also extends to holders of stocks. Volatile exchange rates increase the riskiness of returns, and thus it is expected that there may be a positive transmission of exchange rate volatility to the volatility of agricultural prices (Balcombe \protect\hyperlink{ref-balcombe2010nature}{2010}).\} --copied.
+
+\hypertarget{fuel-price}{%
+\subsubsection{Fuel price}\label{fuel-price}}
+
+Empirical work by suggested a transmission of prices between oil and sugar prices (Balcombe and Rapsomanikis, 2005). There is also likely to be a strong link between input costs and output prices. Fertiliser prices, mechanised agriculture and freight costs are all dependent on oil prices, and will feed through into the prices of agricultural commodities. Acknowledging that the oil price has ran through high volatility over the past few years, it is very likely that this volatility will spill over to the volatility of commodity prices (Balcombe \protect\hyperlink{ref-balcombe2010nature}{2010}; Areal, Balcombe, and Rapsomanikis \protect\hyperlink{ref-areal2016testing}{2016}).
+
+\hypertarget{techniques-for-studying-price-transmission}{%
+\subsection{Techniques for studying price transmission}\label{techniques-for-studying-price-transmission}}
+
+\hypertarget{methodology}{%
+\section{Methodology}\label{methodology}}
+
+\begin{itemize}
+\tightlist
+\item
+  Until recently, before federal structure of governance was into force, planning, budgeting, service delivery and policy interventions in Agriculture were all excised through district level bodies. Each district was itself accountable for market information accrual and reporting. Hence, most reliable form of price series data would be district level itself.
+\item
+  Districts present isolated markets and well organized customer segments surrounding that. For e.g., food grain retail market of kathmandu is drastically different from that of kailali, because while in the former consumer segment has a larger role to play in determining of market demand, the market of farwestern terai region has significant share of producer segments in determining what and when to produce.
+\item
+  District present different socio-economic narrative for food commodity trade which is heavily affected by the geographical context of the district itself. For e.g., Rupandehi market is more closely tied to bordering Indian market, because of minimal to none customs intervention in cross-country trade of food grain. The price effects of indian districts are more easily reflected in border region market prices, than in distant market such as Jumla and Surkhet.
+\item
+  District markets information systems are more organized than local level markets, mostly because there are factors that buffer price volatility in district level. For e.g., government intervene through subsidized input supply, facilitated by district level agriculture offices when prices of agricultural inputs are hightened. Also service delivery system, for example that providing subsidized farmers loan, is carried out at district level.
+\end{itemize}
+
+\hypertarget{study-size-and-data-frequency}{%
+\subsection{Study size and data frequency}\label{study-size-and-data-frequency}}
+
+Study area is limited to terai and hilly region of Nepal. Owing to the fact that majority of wheat production takes place in terai and only trace quanities of the crop is obtained from hill and mountain regions, study size is limited 4 eastern terai districts and a single hilly district. Due to the sparsity of price record available for other districts, current study could not include most of districts of eastern region's terai and districts of hilly region for inference.
+
+\hypertarget{selection-of-wheat-markets}{%
+\subsubsection{Selection of wheat markets}\label{selection-of-wheat-markets}}
+
+Selected markets either have a large production volumes or strong consumer segment. Because districts of terai, and mostly those of Central to Farwestern region, show consistently high annual production volume (Terai is also dubbed grain basket of Nepal) major producer districts in terai -- Kailali, Rupandehi, Parsa were included in the study. At the same time Chitwan and Kathmandu districts have prominance of consumers. Some of the features that justify suitability of inclusion of abovementioned districts are presented:
+
+\begin{itemize}
+\tightlist
+\item
+  Kailali district lies in farwestern region. It borders with India through Uttar Pradesh state. The district has huge chunks of land annually allocated to Wheat production (How much in total 4.7\% (34,530 hectares out of 735,850 hectares of total wheat cultivated area) hectares (MoAD \protect\hyperlink{ref-moad2016statistical}{2016}). The farmer segment comprises mainly of Tharu community.
+\item
+  Rupandehi district is located in Western terai region. The district adjoining with Indian market of Uttar Pradesh state, likewise, has large volume of grain production arising from Wheat cultivation.
+\item
+  Parsa district lies in Central terai part of Nepal. It borders with India through Bihar state and the district cultivates Wheat in large volume (21,532 hectares producing 74,455 metric tons)(MoAD \protect\hyperlink{ref-moad2016statistical}{2016}).
+\item
+  Kathmandu and Chitwan markets are mostly dominanted by consumer segment, hence the retail price series of these districts are expected to differ from that of producer market districts.
+\item
+  Although it has been reported that recent years has seen dwindling per capita cereal consumption in major urban centres (87.75 kg per year in 2011-13, as opposed to 99 kg in 1999-2001), including Kathmandu, of Nepal, it is improbable that quantity demand shall fall. This is because urban centeres have been experiencing upsurge in number of inhabitats, partly contributed by increasing population. At the same time, consumption pattern of the same cereal crop is diversified in recent years, more of so for Wheat\footnote{\url{https://kathmandupost.com/money/2018/01/17/nepalis-eating-less-rice-compared-to-a-decade-ago}} (UNCTAD \protect\hyperlink{ref-unctad2015foodsecurity}{2015}).
+\item
+  Treatment of isolated markets into arbitrary category of consumer and producer districts will provide a more complete picture of the situation of region they represent -- Farwestern terai, Western-central terai and Eastern-central terai regions, respectively. This form of classification is expected to improve interpretability and overall increase predictive accuray of model in the face of price shocks.
+\end{itemize}
+
+\hypertarget{overview-of-domestic-markets-of-study-districts}{%
+\subsection{Overview of domestic markets of study districts}\label{overview-of-domestic-markets-of-study-districts}}
+
+A map of study districts.
+
+\begin{figure}
+\includegraphics[width=0.95\linewidth]{price_transmission_wheat_files/figure-latex/study-districts-1} \caption{Geographical context of selected district markets}\label{fig:study-districts}
+\end{figure}
+
+\includegraphics{./outputs/npl_top_wheat_growing_districts_productionwise.png}
+
+\hypertarget{data-collection-techniques-and-variable-identification}{%
+\subsection{Data collection techniques and variable identification}\label{data-collection-techniques-and-variable-identification}}
+
+Data used in this study were compiled from several sources. With the exception of precipitaiton record, all other price series were retrieved from publicly available repositories. Web publications where relevant were converted directly to workable datasheets. In case where a study variable could not be direcly obtained, multiple sources were aligned with the help of their timestamps and compared for authenticity, where possible, against statistical database of various inline agencies (For example, marketwatch data and FAO's retail price data were manually tallyed to make sure they agree with each other).
+
+\hypertarget{retail-wheat-price-in-major-domestic-markets}{%
+\subsubsection{Retail wheat price in major domestic markets}\label{retail-wheat-price-in-major-domestic-markets}}
+
+Price series of domestic markets were selected for study. The data represent imbalanced series of following 5 districts: Kailali, Rupandehi, Parsa, Kathmandu, Chitwan.
+
+The continuous series of the five domestic districts have been aggregated and presented as two major market segments of wheat -- producer and consumer. The Kailali, Rupandehi and Parsa districts are assigned the producer district status. This assignment merits in two ways -- firstly, as these districts have relatively high production volumes of wheat, this provides an oversight of domestic production; secondly, each producer deemed districts has a busy inter Nepal-India trade conduit (The Kailali, Birgunj and Bhairahawa borders) which makes way for a large part of formal trade (Finance \protect\hyperlink{ref-GoNMoFDoC1819}{2019}). Since much of the cross border trade with India occurs through these producer districts, we pose national supply market side features (strengths and constraints) of the wheat as being largely influenced by agriculture and commerce of these three districts.
+
+\hypertarget{international-and-indian-bordering-regions-wheat-prices}{%
+\subsubsection{International and Indian bordering region's wheat prices}\label{international-and-indian-bordering-regions-wheat-prices}}
+
+Canadian wheat price series is used as proxy price of wheat in international market. Canadian wheat market is a fairly large export oriented market -- as of 2017 trade, it ranks third globally in export quantity as well as the export volume (Faostat \protect\hyperlink{ref-faostat2019statistical}{2019}). Discounting only recent upsurge of export in Russia and EU, canadian wheat export has been a consistent determinant of international unprocessed wheat price. It is expected to represent nominal price of wheat, an indicator of how monthly price of the commodity has been affected by international demand forces.
+
+The price series was collected from an online repository which maintains a monthly database in unit USD per bushel. The unit was converted into per Nepalese Rupees (NPR) per kilogram rate with following expression (USD exchange to NPR exchange rate pertains to Dec 31, 2019. USD buying rates at that point was NPR 113.81):
+
+\[
+\text{Price}_{\text{(NRs per kg)}} = \text{Price}_{\textrm{(USD per bushel)}} \times \frac{50}{1000} \times 113.81
+\]
+
+Likewise, the food prices of Bihar and Uttar Pradesh wheat markets of India have been ascertained from the FAOSTAT database\footnote{\url{http://www.fao.org/faostat/en/\#data}}. The prices were then converted to NPR with default exchage rate of 1.6 NPR being equal to 1 INR.
+
+\hypertarget{precipitation-of-producer-districts}{%
+\subsubsection{Precipitation of producer districts}\label{precipitation-of-producer-districts}}
+
+The precipitation profile of producer districts was filtered from the bulk of meteorological parameters available through NASA's power module. The API offers weather records of variable resolution. For the current study, large grids of size covering entire district areas of interest were specified and daily weather parameters of the time duration of interest were extracted. These were then aggregated to monthly intervals to match price series frequency (Sparks \protect\hyperlink{ref-nasapowerr2019}{2018}).
+
+\hypertarget{foreign-exchange-rates-1}{%
+\subsubsection{Foreign exchange rates}\label{foreign-exchange-rates-1}}
+
+Historical foreign exchange rates were obtained for major traded currencies in Nepal since Jan 2000 to Dec 2019 from Nepal Rastra Bank's archive\footnote{\url{https://www.nrb.org.np/fxmexchangerate.php}; Accessed 01-Jan-2020}.
+
+\hypertarget{fuel-prices-in-nepal}{%
+\subsubsection{Fuel prices in Nepal}\label{fuel-prices-in-nepal}}
+
+Fuel price pertaining to Diesel were assembled from World Bank's\footnote{\url{https://databank.worldbank.org/home.aspx}; Retrieved on Jan 01, 2019} database and Nepal Oil Corporation's\footnote{\url{http://noc.org.np/diesel}; Retrieved on Jan 01, 2019} price broadcast and combined to complete the series. Missing points in the series were either interpolated using imputeTS package (Moritz and Bartz-Beielstein \protect\hyperlink{ref-tsmissingvalueimpute2017}{2017}) or in case of where data is available on daily or weekly series mean aggregation was performed to match the monthly periodicity.
+
+\hypertarget{statistical-analysis-framework}{%
+\subsection{Statistical analysis framework}\label{statistical-analysis-framework}}
+
+Price transmission can be measured through a broad number of methodologies. The cointegration approach is chosen because of its applicability in making multivariate inference from time series data. The current investigation can be divided broadly into three parts; first part consists of basic description and univariate inference, the second part aims to look more closely into price series through multivariate modeling of series and finally the cointegration analysis that leads to formulation of vector error correction model is estimated.
+
+\hypertarget{unit-root-adf-and-kpss-test}{%
+\subsubsection{Unit root (ADF and KPSS) test}\label{unit-root-adf-and-kpss-test}}
+
+Augmented Dickey Fueller (ADF) test will be performed to test for the presence of unit-roots. The method implements a t-test of \(H_0: \gamma = 0\) in the regression, below.
+
+\begin{equation}
+\label{eqn:lagged-ts-regression}
+  \Delta {{Y}_{t}}={{\beta
+  }_{1}}+{{\beta }_{2}}t+\gamma {{Y}_{t-1}}+ \sum\limits_{i=1}^{m}{\delta_i \Delta
+    {{Y}_{t-i}}+{{\varepsilon }_{t}}}
+\end{equation}
+
+The null is therefore that series has a unit root. If only the series has a non-unit root, then it is stationary (rejection of null hypothesis).
+
+The ADF test was parametrized with the alternative hypothesis of stationarity. This extends to following assumption in the model parameters;
+
+\[
+-2 \leq \gamma \leq 0\ \text{or } (-1 < 1+\phi < 1)
+\]
+
+\texttt{k} in the function refers to the number of \(\delta\) lags, i.e., \(1, 2, 3, ...., m\) in the model equation.
+
+The number of lags \texttt{k} defaults to \texttt{trunc((length(x)-1)\^{}(1/3))}, where \texttt{x} is the series being tested. The default value of \texttt{k} corresponds to the suggested upper bound on the rate at which the number of lags, \texttt{k}, should be made to grow with the sample size for the general ARMA(p,q) setup \texttt{citation(package\ =\ "tseries")}.
+
+\textbf{Unit root test based lag order differencing determination}
+
+An alternative to decomposition for removing trends is differencing (Woodward, Gray, and Elliott \protect\hyperlink{ref-woodward2017applied}{2017}). We define the order \(d\) difference operator as,
+
+\begin{equation}
+\nabla^d x_t = (1-\mathbf{B})^d x_t,
+\label{eqn:order-d-difference-operator}
+\end{equation}
+
+Where \(\mathbf{B}\) is the backshift operator (i.e., \(\mathbf{B}^k x_t = x_{t-k}\) for \(k \geq 1\)).
+
+Applying the difference to a random walk, the most simple and widely used time series model, will yield a time series of Gaussian white noise errors \(\{w_t\}\):
+
+\begin{equation}
+  \begin{aligned}
+    \nabla (x_t &= x_{t-1} + w_t) \\
+    x_t - x_{t-1} &= x_{t-1} - x_{t-1} + w_t \\
+    x_t - x_{t-1} &= w_t
+  \end{aligned}
+  \label{eqn:random-walk-series}
+\end{equation}
+
+\hypertarget{vector-autoregressive-model-var}{%
+\subsubsection{Vector autoregressive model (VAR)}\label{vector-autoregressive-model-var}}
+
+VAR is a system regression model, i.e., there are more than one dependent variable. The regression is defined by a set of linear dynamic equations where each variable is specified as a function of an equal number of lags of itself and all other variables in the system. Any additional variable, adds to the modeling complexity by increasing an extra equation to be estimated.
+
+The vector autoregression (VAR) model extends the idea of univariate autoregression to \(k\) time series regressions, where the lagged values of \emph{all} \(k\) series appear as regressors. Put differently, in a VAR model we regress a \emph{vector} of time series variables on lagged vectors of these variables. As for \(AR(p)\) models, the lag order is denoted by \(p\) so the \(VAR(p)\) model of two variables \(X_t\) and \(Y_t\) (\(k=2\)) is given by a vector of equations (Equation \ref{eqn:vector-regression-ts}).
+
+\begin{equation}
+\label{eqn:vector-regression-ts}
+\begin{split}
+\begin{aligned}
+  Y_t =& \, \beta_{10} + \beta_{11} Y_{t-1} + \dots + \beta_{1p} Y_{t-p} + \gamma_{11} X_{t-1} + \dots + \gamma_{1p} X_{t-p} + u_{1t}, \\
+  X_t =& \, \beta_{20} + \beta_{21} Y_{t-1} + \dots + \beta_{2p} Y_{t-p} + \gamma_{21} X_{t-1} + \dots + \gamma_{2p} X_{t-p} + u_{2t}.
+\end{aligned}
+\end{split}
+\end{equation}
+
+The \(\beta\)s and \(\gamma\)s can be estimated using OLS on each equation.
+
+Simplifying this to a bivariate \(VAR(1)\), we can write the model in matrix form as:
+
+\begin{equation}
+\label{eqn:matix-var1-model}
+Y_t = \beta_0 + \beta_1 Y_{t-1} + \mu_t
+\end{equation}
+
+Where,
+
+\begin{itemize}
+\tightlist
+\item
+  \(Y_t, Y_{t-1}\) and \(\mu_t\) are (2 x 1) column vectors
+\item
+  \(\beta_0\) is a (2 x 1) column vector
+\item
+  \(\beta_1\) is a (2 x 2) matrix
+\end{itemize}
+
+also,
+
+\[
+Y_t = 
+\begin{pmatrix} 
+y_{1t} \\
+y_{2t}
+\end{pmatrix},\ 
+Y_{t-1} = 
+\begin{pmatrix} 
+y_{1t-1} \\
+y_{2t-1}
+\end{pmatrix}
+\]
+
+\[
+\mu_t = 
+\begin{pmatrix} 
+\mu_{1t} \\
+\mu_{2t}
+\end{pmatrix},
+\beta_{0} = 
+\begin{pmatrix} 
+\beta_{10} \\
+\beta_{20}
+\end{pmatrix},
+\beta_{1} = 
+\begin{pmatrix} 
+\beta_{11} & \alpha_{11} \\
+\alpha_{21} & \beta_{21}
+\end{pmatrix}
+\]
+
+Only when the assumptions presented below hold, the OLS estimators of the VAR coefficients are consistent and jointly normal in large samples so that the usual inferential methods such as confidence intervals and \(t\)-statistics can be used (Metcalfe and Cowpertwait \protect\hyperlink{ref-metcalfe2009introductory}{2009}).
+
+Two series \(w_{x,t}\) and \(w_{y,t}\) are bivariate white noise if they are stationary and their cross-covariances \(\gamma_{xy}(k) = Cov(w_{x,t}, w_{y, t+k})\) satisfies
+
+\[
+\gamma_{xx}(k) = \gamma_{yy}(k) = \gamma_{xy}(k) = 0\ \text{for all } k \neq 0
+\]
+
+The parameters of a var(p) model can be estimated using the \texttt{ar} function in \texttt{R}, which selects a best-fitting order \(p\) based on the smallest information criterion values.
+
+The structure of VARs also allows to jointly test restrictions across multiple equations. For instance, it may be of interest to test whether the coefficients on all regressors of the lag \(p\) are zero. This corresponds to testing the null that the lag order \(p-1\) is correct. Large sample joint normality of the coefficient estimates is convenient because it implies that we may simply use an \(F\)-test for this testing problem. The explicit formula for such a test statistic is rather complicated but fortunately such computations are easily done using the \texttt{ttcode("R")} functions we work with in this chapter. Just as in the case of a single equation, for a multiple equation model we choose the specification which has the smallest \(BIC(p)\), where
+
+\[
+\begin{aligned}
+  BIC(p) =& \, \log\left[\text{det}(\widehat{\Sigma}_u)\right] + k(kp+1) \frac{\log(T)}{T}.
+\end{aligned}
+\]
+
+with \(\widehat{\Sigma}_u\) denoting the estimate of the \(k \times k\) covariance matrix of the VAR errors and \(\text{det}(\cdot)\) denotes the determinant.
+
+As for univariate distributed lag models, one should think carefully about variables to include in a VAR, as adding unrelated variables reduces the forecast accuracy by increasing the estimation error. This is particularly important because the number of parameters to be estimated grows qudratically to the number of variables modeled by the VAR.
+
+\hypertarget{residual-based-cointegration-test}{%
+\subsubsection{Residual based cointegration test}\label{residual-based-cointegration-test}}
+
+Since the food commodities are spatially linked, more of so because they occupy the same domestic market, it is obvious that factor affecting price of one inevitably affects other, especially that of same crop in a nearby market. Having evidence for nonstationarity, it is of interest to test for a common nonstationary component by means of a cointegration test (Non-stationarity is more valid for development regionwise price series).
+
+A two step method proposed by Hylleberg et al. (\protect\hyperlink{ref-hylleberg1990seasonal}{1990}) can be used to test for cointegration. The procedure simply regressess one series on the other and performs a unit root test on the residuals. This test is often named after Phillips, Ouliaris, and others (\protect\hyperlink{ref-phillips1990asymptotic}{1990}). Specifically, \texttt{po.test()} performs a Phillips-Perron test using an auxiliary regression without a constant and linear trend and the Newey-West estimator for the required long-run variance.
+
+The problem with this approach is that it treats both series in an asymmetric fashion, while the concept of cointegration demands that the treatment be symmetric.
+
+\hypertarget{var-based-cointegration-test}{%
+\subsubsection{VAR based cointegration test}\label{var-based-cointegration-test}}
+
+The standard tests proceeding in a symmetric manner stem from Johansen's full-information maximum likelihood approach (Johansen \protect\hyperlink{ref-johansen1991estimation}{1991}). A general vector autoregressive model is similar to the AR(p) model except that each quantity is vector valued and matrices are used as the coefficients. The general form of the VAR(p) model, without drift, is given by:
+
+\begin{equation}
+\label{eqn:var-general}
+{\bf y_t} = {\bf \mu} + A_1 {\bf y_{t-1}} + \ldots + A_j {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
+
+Where \({\bf \mu}\) is the vector-valued mean of the series, \(A_i\) are the coefficient matrices for each lag and \({\bf \varepsilon_t}\) is a multivariate Gaussian noise term with mean zero.
+
+At this stage we can form a Vector Error Correction Model (VECM) by differencing the series (Equation \ref{eqn:vecm-differenced}).
+
+\begin{equation}
+\label{eqn:vecm-differenced}
+\Delta {\bf y_t} = {\bf \mu} + A {\bf y_{t-1}} + \Gamma_1 \Delta {\bf y_{t-1}} + \ldots + \Gamma_j \Delta {\bf y_{t-j}} + {\bf \varepsilon_t}
+\end{equation}
+
+Where \(\Delta {\bf y_t} = {\bf y_t} - {\bf y_{t-1}}\) is the differencing operator, \(A\) is the coefficient matrix for the first lag and \(\Gamma_i\) are the matrices for each differenced lag.
+
+For a \(p^{th}\) -order cointegrated vector autoregressive (VAR) model, the error correction form is (omitting deterministic components; both no intercept or trend in either cointegrating equation or test var), we may rewrite the VAR in the form of Equation \ref{eqn:johansens} (Johansen \protect\hyperlink{ref-johansen1991estimation}{1991}).
+
+\begin{equation}
+\label{eqn:johansens}
+\Delta y_t = \Pi y_{t-1} + \sum_{j = 1}^{p-1} {\Gamma_j \Delta y_{t-j}} + \varepsilon_t
+\end{equation}
+
+Where,
+
+\[
+\Pi = \sum^{p}_{i = 1}{A_{i}-I}; \Gamma = -\sum^{p}_{j = i + 1}{j}
+\]
+
+Granger's representation theorem asserts that if the coefficient matrix \(\Pi\) has reduced rank \(r < k\), then there exist \(kxr\) matrices \(\alpha\) and \(\beta\) each with rank \(k\) such that \(\Pi = \alpha \beta^{\prime}\) and \(\beta^{\prime}y_t\) is \(I(0)\).
+
+To achieve this an eigenvalue decomposition of \(A\) is carried out. The rank of the matrix \(A\) is given by \(r\) and the Johansen test sequentially tests whether this rank \(r\) is equal to zero, equal to one, through to \(r=n-1\), where \(n\) is the number of time series under test.
+
+The null hypothesis of \(r=0\) means that there is no cointegration at all. A rank \(r > 0\) implies a cointegrating relationship between two or possibly more time series.
+
+The eigenvalue decomposition results in a set of eigenvectors. The components of the largest eigenvector admits the important property of forming the coefficients of a linear combination of time series to produce a stationary portfolio. Notice how this differs from the CADF test (often known as the Engle-Granger procedure) where it is necessary to ascertain the linear combination a priori via linear regression and ordinary least squares (OLS).
+
+In summary, the test checks for the situation of no cointegration, which occurs when the matrix \(A=0\). So, starting with the base value of \(r\) (i.e., \(r=0\)), if the test statistic is greater than critical values of at the 10\%, 5\% and 1\% levels, this would imply that we are \textbf{able} to reject the null of no cointegration. For the case r\textless{}=1, we if the calculated test statistic is below the critical values of, we are \textbf{unable} to reject the null, and the number of cointegrating vectors is between 0 and 1. The relevant tests are available in the function \texttt{urca::ca.jo()}. The basic version considers the eigenvalues of the matrix \(\Pi\) in the preceding equation.
+
+\hypertarget{causality-test}{%
+\subsubsection{Causality test}\label{causality-test}}
+
+Causality test is VAR based approach to explain cause-effect relationship among endogenous variables. However, the Granger-causality (Granger \protect\hyperlink{ref-granger1988causality}{1988}) inference does not, of course, establish the real causation phenomena. If one of the variables is sufficiently correlated to the other so that forecast of former depends on the later to a considerable extent, then the first variable is \emph{granger-caused} by the second one.
+
+The Granger causality has been briefed to be useable test in certain cases of two series violating the stationarity assumption\footnote{\url{https://davegiles.blogspot.com/2011/04/testing-for-granger-causality.html}}.
+
+\hypertarget{section}{%
+\subsubsection{}\label{section}}
+
+Common statistical tests and econometric models are interpreted based on cut-off probability value 5\%. Where model selection is desired, model terms minimizing Akaike or Bayesian Information Criterion, or where relevant both, were selected.
+
+\hypertarget{software-for-analysis-and-inference}{%
+\subsubsection{Software for analysis and inference}\label{software-for-analysis-and-inference}}
+
+For the purpose of current study, ``R'' software was used (R Core Team \protect\hyperlink{ref-rbase2020}{2020}). All exploratory and modeling tasks were accomplished with the use of open source packages (An exhaustive listing of all packages is provided in the Appendix B).
+
+\hypertarget{results-and-discussion}{%
+\section{Results and discussion}\label{results-and-discussion}}
+
+\hypertarget{overview-and-descriptive-summary-of-study-variables}{%
+\subsection{Overview and descriptive summary of study variables}\label{overview-and-descriptive-summary-of-study-variables}}
+
+\hypertarget{retail-wheat-price-series-overview}{%
+\subsubsection{Retail wheat price series overview}\label{retail-wheat-price-series-overview}}
+
+Plot of wheat retail price series of nepal and international (canada and bordering indian region) markets, in comparison to national average price.
+
+\includegraphics{price_transmission_wheat_files/figure-latex/india-nepal-canada-price-series-1.pdf}
+
+\begin{figure}
+\centering
+\includegraphics{price_transmission_wheat_files/figure-latex/domestic-district-acf-1.pdf}
+\caption{\label{fig:domestic-district-acf}Autocorrelation plots of district markets}
+\end{figure}
+
+The Figure \ref{fig:domestic-market-acf} shows autocorrelation plot for the monthly prices of wheat retail market of two different market categories -- Producer and Consumer -- from Jan 2004 to Oct 2019. Vertical spikes correspond to consecutive forward lags. The autocorrelation function of the series continues to be statistically significant correlation even at the lag order of 18. This is also confirmed by the Durbin-Watson test shown below (Table \ref{tab:dwtest-lm2}).
+
+\begin{figure}
+\centering
+\includegraphics{price_transmission_wheat_files/figure-latex/domestic-market-acf-1.pdf}
+\caption{\label{fig:domestic-market-acf}Autocorrelation plots of market categories}
+\end{figure}
+
+\hypertarget{precipitation-overview}{%
+\subsubsection{Precipitation overview}\label{precipitation-overview}}
+
+\hypertarget{foreign-exchange-overview}{%
+\subsubsection{Foreign exchange overview}\label{foreign-exchange-overview}}
+
+\includegraphics{price_transmission_wheat_files/figure-latex/forex-buying-1.pdf}
+
+\hypertarget{fuel-price-series-overview}{%
+\subsubsection{Fuel price series overview}\label{fuel-price-series-overview}}
+
+\hypertarget{multivariate-price-series-modeling}{%
+\subsection{Multivariate price series modeling}\label{multivariate-price-series-modeling}}
+
+\begin{table}[H]
+
+\caption{\label{tab:lm1-without-time-consumer}ANOVA of regression between log(price) of consumer districts (as dependent variable) and 6 regressor variables (log(price) of wheat in international market, log(price) of wheat in indian bordering states, log(price) of wheat in producer districts, precipitation of producer districts and log(price) of fuel)}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{7em}rrrrr}
+\toprule
+term & df & sumsq & meansq & statistic & p.value\\
+\midrule
+lp canada & 1 & 11.312 & 11.312 & 1068.088 & 0.000\\
+lp india & 1 & 21.523 & 21.523 & 2032.107 & 0.000\\
+lp npl krp & 1 & 0.298 & 0.298 & 28.106 & 0.000\\
+precip npl krp & 1 & 0.023 & 0.023 & 2.200 & 0.139\\
+lp fuel & 1 & 0.051 & 0.051 & 4.851 & 0.029\\
+\addlinespace
+Residuals & 235 & 2.489 & 0.011 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The regression summary above (Table \ref{tab:lm1-without-time-consumer}) is obtained on fitting the model Equation \ref{eqn:lm1}.
+
+\begin{equation}
+\label{eqn:lm1}
+\begin{aligned}
+\begin{split}
+price_{\textrm{consumer districts}} &= price_{\textrm{canada}} + price_{\textrm{indian bordering states}} \\ &+
+price_{\textrm{producer districts}} + precipitation_{\textrm{producer districts}} \\ &+ fuel~price_{\textrm{national average}}
+\end{split}
+\end{aligned}
+\end{equation}
+
+This form of regression presents a typical case of spurious relationship among variables, where variables having times series attributes show exceptionally high association among them. For example, when fitting the model presented above, it is not surprising to find highly significant variable association and strong effect estimates. This is problematic and misleading, because without accounting for linear time trend they show very unstable variance, which increases at extremes (more recent time period). The phenomena of possible presence of heteroskedasticity is shown in the residual-vs-fit plot in Figure \ref{fig:lm1-residual-vs-fit-plot}.
+
+\begin{figure}
+
+{\centering \includegraphics{price_transmission_wheat_files/figure-latex/lm1-residual-vs-fit-plot-1} 
+
+}
+
+\caption{Residual (pearsons') versus fit plot of the linear regression of consumer district price series on multiple variables without accounting for time attributes of the series}\label{fig:lm1-residual-vs-fit-plot}
+\end{figure}
+
+We try to account for linear trend of time simply by incorporating the term into the regression model represented by Equation \ref{eqn:lm1}.
+
+\begin{equation}
+\label{eqn:lm2}
+\begin{aligned}
+\begin{split}
+price_{\textrm{consumer districts}} &= date + price_{\textrm{canada}} + price_{\textrm{indian bordering states}} \\ &+
+price_{\textrm{producer districts}} + precipitation_{\textrm{producer districts}} \\ &+ fuel~price_{\textrm{national average}}
+\end{split}
+\end{aligned}
+\end{equation}
+
+However, even then there is likely presence of biased variance, as evident from residuals of the model (Equation \ref{eqn:lm2}) as shown in Figure \ref{fig:lm2-residual-vs-fit-plot}.
+
+\begin{figure}
+
+{\centering \includegraphics{price_transmission_wheat_files/figure-latex/lm2-residual-vs-fit-plot-1} 
+
+}
+
+\caption{Residual (pearsons') versus fit plot of the linear regression of consumer district price series on multiple variables after incorporating linear time trend of the price series}\label{fig:lm2-residual-vs-fit-plot}
+\end{figure}
+
+\hypertarget{testing-for-heteroskedasticity}{%
+\subsection{Testing for heteroskedasticity}\label{testing-for-heteroskedasticity}}
+
+Below we test the linear model (Equation \ref{eqn:lm2} (with consumer districts as dependent variable and multiple explanatory variables) with linear time trend) for presence of heteroskedasticity using Breusch-Pagan test. The test fits a linear regression model to the residuals of a linear regression model and rejects if too much of the variance is explained by the additional explanatory variables. Breusch pagan test uses the null hypothesis of Homoscadesticity while testing studentized residuals. Hence, if the null hypothesis is rejected (p \textless{} 0.05), there is possible presence of heteroskedasticity.
+
+\begin{table}
+
+\caption{\label{tab:lm2-bptest}Breusch-Pagan test for heteroskedasticity of price series, modeled by the regression Equation \ref{eqn:lm2} for two domestic price series (producers districts and consumer districts)}
+\centering
+\begin{tabular}[t]{rrrl}
+\toprule
+statistic & p.value & parameter & method\\
+\midrule
+8.82552 & 0.1836311 & 6 & studentized Breusch-Pagan test\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The BP-test does not give enough evidence in favor of alternative-hypothesis. Hence we can safely assume that price series is homoscedastic and hence no specific heteroscadesticity correction measures were taken.
+
+\hypertarget{testing-for-multicollinearity}{%
+\subsection{Testing for multicollinearity}\label{testing-for-multicollinearity}}
+
+Similar to the inference from autocorrelation plots shown in Figure \ref{fig:domestic-market-acf}, Durbin-Watson test implies presence of high degree of autocorrelation.
+
+\begin{table}
+
+\caption{\label{tab:dwtest-lm2}Durbin-Watson test of autocorrelation (modeled by the regression Equation \ref{eqn:lm2}) for two domestic price series (producers districts and consumer districts)}
+\centering
+\begin{tabular}[t]{rrll}
+\toprule
+statistic & p.value & method & alternative\\
+\midrule
+0.3348115 & 0 & Durbin-Watson test & true autocorrelation is greater than 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+However, before formulating a valid regression equation, we need to confirm that series is stationary. If not, differencing will be used to render the series free of such non-stationary trends. For this, two popular unit test routines are performed -- Augmented Dickey-Fueller test and KPSS test.
+
+\hypertarget{unit-root-adf-and-kpss-test-of-retail-price}{%
+\subsection{Unit root (ADF and KPSS) test of retail price}\label{unit-root-adf-and-kpss-test-of-retail-price}}
+
+Results shown in Table \ref{tab:adf-kpss-test-retail} are obtained on impementing ADF test as described in Equation \ref{eqn:lagged-ts-regression}.
+
+\begin{table}
+
+\caption{\label{tab:adf-kpss-test-retail}Unit root test of log(price) series variables}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{8em}lrrl}
+\toprule
+series & test & lprice pvalue & lprice tstatistic & lprice null accepted\\
+\midrule
+lp canada & adf & 0.45 & -2.29 & TRUE\\
+lp india & adf & 0.08 & -3.23 & TRUE\\
+lp npl ck & adf & 0.27 & -2.73 & TRUE\\
+lp npl krp & adf & 0.48 & -2.22 & TRUE\\
+lp fuel & adf & 0.64 & -1.86 & TRUE\\
+\addlinespace
+lp canada & kpss\_level & 0.01 & 2.16 & FALSE\\
+lp india & kpss\_level & 0.01 & 4.79 & FALSE\\
+lp npl ck & kpss\_level & 0.01 & 4.80 & FALSE\\
+lp npl krp & kpss\_level & 0.01 & 4.74 & FALSE\\
+lp fuel & kpss\_level & 0.01 & 4.28 & FALSE\\
+\addlinespace
+lp canada & kpss\_trend & 0.01 & 0.85 & FALSE\\
+lp india & kpss\_trend & 0.03 & 0.17 & FALSE\\
+lp npl ck & kpss\_trend & 0.01 & 0.36 & FALSE\\
+lp npl krp & kpss\_trend & 0.01 & 0.78 & FALSE\\
+lp fuel & kpss\_trend & 0.01 & 0.92 & FALSE\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All log(price) series have unit roots (evident from p-value \textgreater{} 0.05 for ADF test and p-value \textless{} 0.05 for KPSS test) and are hence non-stationary processes. Results are shown for two types of null proposition for KPSS test: first being ``level'' stationary and the other being trend stationary. Hence, it is clear that series are nither trend nor level stationary. In order to overcome the modeling constraint associated with non-stationarity of series, differencing the series is expected to stationarize the price series.
+
+We use an implementation of time series differencing based on optimal lag length in order to render series stationary. The first lag order differenced log(price) series (derived based on ``kpss'' test statistic) is shown in Figure \ref{fig:differenced-series-kpss-lag}. The kpss test, however, determined the precipitation series to be integrated of order null. This is due to insensitivity of test (model) to seasonal lag component, which is infact nicely captured by addtive or multiplicative trend decomposition (discussed ahead).
+
+\begin{figure}
+\centering
+\includegraphics{price_transmission_wheat_files/figure-latex/differenced-series-kpss-lag-1.pdf}
+\caption{\label{fig:differenced-series-kpss-lag}Plot of differenced time series for various lag length determined by kpss statistic.}
+\end{figure}
+
+The first order differencing of price renders series stationary. However, precipitation series shows distinct components. Here, a linear model is fitted to the trend component, decomposed (into seasonal and trend components) from two precipitation series (producer and consumer districts), along with other terms of Equation \ref{eqn:lm2} and the ANOVA output is presented.
+
+\hypertarget{precipitation-decomposition}{%
+\subsection{Precipitation decomposition}\label{precipitation-decomposition}}
+
+Precipitation reveals an entirely different nature of series. Such a series may be viewed as being a composite of seasonal, trend and irregular components. Hence a multiplicative moving average filter can be run to decompose precipitation. We make use of only the deterministic trend component of the decomposed series in the linear regression model of Equation \ref{eqn:lm3}.
+
+\begin{equation}
+\label{eqn:lm3}
+\begin{aligned}
+\begin{split}
+price_{\textrm{consumer districts}} &= date + price_{\textrm{canada}} + price_{\textrm{indian bordering states}} \\ &+
+price_{\textrm{producer districts}} + precipitation_{\textrm{producer districts(trend)}} \\ &+ fuel~price_{\textrm{national average}}
+\end{split}
+\end{aligned}
+\end{equation}
+
+\begin{table}
+
+\caption{\label{tab:lm3-anova-producer-market-tab}ANOVA of linear model fit with trend component of precipitation series with price(producer market) as dependent variable.}
+\centering
+\begin{tabular}[t]{lrrrrr}
+\toprule
+term & df & sumsq & meansq & statistic & p.value\\
+\midrule
+date & 1 & 36.65 & 36.65 & 8334.02 & 0.00\\
+lp\_canada & 1 & 0.72 & 0.72 & 164.41 & 0.00\\
+lp\_india & 1 & 0.04 & 0.04 & 8.17 & 0.00\\
+lp\_npl\_ck & 1 & 0.01 & 0.01 & 1.46 & 0.23\\
+precip\_npl\_krp\_trend & 1 & 0.33 & 0.33 & 74.41 & 0.00\\
+\addlinespace
+lp\_fuel & 1 & 0.15 & 0.15 & 34.77 & 0.00\\
+Residuals & 222 & 0.98 & 0.00 &  & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{var-based-cointegration-test-1}{%
+\subsection{VAR based cointegration test}\label{var-based-cointegration-test-1}}
+
+Multivariate (involving all price series) cointegration test was performed for selection of cointegrating relationships among endogenous variables in the VAR process. Thenafter error correction form of the VAR (aka Vector Error Correction Model (VECM)) with deterministic constant term was formulated. Following model expression is choosen (shown in Equation \ref{eqn:vecm-const-longrun}) with long-run impacts specification:
+
+\begin{equation}
+\label{eqn:vecm-const-longrun}
+\Delta {\bf y_t} = \Gamma_1 \Delta {\bf y_{t-1}} + \ldots + \Gamma_{k-1} \Delta {\bf y_{t-k+1}} + \Pi{\bf y_{t-k}} + {\bf \mu} + \Phi {\bf D_t} + {\bf \varepsilon_t}
+\end{equation}
+
+Where,
+
+\[
+\Gamma = -(I - \Pi_{1} - \ldots - \Pi_i);\hspace{1cm} (i = 1, \ldots, k-1),
+\]
+
+and
+
+\[
+\Pi = -(I - \Pi_1 - \ldots - \Pi_k)
+\]
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-test}Cointegration test of log(price) series of representing national and international wheat markets.}
+\centering
+\begin{tabular}[t]{lrrrr}
+\toprule
+Cointegration relationships & teststat & 10pct & 5pct & 1pct\\
+\midrule
+r <= 5 | & 5.276 & 7.52 & 9.24 & 12.97\\
+r <= 4 | & 14.123 & 17.85 & 19.96 & 24.60\\
+r <= 3 | & 27.604 & 32.00 & 34.91 & 41.07\\
+r <= 2 | & 48.179 & 49.65 & 53.12 & 60.16\\
+r <= 1 | & 75.281 & 71.86 & 76.07 & 84.45\\
+\addlinespace
+r = 0  | & 112.725 & 97.18 & 102.14 & 111.01\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three standard routine tests were followed before Johansenn's test was applied:
+1. Testing for presence of unit root: All logged values of time series used in this study showed non-stationary behavior.
+2. Stationary series after first differencing: Series were checked to see if first differencing produces non-stationary series. This is demonstrated to be true as shown in autocorrelation lag plot previously.
+3. The differenced series showed no autocorrelation.
+
+Lag length of 3 was selected based on AIC and FPE critera was selected for cointegration test with the rule of thumb dictation that ``Lower values are the better values'' (Table \ref{tab:wheat-cajo-lag-selection}). The test employs an OLS method for obtaining model selection criterion. A maximum limit of 10 was set for the search space of lag length in order to quicken the VAR model fitting.
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-lag-selection}VAR estimation and lag selection using information criteria (IC)}
+\centering
+\begin{tabular}[t]{lrrrrrrrr}
+\toprule
+Criteria & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+\midrule
+AIC(n) & -35.748 & -36.710 & -36.747 & -36.728 & -36.594 & -36.583 & -36.441 & -36.375\\
+HQ(n) & -35.488 & -36.225 & -36.039 & -35.796 & -35.439 & -35.204 & -34.839 & -34.550\\
+SC(n) & -35.103 & -35.510 & -34.994 & -34.421 & -33.734 & -33.169 & -32.473 & -31.855\\
+FPE(n) & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table \ref{tab:wheat-cajo-test} shows the rank of cointegration vector used to test presence of cointegration relationship. Here the trace statistic is employed over maximum eigenvalue test because of their common property they describe. The trace test, in general, is considered more conservative than the other test (Lüutkepohl, Saikkonen, and Trenkler \protect\hyperlink{ref-luutkepohl2001maximum}{2001}). The rank of cointegrating vector is determined based on null testing -- i.e.~critical values of 5\% (also enlisted in the table) are taken as standard for acceptance or rejection of null. The \(H_0 = r = 0\) was rejected as the value of test statistic is greater than critical value. However, the null of \(r >= 0\) could not be rejected. Hence, results show that at least one cointegrating relationship is valid among the variables under study. This means that tested variables are cointegrated of order 1 and there exists a long run equilibrium relationship among the price series variables. Various authors have employed the similar procedure in teasing out cointegration relationship in price series. Hossain, Papadopoulou, and Begum (\protect\hyperlink{ref-hossain2011cointegration}{2011}) and Bhandari (\protect\hyperlink{ref-bhandari2015cointegration}{2015}) have pointed out presence of short run relationship in a bivariate and multivariate formulation of Johanssen's test, respectively for price series of wheat and rice.
+
+\hypertarget{vector-error-correction-model-vecm}{%
+\subsubsection{Vector Error Correction Model (VECM)}\label{vector-error-correction-model-vecm}}
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{llrrrr}
+\caption{\label{tab:wheat-cajo-vecm-coefficients}VECM coefficient estimates using rank one error correction coefficient matrix of log(price), representing national and international wheat markets, and precipitation trend time series.}\\
+\toprule
+response & term & estimate & std.error & statistic & p.value\\
+\midrule
+lp\_canada.d & ect1 & 0.002 & 0.006 & 0.356 & 0.722\\
+lp\_canada.d & lp\_canada.dl1 & 0.161 & 0.069 & 2.345 & 0.020\\
+lp\_canada.d & lp\_india.dl1 & 0.007 & 0.104 & 0.067 & 0.946\\
+lp\_canada.d & lp\_npl\_ck.dl1 & -0.013 & 0.097 & -0.138 & 0.890\\
+lp\_canada.d & lp\_npl\_krp.dl1 & -0.105 & 0.100 & -1.054 & 0.293\\
+\addlinespace
+lp\_canada.d & lp\_fuel.dl1 & 0.394 & 0.502 & 0.785 & 0.433\\
+lp\_canada.d & precip\_npl\_krp\_trend.dl1 & 0.038 & 0.037 & 1.014 & 0.311\\
+lp\_canada.d & lp\_canada.dl2 & -0.073 & 0.070 & -1.048 & 0.296\\
+lp\_canada.d & lp\_india.dl2 & 0.142 & 0.103 & 1.384 & 0.168\\
+lp\_canada.d & lp\_npl\_ck.dl2 & -0.008 & 0.098 & -0.078 & 0.938\\
+\addlinespace
+lp\_canada.d & lp\_npl\_krp.dl2 & 0.044 & 0.100 & 0.443 & 0.658\\
+lp\_canada.d & lp\_fuel.dl2 & -0.170 & 0.499 & -0.341 & 0.733\\
+lp\_canada.d & precip\_npl\_krp\_trend.dl2 & -0.025 & 0.036 & -0.686 & 0.493\\
+lp\_india.d & ect1 & -0.004 & 0.004 & -1.181 & 0.239\\
+lp\_india.d & lp\_canada.dl1 & 0.110 & 0.045 & 2.462 & 0.015\\
+\addlinespace
+lp\_india.d & lp\_india.dl1 & -0.031 & 0.068 & -0.453 & 0.651\\
+lp\_india.d & lp\_npl\_ck.dl1 & 0.018 & 0.063 & 0.281 & 0.779\\
+lp\_india.d & lp\_npl\_krp.dl1 & 0.005 & 0.065 & 0.077 & 0.939\\
+lp\_india.d & lp\_fuel.dl1 & -0.017 & 0.326 & -0.053 & 0.958\\
+lp\_india.d & precip\_npl\_krp\_trend.dl1 & 0.007 & 0.024 & 0.282 & 0.778\\
+\addlinespace
+lp\_india.d & lp\_canada.dl2 & 0.013 & 0.045 & 0.276 & 0.782\\
+lp\_india.d & lp\_india.dl2 & -0.053 & 0.067 & -0.794 & 0.428\\
+lp\_india.d & lp\_npl\_ck.dl2 & -0.131 & 0.064 & -2.037 & 0.043\\
+lp\_india.d & lp\_npl\_krp.dl2 & -0.089 & 0.065 & -1.363 & 0.174\\
+lp\_india.d & lp\_fuel.dl2 & 0.330 & 0.325 & 1.017 & 0.310\\
+\addlinespace
+lp\_india.d & precip\_npl\_krp\_trend.dl2 & 0.021 & 0.024 & 0.907 & 0.365\\
+lp\_npl\_ck.d & ect1 & 0.013 & 0.004 & 3.203 & 0.002\\
+lp\_npl\_ck.d & lp\_canada.dl1 & 0.010 & 0.048 & 0.202 & 0.840\\
+lp\_npl\_ck.d & lp\_india.dl1 & 0.114 & 0.072 & 1.574 & 0.117\\
+lp\_npl\_ck.d & lp\_npl\_ck.dl1 & -0.451 & 0.067 & -6.705 & 0.000\\
+\addlinespace
+lp\_npl\_ck.d & lp\_npl\_krp.dl1 & 0.013 & 0.070 & 0.180 & 0.857\\
+lp\_npl\_ck.d & lp\_fuel.dl1 & -0.209 & 0.349 & -0.599 & 0.550\\
+lp\_npl\_ck.d & precip\_npl\_krp\_trend.dl1 & -0.054 & 0.026 & -2.105 & 0.036\\
+lp\_npl\_ck.d & lp\_canada.dl2 & 0.011 & 0.049 & 0.224 & 0.823\\
+lp\_npl\_ck.d & lp\_india.dl2 & 0.010 & 0.072 & 0.145 & 0.885\\
+\addlinespace
+lp\_npl\_ck.d & lp\_npl\_ck.dl2 & -0.244 & 0.069 & -3.565 & 0.000\\
+lp\_npl\_ck.d & lp\_npl\_krp.dl2 & -0.065 & 0.070 & -0.925 & 0.356\\
+lp\_npl\_ck.d & lp\_fuel.dl2 & -0.093 & 0.347 & -0.269 & 0.788\\
+lp\_npl\_ck.d & precip\_npl\_krp\_trend.dl2 & 0.051 & 0.025 & 2.029 & 0.044\\
+lp\_npl\_krp.d & ect1 & 0.014 & 0.004 & 3.516 & 0.001\\
+\addlinespace
+lp\_npl\_krp.d & lp\_canada.dl1 & -0.070 & 0.046 & -1.520 & 0.130\\
+lp\_npl\_krp.d & lp\_india.dl1 & 0.097 & 0.069 & 1.402 & 0.163\\
+lp\_npl\_krp.d & lp\_npl\_ck.dl1 & 0.015 & 0.065 & 0.237 & 0.813\\
+lp\_npl\_krp.d & lp\_npl\_krp.dl1 & -0.423 & 0.067 & -6.327 & 0.000\\
+lp\_npl\_krp.d & lp\_fuel.dl1 & 0.340 & 0.336 & 1.012 & 0.313\\
+\addlinespace
+lp\_npl\_krp.d & precip\_npl\_krp\_trend.dl1 & 0.005 & 0.025 & 0.195 & 0.846\\
+lp\_npl\_krp.d & lp\_canada.dl2 & 0.071 & 0.047 & 1.523 & 0.129\\
+lp\_npl\_krp.d & lp\_india.dl2 & 0.077 & 0.069 & 1.118 & 0.265\\
+lp\_npl\_krp.d & lp\_npl\_ck.dl2 & -0.046 & 0.066 & -0.697 & 0.487\\
+lp\_npl\_krp.d & lp\_npl\_krp.dl2 & -0.227 & 0.067 & -3.375 & 0.001\\
+\addlinespace
+lp\_npl\_krp.d & lp\_fuel.dl2 & -0.366 & 0.334 & -1.096 & 0.274\\
+lp\_npl\_krp.d & precip\_npl\_krp\_trend.dl2 & -0.016 & 0.024 & -0.676 & 0.500\\
+lp\_fuel.d & ect1 & 0.001 & 0.001 & 1.609 & 0.109\\
+lp\_fuel.d & lp\_canada.dl1 & -0.004 & 0.009 & -0.425 & 0.671\\
+lp\_fuel.d & lp\_india.dl1 & -0.013 & 0.014 & -0.931 & 0.353\\
+\addlinespace
+lp\_fuel.d & lp\_npl\_ck.dl1 & 0.001 & 0.013 & 0.062 & 0.951\\
+lp\_fuel.d & lp\_npl\_krp.dl1 & -0.002 & 0.014 & -0.123 & 0.902\\
+lp\_fuel.d & lp\_fuel.dl1 & 0.542 & 0.068 & 7.987 & 0.000\\
+lp\_fuel.d & precip\_npl\_krp\_trend.dl1 & 0.005 & 0.005 & 0.958 & 0.339\\
+lp\_fuel.d & lp\_canada.dl2 & 0.002 & 0.009 & 0.240 & 0.811\\
+\addlinespace
+lp\_fuel.d & lp\_india.dl2 & 0.009 & 0.014 & 0.674 & 0.501\\
+lp\_fuel.d & lp\_npl\_ck.dl2 & 0.000 & 0.013 & -0.002 & 0.999\\
+lp\_fuel.d & lp\_npl\_krp.dl2 & 0.008 & 0.014 & 0.598 & 0.551\\
+lp\_fuel.d & lp\_fuel.dl2 & 0.209 & 0.067 & 3.095 & 0.002\\
+lp\_fuel.d & precip\_npl\_krp\_trend.dl2 & -0.006 & 0.005 & -1.315 & 0.190\\
+\addlinespace
+precip\_npl\_krp\_trend.d & ect1 & 0.030 & 0.010 & 3.003 & 0.003\\
+precip\_npl\_krp\_trend.d & lp\_canada.dl1 & 0.021 & 0.119 & 0.180 & 0.857\\
+precip\_npl\_krp\_trend.d & lp\_india.dl1 & 0.112 & 0.179 & 0.624 & 0.533\\
+precip\_npl\_krp\_trend.d & lp\_npl\_ck.dl1 & 0.065 & 0.167 & 0.390 & 0.697\\
+precip\_npl\_krp\_trend.d & lp\_npl\_krp.dl1 & -0.054 & 0.173 & -0.315 & 0.753\\
+\addlinespace
+precip\_npl\_krp\_trend.d & lp\_fuel.dl1 & 0.136 & 0.867 & 0.157 & 0.876\\
+precip\_npl\_krp\_trend.d & precip\_npl\_krp\_trend.dl1 & 0.814 & 0.064 & 12.671 & 0.000\\
+precip\_npl\_krp\_trend.d & lp\_canada.dl2 & 0.014 & 0.121 & 0.114 & 0.909\\
+precip\_npl\_krp\_trend.d & lp\_india.dl2 & 0.065 & 0.178 & 0.368 & 0.713\\
+precip\_npl\_krp\_trend.d & lp\_npl\_ck.dl2 & -0.253 & 0.170 & -1.487 & 0.138\\
+\addlinespace
+precip\_npl\_krp\_trend.d & lp\_npl\_krp.dl2 & -0.009 & 0.173 & -0.054 & 0.957\\
+precip\_npl\_krp\_trend.d & lp\_fuel.dl2 & -0.567 & 0.862 & -0.658 & 0.511\\
+precip\_npl\_krp\_trend.d & precip\_npl\_krp\_trend.dl2 & -0.404 & 0.063 & -6.438 & 0.000\\
+\bottomrule
+\end{longtable}
+\endgroup{}
+
+Table \ref{tab:wheat-cajo-vecm-coefficients} shows coefficient estimates of the endogenous variables and the error correction term.
+
+The cointegrating vector (\(\beta\) coefficients) estimates of the VECM Equation \ref{eqn:vecm-const-longrun} is presented in Table \ref{tab:wheat-cajo-vecm-coint-vector}. Likewise, speed of adjustment (\(\alpha\) coefficients) is shown in Table \ref{tab:wheat-cajo-alpha}.
+
+\begin{table}[H]
+
+\caption{\label{tab:wheat-cajo-vecm-coint-vector}Estimated cointegrating vector of VECM using rank one error correction coefficient matrix of log(price), representing national and international wheat markets, and precipitation trend time series.}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+terms & ect1\\
+\midrule
+lp\_canada.l3 & 1.0000000\\
+lp\_india.l3 & 6.9591459\\
+lp\_npl\_ck.l3 & -5.5360783\\
+lp\_npl\_krp.l3 & -2.9164933\\
+lp\_fuel.l3 & 1.0207086\\
+\addlinespace
+precip\_npl\_krp\_trend.l3 & -0.6420934\\
+constant & 2.6892075\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+
+\caption{\label{tab:wheat-cajo-alpha}Estimated speed of adjustment ($\alpha$ coefficient) of VECM using rank one error correction coefficient matrix of log(price), representing national and international wheat markets, and precipitation trend time series.}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+terms & alpha\\
+\midrule
+lp\_canada.d & 0.0020564\\
+lp\_india.d & -0.0044425\\
+lp\_npl\_ck.d & 0.0129023\\
+lp\_npl\_krp.d & 0.0136204\\
+lp\_fuel.d & 0.0012580\\
+\addlinespace
+precip\_npl\_krp\_trend.d & 0.0299959\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three dimensions of price transmission are pointed out as major underplaying factors, in a country with no price stabilization mechanisms -- the foreign exchange rate of the currency whose effect is impacting the domestic market, the rate at which equilibrium is achieved and the third being prevalent trade and tariff (or non-tariff) barriers. The speed of adjustment and the strength of individual factors (based on coefficient estimates) are described well below.
+
+The error correction term estimates for response variable log(\(price_{\textrm{canada}}\)) and log(\(price_{\textrm{india}}\)) do not show significant z-statistic. This means that no long term causality ran from log(\(price_{\textrm{canada}}\)) to log(\(price_{\textrm{inda}}\)), log(\(price_{\textrm{nepalese producer market}}\)), log(\(price_{\textrm{nepalese consumer market}}\)), log(\(price_{\textrm{domestic fuel price}}\)) and precipitation in producer market region.
+
+However, the \(ECT_{t-1}\) was signifiant for log(\(price_{\textrm{nepalese consumer market}}\)), log(\(price_{\textrm{nepalese producer market}}\)) and precipitation in producer market region. Which means that the causal relation do exist for these variables in longrun.
+
+Apparently, the short-run coefficient estimates for several variables were statistically significant untill upto two lag orders, except for the same both log(\(price_{\textrm{canada}}\)) and log(\(price_{\textrm{india}}\)). Both of these variables also do not show role in shortrun stabilization of domestic market.
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+Current study explored domestic as well as international/cross-border market effects in price transmission. It is observed that international as well as adjoining border prices of changes of wheat has very subtle to no effects in wheat market of Nepal. This is in contrast to price of another major commodity rice reported in most studies. Inference from the error correction model propose that Nepalese wheat market it fairly isolated from Indian and international market. This is likely a notable remark that policy setting of Nepal has to address to improve situation of wheat system based food security. However, this is also an indication that Nepal can suffer much from domestic price fluctuations since world prices do not provide buffer to such price shocks.
+
+\hypertarget{appendix-a}{%
+\section*{Appendix A}\label{appendix-a}}
+\addcontentsline{toc}{section}{Appendix A}
+
+\hypertarget{appendix-b}{%
+\section*{Appendix B}\label{appendix-b}}
+\addcontentsline{toc}{section}{Appendix B}
+
+\hypertarget{bibliography}{%
+\section*{Bibliography}\label{bibliography}}
+\addcontentsline{toc}{section}{Bibliography}
+
+\begingroup\fontsize{8}{10}\selectfont
+
+\begin{longtabu} to \linewidth {>{\raggedright\arraybackslash}p{6em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{6em}>{\raggedright\arraybackslash}p{8em}}
+\caption{\label{tab:unnamed-chunk-3}List of loaded packages and dependencies in R session}\\
+\toprule
+package & loadedversion & attached & date & source\\
+\midrule
+\rowcolor{gray!6}  AER & 1.2-9 & TRUE & 2020-02-06 & CRAN (R 3.6.2)\\
+base & 3.6.3 & TRUE & 2020-02-29 & local\\
+\rowcolor{gray!6}  car & 3.0-6 & TRUE & 2019-12-23 & CRAN (R 3.6.2)\\
+carData & 3.0-3 & TRUE & 2019-11-16 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  datasets & 3.6.3 & TRUE & 2020-02-29 & local\\
+\addlinespace
+dplyr & 0.8.4 & TRUE & 2020-01-31 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  fable & 0.1.2 & TRUE & 2020-01-29 & CRAN (R 3.6.2)\\
+fabletools & 0.1.2 & TRUE & 2020-01-29 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  forcats & 0.4.0 & TRUE & 2019-02-17 & CRAN (R 3.6.2)\\
+forecast & 8.11 & TRUE & 2020-02-09 & CRAN (R 3.6.2)\\
+\addlinespace
+\rowcolor{gray!6}  ggfortify & 0.4.8 & TRUE & 2019-11-10 & CRAN (R 3.6.2)\\
+ggplot2 & 3.2.1 & TRUE & 2019-08-10 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  graphics & 3.6.3 & TRUE & 2020-02-29 & local\\
+grDevices & 3.6.3 & TRUE & 2020-02-29 & local\\
+\rowcolor{gray!6}  lmtest & 0.9-37 & TRUE & 2019-04-30 & CRAN (R 3.6.2)\\
+\addlinespace
+lubridate & 1.7.4 & TRUE & 2018-04-11 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  methods & 3.6.3 & TRUE & 2020-02-29 & local\\
+purrr & 0.3.3 & TRUE & 2019-10-18 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  readr & 1.3.1 & TRUE & 2018-12-21 & CRAN (R 3.6.2)\\
+sandwich & 2.5-1 & TRUE & 2019-04-06 & CRAN (R 3.6.2)\\
+\addlinespace
+\rowcolor{gray!6}  sf & 0.8-1 & TRUE & 2020-01-28 & CRAN (R 3.6.2)\\
+stats & 3.6.3 & TRUE & 2020-02-29 & local\\
+\rowcolor{gray!6}  stringr & 1.4.0 & TRUE & 2019-02-10 & CRAN (R 3.6.2)\\
+survival & 3.1-11 & TRUE & 2020-03-07 & CRAN (R 3.6.3)\\
+\rowcolor{gray!6}  tibble & 2.1.3 & TRUE & 2019-06-06 & CRAN (R 3.6.2)\\
+\addlinespace
+tidyr & 1.0.2 & TRUE & 2020-01-24 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  tidyverse & 1.3.0 & TRUE & 2019-11-21 & CRAN (R 3.6.2)\\
+tsDyn & 10-1.2 & TRUE & 2020-02-04 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  tseries & 0.10-47 & TRUE & 2019-06-05 & CRAN (R 3.6.2)\\
+tsibble & 0.8.6 & TRUE & 2020-01-31 & CRAN (R 3.6.2)\\
+\addlinespace
+\rowcolor{gray!6}  units & 0.6-5 & TRUE & 2019-10-08 & CRAN (R 3.6.2)\\
+urca & 1.3-0 & TRUE & 2016-09-06 & CRAN (R 3.6.2)\\
+\rowcolor{gray!6}  utils & 3.6.3 & TRUE & 2020-02-29 & local\\
+zoo & 1.8-7 & TRUE & 2020-01-10 & CRAN (R 3.6.2)\\
+\bottomrule
+\end{longtabu}
+\endgroup{}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-moadads2014}{}%
+Agricultural Development, Ministry of. 2014. ``Agriculture Development Strategy (Ads.'' GON-MoAD. \url{http://www.nnfsp.gov.np/PublicationFiles/bf53f040-32cb-4407-a611-d891935d2e97.pdf}.
+
+\leavevmode\hypertarget{ref-areal2016testing}{}%
+Areal, Francisco José, Kevin Balcombe, and George Rapsomanikis. 2016. ``Testing for Bubbles in Agriculture Commodity Markets.'' \emph{Economia Agraria Y Recursos Naturales} 16 (1380-2016-115493): 59--79.
+
+\leavevmode\hypertarget{ref-balcombe2010nature}{}%
+Balcombe, Kelvin. 2010. ``The Nature and Determinants of Volatilit\(\backslash\)in Agricultural Prices: An Empirical Stud\(\backslash\)from 1 6 \(^2\) 008.'' \emph{MARKET REVIEW}, 2.
+
+\leavevmode\hypertarget{ref-bhandari2015cointegration}{}%
+Bhandari, Thaneshwar. 2015. ``Factor Affecting Food Price Instabilities in Nepal.'' \emph{The Journal of University Grants Commission} 4 (1): 19--38.
+
+\leavevmode\hypertarget{ref-faostat2019statistical}{}%
+Faostat, FAO. 2019. ``Statistical Databases.'' \emph{Food and Agriculture Organization of the United Nations}. \url{http://www.fao.org/faostat/en/\#rankings/countries_by_commodity_exports/}.
+
+\leavevmode\hypertarget{ref-GoNMoFDoC1819}{}%
+Finance, GoN-Ministry of. 2019. ``Annual Foreign Trade Statistics, 2018-19.'' Department of Customs; \url{https://www.customs.gov.np/en/statisticsmonthly.html/}.
+
+\leavevmode\hypertarget{ref-granger1988causality}{}%
+Granger, Clive WJ. 1988. ``Causality, Cointegration, and Control.'' \emph{Journal of Economic Dynamics and Control} 12 (2-3). Elsevier: 551--59.
+
+\leavevmode\hypertarget{ref-hossain2011cointegration}{}%
+Hossain, Mohammad Ismail, Eleni Papadopoulou, and Esmat Ara Begum. 2011. ``Cointegration Analysis of Rural Wheat Markets in Northern Bangladesh.'' \emph{Journal of International Logistics and Trade} 9 (2): 77--97.
+
+\leavevmode\hypertarget{ref-hylleberg1990seasonal}{}%
+Hylleberg, Svend, Robert F Engle, Clive WJ Granger, and Byung Sam Yoo. 1990. ``Seasonal Integration and Cointegration.'' \emph{Journal of Econometrics} 44 (1-2). Elsevier: 215--38.
+
+\leavevmode\hypertarget{ref-johansen1991estimation}{}%
+Johansen, Søren. 1991. ``Estimation and Hypothesis Testing of Cointegration Vectors in Gaussian Vector Autoregressive Models.'' \emph{Econometrica: Journal of the Econometric Society}. JSTOR, 1551--80.
+
+\leavevmode\hypertarget{ref-luutkepohl2001maximum}{}%
+Lüutkepohl, Helmut, Pentti Saikkonen, and Carsten Trenkler. 2001. ``Maximum Eigenvalue Versus Trace Tests for the Cointegrating Rank of a Var Process.'' \emph{The Econometrics Journal} 4 (2). Wiley Online Library: 287--310.
+
+\leavevmode\hypertarget{ref-metcalfe2009introductory}{}%
+Metcalfe, Andrew V, and Paul SP Cowpertwait. 2009. \emph{Introductory Time Series with R}. Springer.
+
+\leavevmode\hypertarget{ref-moad2016statistical}{}%
+MoAD. 2016. ``Statistical Information on Nepalese Agriculture 2016-17.''
+
+\leavevmode\hypertarget{ref-tsmissingvalueimpute2017}{}%
+Moritz, Steffen, and Thomas Bartz-Beielstein. 2017. ``imputeTS: Time Series Missing Value Imputation in R.'' \emph{The R Journal} 9 (1): 207--18. \url{https://doi.org/10.32614/RJ-2017-009}.
+
+\leavevmode\hypertarget{ref-phillips1990asymptotic}{}%
+Phillips, Peter CB, Sam Ouliaris, and others. 1990. ``Asymptotic Properties of Residual Based Tests for Cointegration.'' \emph{Econometrica} 58 (1): 165--93.
+
+\leavevmode\hypertarget{ref-rbase2020}{}%
+R Core Team. 2020. \emph{R: A Language and Environment for Statistical Computing}. Vienna, Austria: R Foundation for Statistical Computing. \url{https://www.R-project.org/}.
+
+\leavevmode\hypertarget{ref-nasapowerr2019}{}%
+Sparks, Adam H. 2018. ``Nasapower: A Nasa Power Global Meteorology, Surface Solar Energy and Climatology Data Client for R.'' \emph{The Journal of Open Source Software} 3 (30). The Open Journal: 1035. \url{https://doi.org/10.21105/joss.01035}.
+
+\leavevmode\hypertarget{ref-sridharthapaspatial2019}{}%
+Thapa, Sridhar. 2019. ``Spatial Transmission of Prices Across Food Commodity Markets in South Asia.'' In.
+
+\leavevmode\hypertarget{ref-unctad2015foodsecurity}{}%
+UNCTAD, ADB. 2015. \emph{Food Security in South Asia: Developing Regional Supply Chains for the Food Processing Industry}. Copublished by UNCTAD; ADB.
+
+\leavevmode\hypertarget{ref-woodward2017applied}{}%
+Woodward, Wayne A, Henry L Gray, and Alan C Elliott. 2017. \emph{Applied Time Series Analysis with R}. CRC press.
+
+\end{document}
