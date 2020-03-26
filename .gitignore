@@ -339,6 +339,6 @@ vignettes/*.pdf
 /literatures/
 /output/
 /media/
-/scripts/
+# /scripts/
 
 /data/nepal_provincial/shapes/
